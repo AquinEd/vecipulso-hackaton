@@ -20,6 +20,9 @@ class AppShell extends StatelessWidget {
   final String path;
   @override
   Widget build(BuildContext context) {
+    // The focused SOS flow owns its Scaffold and back handling. Keep the shell
+    // mounted so the other branches retain their local state.
+    if (path == AppRoute.actions.path) return Material(child: shell);
     final sos = context.watch<AppModeController>().isSos;
     final emergency =
         path == AppRoute.sos.path || path == AppRoute.riskMap.path;

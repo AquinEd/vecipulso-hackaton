@@ -1,5 +1,8 @@
 import 'package:provider/provider.dart';
 
+import '../features/emergency/models/emergency_action_type.dart';
+import '../features/emergency/presentation/screens/emergency_actions_screen.dart';
+
 import 'app_mode_controller.dart';
 import 'app_mode_destination.dart';
 
@@ -33,6 +36,7 @@ GoRouter createRouter({AppModeController? modeController}) {
       final path = state.uri.path;
       if (path == AppRoute.sos.path ||
           path == AppRoute.riskMap.path ||
+          path == AppRoute.actions.path ||
           path == '/sos') {
         mode.activateSos();
       }
@@ -89,6 +93,14 @@ GoRouter createRouter({AppModeController? modeController}) {
                     ),
                   ),
                 if (tab == AppRoute.home) ...[
+                  GoRoute(
+                    path: AppRoute.actions.path,
+                    builder: (_, state) => EmergencyActionsScreen(
+                      initialAction: EmergencyActionType.fromParameter(
+                        state.uri.queryParameters['action'],
+                      ),
+                    ),
+                  ),
                   for (final route in [
                     AppRoute.notifications,
                     AppRoute.settings,
@@ -134,6 +146,7 @@ GoRouter createRouter({AppModeController? modeController}) {
         (r) => ![
           AppRoute.solidarity,
           AppRoute.sos,
+          AppRoute.actions,
           AppRoute.riskMap,
           AppRoute.notifications,
           AppRoute.settings,
