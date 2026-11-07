@@ -6,7 +6,6 @@ import '../../models/emergency_action_type.dart';
 import '../../../../app/app_navigation.dart';
 
 import '../../../../app/app_routes.dart';
-import '../../../../core/theme/app_colors.dart';
 import '../../../../shared/widgets/buttons/app_button.dart';
 import '../../../../shared/widgets/common/app_section_header.dart';
 import '../../data/demo_emergency_reports.dart';
@@ -37,7 +36,7 @@ class _EmergencyDashboardScreenState extends State<EmergencyDashboardScreen> {
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         ColoredBox(
-          color: AppColors.sos,
+          color: Theme.of(context).colorScheme.error,
           child: Padding(
             padding: const EdgeInsets.fromLTRB(16, 8, 16, 24),
             child: Center(

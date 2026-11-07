@@ -62,7 +62,7 @@ class _EmergencyActionsScreenState extends State<EmergencyActionsScreen> {
     },
     child: Scaffold(
       appBar: AppBar(
-        backgroundColor: AppColors.sos,
+        backgroundColor: Theme.of(context).colorScheme.error,
         foregroundColor: Colors.white,
         toolbarHeight: MediaQuery.textScalerOf(context).scale(56),
         leading: BackButton(onPressed: back),
@@ -81,7 +81,7 @@ class _EmergencyActionsScreenState extends State<EmergencyActionsScreen> {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               ColoredBox(
-                color: AppColors.sos,
+                color: Theme.of(context).colorScheme.error,
                 child: Padding(
                   padding: const EdgeInsets.fromLTRB(24, 4, 24, 24),
                   child: Column(
