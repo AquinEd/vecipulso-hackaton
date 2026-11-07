@@ -1,0 +1,34 @@
+name: hackaton_veci_pulso
+description: "A new Flutter project."
+publish_to: 'none'
+version: 0.1.0+1
+
+environment:
+  sdk: ^3.13.7
+
+dependencies:
+  flutter:
+    sdk: flutter
+  flutter_svg: ^2.3.2
+  go_router: ^18.1.3
+  provider: ^6.1.5+1
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^6.0.0
+
+flutter:
+  uses-material-design: true
+  assets:
+    - assets/images/logos/
+    - assets/images/banners/
+    - assets/images/icons/
+    - assets/images/pins/
+    - assets/images/illustrations/
+    - assets/images/states/
+    - assets/svg/logos/
+    - assets/svg/banners/
+    - assets/svg/icons/
+    - assets/svg/pins/
+    - assets/svg/states/
