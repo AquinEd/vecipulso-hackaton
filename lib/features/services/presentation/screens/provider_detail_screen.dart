@@ -98,6 +98,16 @@ class ProviderDetailScreen extends StatelessWidget {
               ),
             ),
           const SizedBox(height: 16),
+          OutlinedButton(
+            onPressed: () => context.push(
+              Uri(
+                path: AppRoute.review.path,
+                queryParameters: {'providerId': provider.id},
+              ).toString(),
+            ),
+            child: const Text('Calificar experiencia (demo)'),
+          ),
+          const SizedBox(height: 8),
           Wrap(
             alignment: WrapAlignment.spaceEvenly,
             spacing: 8,

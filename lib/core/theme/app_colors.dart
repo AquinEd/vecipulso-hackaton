@@ -10,5 +10,6 @@ abstract final class AppColors {
       map = Color(0xff2776bd),
       background = Color(0xfff5faf8),
       border = Color(0xffd6e4df),
-      secondaryText = Color(0xff516760);
+      secondaryText = Color(0xff516760),
+      stars = Color(0xfff5c518);
 }

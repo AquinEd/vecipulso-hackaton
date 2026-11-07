@@ -37,3 +37,7 @@ La vista previa de ayuda reutiliza EmergencyActionCategory. El resumen de soport
 La fase 12 comparte el dibujo de calles del mapa comunitario y superpone una línea y dos marcadores relativos al lienzo. No usa coordenadas geográficas, servicios de ubicación ni red. ConfirmationOrigin conserva temporalmente el origen de navegación y la categoría opcional de la fase 11. El chat de emergencias es un panel local de solo lectura.
 
 En la fase 13, AppModeDestination conserva ambos mapas en su IndexedStack. EmergencyMapScreen mantiene su selección local. EmergencyMapMarker vincula reportes y brigadas de los catálogos de demostración con posiciones normalizadas en el lienzo. El recurso de refugio pertenece al catálogo SOS. EmergencyMapCanvas reutiliza IllustratedStreetsPainter y superpone el óvalo y los botones. Las fichas son paneles locales de solo lectura.
+
+## Calificación vecinal
+
+`CreateReviewScreen` resuelve el ID contra `demoServices` y usa `ServicePreview.providerDisplayName` para presentar el nombre abreviado. El estado del formulario contiene la calificación y un controlador de texto local. `ReviewStarSelector` comunica cada cambio al formulario. La vista previa valida el intervalo de 1 a 5 y el límite de 300 grafemas, recorta los espacios exteriores y omite el comentario vacío. El diálogo solo lee estos valores. El catálogo conserva su media, contador, reseñas y distintivo.

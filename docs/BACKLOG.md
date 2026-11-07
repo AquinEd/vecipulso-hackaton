@@ -27,3 +27,5 @@ Fase 10 implementada: pantalla 09 Grupos de Apoyo y Brigadas, catálogo ficticio
 Fase 11 completada en frontend. La pantalla 10 presenta una necesidad local y un voluntario ficticio. Siguen pendientes el envío, la aceptación real, el contacto y el seguimiento.
 
 Fase 12 completada en frontend. El seguimiento visual incluye un recorrido ficticio y una conversación ilustrativa de solo lectura. Siguen pendientes la integración con backend, la aceptación real, la coordinación entre usuarios, las llamadas, la mensajería y las notificaciones.
+
+Fase 14 completada en frontend. Los perfiles permiten previsualizar una calificación y un comentario opcional con validación local. Quedan pendientes la persistencia, la publicación y la verificación vecinal real.

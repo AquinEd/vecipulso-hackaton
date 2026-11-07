@@ -59,3 +59,5 @@ Fase 10: `/sos/brigadas` reemplaza el placeholder 09 con BrigadesScreen dentro d
 Fase 11. `/sos/confirmacion` pertenece a la rama Inicio y activa SOS al entrar directamente. Sin selección presenta una necesidad de ejemplo. Desde el resumen de soporte crítico presenta la necesidad elegida. Atrás de Android, Atrás de la interfaz y «Regresar al inicio» vuelven a `/sos/tablero` conservando SOS. Los detalles y los tres controles de contacto abren diálogos locales.
 
 `/sos/seguimiento` activa SOS y presenta un flujo enfocado dentro de la rama Inicio, sin barra inferior. Desde la confirmación, Atrás recupera la categoría o el ejemplo previo. Desde una entrada directa, vuelve al Tablero SOS. Salir del Modo SOS restaura el Dashboard. Chat y Llamar se cierran en el mismo destino.
+
+El perfil apila `/resenas/nueva?providerId=demo-carpinteria` (o el ID del proveedor elegido) sobre el shell. Atrás recupera el perfil y el directorio conserva sus filtros. Una entrada directa sin ID o con ID desconocido muestra un mensaje y un acceso a `/servicios`. Sin historial, el botón Atrás también conduce al directorio.
