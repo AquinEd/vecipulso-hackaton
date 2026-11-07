@@ -105,6 +105,19 @@ class _HomeScreenState extends State<HomeScreen> {
           sos: true,
           onPressed: () => context.push(AppRoute.sos.path),
         ),
+        ExpansionTile(
+          title: const Text('Pruebas de desarrollo'),
+          children: [
+            for (final (label, route) in const [
+              ('Probar registro', AppRoute.register),
+              ('Probar inicio con PIN', AppRoute.login),
+            ])
+              ListTile(
+                title: Text(label),
+                onTap: () => context.push(route.path),
+              ),
+          ],
+        ),
       ],
     );
   }
