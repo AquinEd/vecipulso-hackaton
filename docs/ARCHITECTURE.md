@@ -1,5 +1,7 @@
 # Arquitectura
 
+El catálogo inmutable de `features/services/data/demo_services.dart` alimenta el directorio y la selección del Dashboard. Cada `ServicePreview` reúne el servicio y el proveedor bajo un ID estable. Su método `matches` combina texto normalizado, distancia y valoración. El directorio conserva sus controles en memoria mientras se visita un perfil. Los trabajos, las reseñas y los distintivos pertenecen a cada registro de demostración.
+
 `features/auth/presentation/screens/` contiene las tres interfaces de demostración. Comparten el encabezado, el teclado, los indicadores y el campo de formulario. Los validadores puros viven en `auth/utils/`. El formulario conserva sus controladores mientras la ruta sigue abierta. Crear PIN compara dos entradas locales y las descarta al terminar o salir. Login conserva únicamente un contador. Las pruebas de interfaz recorren ambos flujos desde el Dashboard.
 
 VeciPulso organiza el código por funcionalidad con MVVM ligero. `main.dart` inicia la aplicación. `app/` compone el tema, las rutas y el Scaffold de las cinco pestañas. El catálogo AppRoute concentra títulos y patrones de ruta. El shell mantiene los navegadores mediante StatefulShellRoute.indexedStack.

@@ -13,8 +13,15 @@ void main() {
       for (final title in ['Servicios del Barrio', 'Cadena de Favores']) {
         await tester.tap(find.text(title));
         await tester.pumpAndSettle();
-        expect(find.text(title), findsOneWidget);
-        expect(find.text('Funcionalidad en preparación.'), findsOneWidget);
+        expect(
+          find.text(
+            title == 'Servicios del Barrio' ? 'Servicios de Proximidad' : title,
+          ),
+          findsOneWidget,
+        );
+        if (title == 'Cadena de Favores') {
+          expect(find.text('Funcionalidad en preparación.'), findsOneWidget);
+        }
         await tester.tap(find.byType(BackButton));
         await tester.pumpAndSettle();
       }
@@ -37,7 +44,8 @@ void main() {
       await tester.pumpAndSettle();
       await tester.tap(card);
       await tester.pumpAndSettle();
-      expect(find.text('Perfil de proveedor'), findsOneWidget);
+      expect(find.text('Perfil del proveedor'), findsOneWidget);
+      expect(find.text('José Ramí'), findsOneWidget);
       await tester.tap(find.byType(BackButton));
       await tester.pumpAndSettle();
       expect(tester.widget<TextField>(field).controller!.text, 'muebles');
@@ -78,7 +86,7 @@ void main() {
       await tester.enterText(field, 'matematicas');
       tester.view.viewInsets = const FakeViewPadding(bottom: 240);
       await tester.pumpAndSettle();
-      final result = find.text('Clases de Matemáticas');
+      final result = find.text('Clases con Ana');
       await tester.scrollUntilVisible(
         result,
         110,

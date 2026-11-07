@@ -1,3 +1,6 @@
+import '../features/services/presentation/screens/services_screen.dart';
+import '../features/services/presentation/screens/provider_detail_screen.dart';
+
 import 'package:flutter/material.dart';
 
 import '../features/auth/presentation/screens/register_screen.dart';
@@ -31,12 +34,25 @@ GoRouter createRouter() => GoRouter(
                     ? const HomeScreen()
                     : FeaturePlaceholderScreen(title: tab.title),
               ),
+              if (tab == AppRoute.home) ...[
+                GoRoute(
+                  path: AppRoute.services.path,
+                  builder: (_, _) => const ServicesScreen(),
+                ),
+                GoRoute(
+                  path: AppRoute.provider.path,
+                  builder: (_, state) =>
+                      ProviderDetailScreen(id: state.pathParameters['id']!),
+                ),
+              ],
             ],
           ),
       ],
     ),
     for (final route in AppRoute.values.where(
       (r) => ![
+        AppRoute.services,
+        AppRoute.provider,
         AppRoute.home,
         AppRoute.map,
         AppRoute.publish,

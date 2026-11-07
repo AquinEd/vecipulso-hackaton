@@ -1,5 +1,7 @@
 # Navegación
 
+El Dashboard y el Drawer abren `/servicios` dentro del shell. Las tarjetas apilan `/servicios/:id` y el regreso recupera la vista de origen. Un perfil abierto directamente ofrece regreso al directorio. Un ID desconocido muestra una salida explícita al listado.
+
 Al pie del Dashboard, «Pruebas de desarrollo» abre el registro y el ingreso con PIN. Registro abre `/auth/pin` sobre el formulario y permite volver a editar los datos. Tras confirmar la clave, «Ir al inicio» abre el Dashboard. El login muestra un aviso de verificación pendiente y ofrece un regreso explícito a la demo.
 
 La aplicación comienza en `/inicio`. Las cinco pestañas conservan su navegador. El menú y los accesos de Inicio abren destinos secundarios sobre la pestaña actual. Las rutas profundas admiten entrada directa. El Dashboard implementado abre el directorio y el muro desde sus categorías. Cada tarjeta abre `/servicios/:id` con su identificador de demostración. Volver recupera la búsqueda local.

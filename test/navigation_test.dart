@@ -21,6 +21,11 @@ void main() {
       160,
       scrollable: find.byType(Scrollable).first,
     );
+    await Scrollable.ensureVisible(
+      tester.element(find.text('Modo SOS')),
+      alignment: 0.5,
+    );
+    await tester.pumpAndSettle();
     await tester.tap(find.text('Modo SOS'));
     await tester.pumpAndSettle();
     expect(find.text('Funcionalidad en preparación.'), findsOneWidget);
