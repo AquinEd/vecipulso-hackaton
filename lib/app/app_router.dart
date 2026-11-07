@@ -2,6 +2,8 @@ import 'package:provider/provider.dart';
 
 import '../features/emergency/presentation/screens/brigades_screen.dart';
 import '../features/emergency/presentation/screens/help_confirmation_screen.dart';
+import '../features/emergency/presentation/screens/help_tracking_screen.dart';
+import '../features/emergency/models/confirmation_origin.dart';
 import '../features/emergency/models/emergency_action_option.dart';
 
 import '../features/emergency/models/emergency_action_type.dart';
@@ -42,6 +44,7 @@ GoRouter createRouter({AppModeController? modeController}) {
           path == AppRoute.riskMap.path ||
           path == AppRoute.actions.path ||
           path == AppRoute.help.path ||
+          path == AppRoute.tracking.path ||
           path == AppRoute.brigades.path ||
           path == '/sos') {
         mode.activateSos();
@@ -99,6 +102,15 @@ GoRouter createRouter({AppModeController? modeController}) {
                     ),
                   ),
                 if (tab == AppRoute.home) ...[
+                  GoRoute(
+                    path: AppRoute.tracking.path,
+                    builder: (_, state) => HelpTrackingScreen(
+                      origin: switch (state.extra) {
+                        ConfirmationOrigin origin => origin,
+                        _ => null,
+                      },
+                    ),
+                  ),
                   GoRoute(
                     path: AppRoute.help.path,
                     builder: (_, state) => HelpConfirmationScreen(
@@ -167,6 +179,7 @@ GoRouter createRouter({AppModeController? modeController}) {
           AppRoute.sos,
           AppRoute.actions,
           AppRoute.help,
+          AppRoute.tracking,
           AppRoute.brigades,
           AppRoute.riskMap,
           AppRoute.notifications,
