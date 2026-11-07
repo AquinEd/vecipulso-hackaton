@@ -145,6 +145,12 @@ class _EmergencyDashboardScreenState extends State<EmergencyDashboardScreen> {
                   const AppSectionHeader(title: 'Acciones rápidas'),
                   const SizedBox(height: 12),
                   OutlinedButton.icon(
+                    onPressed: () => context.go(AppRoute.brigades.path),
+                    icon: const Icon(Icons.groups_outlined),
+                    label: const Text('Grupos y Brigadas'),
+                  ),
+                  const SizedBox(height: 12),
+                  OutlinedButton.icon(
                     onPressed: () => openActions(),
                     icon: const Icon(Icons.support_outlined),
                     label: const Text('Centro de ayuda vecinal'),
