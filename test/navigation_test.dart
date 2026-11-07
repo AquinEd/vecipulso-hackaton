@@ -28,7 +28,7 @@ void main() {
     await tester.pumpAndSettle();
     await tester.tap(find.text('Modo SOS'));
     await tester.pumpAndSettle();
-    expect(find.text('Funcionalidad en preparación.'), findsOneWidget);
+    expect(find.text('Modo Emergencia'), findsOneWidget);
   });
   testWidgets('El menú abre SOS y permite volver a Inicio', (tester) async {
     await tester.pumpWidget(const VeciPulsoApp());
@@ -42,7 +42,7 @@ void main() {
     await tester.ensureVisible(sos);
     await tester.tap(sos);
     await tester.pumpAndSettle();
-    expect(find.text('Funcionalidad en preparación.'), findsOneWidget);
+    expect(find.text('Modo Emergencia'), findsOneWidget);
     await tester.tap(find.byType(BackButton));
     await tester.pumpAndSettle();
     expect(find.text('¡Hola, vecino!'), findsOneWidget);

@@ -1,3 +1,5 @@
+import '../../../app/app_navigation.dart';
+
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hackaton_veci_pulso/app/app_routes.dart';
@@ -8,7 +10,13 @@ class AppBottomNavigation extends StatelessWidget {
   @override
   Widget build(BuildContext context) => NavigationBar(
     selectedIndex: shell.currentIndex,
-    onDestinationSelected: (index) => shell.goBranch(index),
+    onDestinationSelected: (index) {
+      if (index < 2) {
+        AppNavigation.open(context, index == 0 ? AppRoute.home : AppRoute.map);
+      } else {
+        shell.goBranch(index);
+      }
+    },
     destinations: [
       NavigationDestination(
         icon: const Icon(Icons.home),

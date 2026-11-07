@@ -1,5 +1,15 @@
 # VeciPulso
 
+La navegación principal del Drawer y las categorías del Dashboard reemplaza la sección actual; Atrás vuelve al Dashboard sin recorrer otras secciones. Los detalles y formularios conservan su regreso al origen inmediato. Inicio muestra el Dashboard y Mapa muestra los recursos comunitarios en modo normal. Activar Modo SOS cambia Inicio al tablero y Mapa al placeholder «Mapa de Reportes SOS», manteniendo Publicar, Mensajes y Perfil disponibles. El modo permanece activo entre pestañas. «Salir del Modo SOS» o Atrás desde el tablero restaura el Dashboard; Atrás desde el mapa SOS vuelve al tablero. El mapa normal conserva sus filtros al entrar y salir de SOS. El mapa SOS definitivo sigue pendiente.
+
+Validación de la corrección (7 de noviembre de 2026): formato aplicado, dependencias resueltas sin cambios de versión, análisis sin incidencias y 44 pruebas aprobadas. En Pixel 6 (`emulator-5554`, Android 17) se compiló e instaló la app y se verificó Servicios → Cadena de Favores → SOS → Mapa SOS → Inicio SOS → Atrás Android → Dashboard → Mapa normal. Se inspeccionó el placeholder con una sola barra inferior; el registro de errores de Flutter estaba vacío.
+
+La fase 8 implementa el tablero de emergencia en `/sos/tablero`, accesible desde Modo SOS en Inicio y el Drawer. Muestra un encabezado rojo con «MODO DEMOSTRACIÓN — No hay alertas reales verificadas», cinco reportes ficticios con distancias simuladas, prioridades y detalles de solo lectura. Los tres principales son Persona atrapada (Crítica, 120 m), Necesita agua (Urgente, 250 m) y Daño en vivienda (En revisión, 400 m); ampliar permite consultar Necesita abrigo (Urgente, 550 m) y Revisión de techo (En revisión, 700 m). La lista se puede contraer.
+
+Validación inicial de fase 8 (7 de noviembre de 2026): formato de `lib` y `test` aplicado, `flutter pub get` completado, `flutter analyze` sin incidencias y `flutter test` con 31 pruebas aprobadas. `flutter run -d emulator-5554 --no-resident` compiló e instaló la app en Pixel 6 (Android 17, API 37). Se inspeccionaron visualmente el tablero y las acciones tras desplazamiento, sin desbordamientos visibles; el registro de errores de Flutter estaba vacío. El tamaño de 320 px con texto al 150 % se verificó mediante pruebas de widgets.
+
+Solicitar y Ofrecer ayuda muestran avisos informativos. Ver mapa de reportes abre el placeholder del futuro mapa SOS. Se conserva el inicio en `/inicio` y la navegación inferior de cinco pestañas. No existen alertas ni registros reales. Quedan pendientes Supabase, GPS, reportes reales, solicitudes y ofrecimientos de ayuda, confirmación de alertas, mapa SOS, brigadas, seguimiento, notificaciones, sincronización offline y chat de emergencia. `test/emergency_dashboard_test.dart` verifica la interfaz, las interacciones y el diseño a 320 px con texto al 150 %, junto con las pruebas anteriores.
+
 «Servicios del Barrio» abre el directorio local de cinco profesionales. La búsqueda admite nombres, oficios y descripciones sin tildes. Los límites de 500 m y 1 km se combinan con la valoración mínima de cuatro estrellas. Cada ficha muestra los trabajos y reseñas ilustrativos disponibles. Llamar y solicitar servicio muestran avisos informativos. Las pruebas de directorio y perfil se ejecutan con `flutter test`.
 
 En «Pruebas de desarrollo», al pie de Inicio, puedes probar el registro con DNI autodeclarado y nombre, crear y confirmar un PIN de seis dígitos o explorar el ingreso con teclado aleatorio. La fase 3 funciona en memoria. Las cuentas y sesiones reales quedan pendientes de la integración con Supabase.
@@ -30,7 +40,7 @@ Abre Publicar, elige una de las cuatro plantillas y pulsa «Confirmar demostraci
 
 ## Organización
 
-El proyecto usa Material 3, go_router y una estructura por funcionalidad preparada para MVVM. Desde Inicio o el Drawer, «Cadena de Favores» abre el Muro Colaborativo. Filtra las tarjetas con Todos, Ofrezco, Necesito y Dono, o abre «Explorar economía solidaria» para consultar donaciones, solicitudes, intercambios y préstamos. Ambas vistas usan publicaciones ficticias. Contactar, favoritos y comentarios muestran avisos informativos. SOS continúa en preparación.
+El proyecto usa Material 3, go_router y una estructura por funcionalidad preparada para MVVM. Desde Inicio o el Drawer, «Cadena de Favores» abre el Muro Colaborativo. Filtra las tarjetas con Todos, Ofrezco, Necesito y Dono, o abre «Explorar economía solidaria» para consultar donaciones, solicitudes, intercambios y préstamos. Ambas vistas usan publicaciones ficticias. Contactar, favoritos y comentarios muestran avisos informativos. El tablero SOS de demostración está implementado.
 
 - [Arquitectura](docs/ARCHITECTURE.md)
 - [Pantallas y rutas](docs/ROUTES.md)

@@ -1,3 +1,5 @@
+import 'app_mode_controller.dart';
+
 import 'package:flutter/material.dart';
 import 'package:hackaton_veci_pulso/app/app_router.dart';
 import 'package:hackaton_veci_pulso/core/theme/app_theme.dart';
@@ -9,10 +11,12 @@ class VeciPulsoApp extends StatefulWidget {
 }
 
 class _VeciPulsoAppState extends State<VeciPulsoApp> {
-  final router = createRouter();
+  final mode = AppModeController();
+  late final router = createRouter(modeController: mode);
   @override
   void dispose() {
     router.dispose();
+    mode.dispose();
     super.dispose();
   }
 

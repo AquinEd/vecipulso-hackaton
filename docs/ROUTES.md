@@ -1,6 +1,12 @@
 # Navegación
 
-«Cadena de Favores» apila `/favores` desde el Dashboard o el Drawer. «Explorar economía solidaria» abre su ruta hija existente `/favores/ampliado` con la misma pantalla en modo ampliado. Volver recupera la selección anterior. Ambas vistas comparten el encabezado, el Drawer y la barra de cinco destinos del shell.
+El Drawer y las categorías del Dashboard cambian destinos principales mediante `AppNavigation.open` y `go()`, cerrando el Drawer antes de navegar. Servicios, Cadena de Favores, Notificaciones y Configuración sustituyen la sección anterior. Atrás vuelve a Inicio sin recorrer secciones previas. Los detalles de proveedores, el muro ampliado y los pasos de formularios conservan `push()` para volver al origen inmediato.
+
+En modo normal, Inicio abre `/inicio` (Dashboard) y Mapa abre `/mapa` (recursos). Seleccionar Modo SOS activa el estado temporal y abre `/sos/tablero`; `/sos` mantiene su redirección de compatibilidad. En modo SOS, Inicio abre el tablero y Mapa abre `/sos/mapa` en su propia rama del shell, con una sola barra inferior. El botón «Ver mapa de reportes» usa ese mismo destino sin apilarlo. Publicar, Mensajes y Perfil conservan sus destinos habituales y el estado SOS permanece activo.
+
+El mapa SOS solo muestra «Mapa de Reportes SOS» y la etiqueta «Demostración — Mapa SOS pendiente de implementación». Desde allí, Atrás o «Volver al Tablero SOS» abre el tablero. «Salir del Modo SOS» desactiva el estado y abre el Dashboard; Atrás desde el tablero también sale a Inicio. Estas reglas se aplican al botón de la interfaz y a Atrás de Android. Inicio y Mapa no restauran rutas SOS obsoletas después de salir. El mapa comunitario conserva sus filtros durante el cambio de modo. La aplicación continúa iniciando en `/inicio`.
+
+«Cadena de Favores» abre `/favores` reemplazando la sección principal desde el Dashboard o el Drawer. «Explorar economía solidaria» abre su ruta hija existente `/favores/ampliado` con la misma pantalla en modo ampliado. Volver recupera la selección anterior. Ambas vistas comparten el encabezado, el Drawer y la barra de cinco destinos del shell.
 
 El Dashboard y el Drawer abren `/servicios` dentro del shell. Las tarjetas apilan `/servicios/:id` y el regreso recupera la vista de origen. Un perfil abierto directamente ofrece regreso al directorio. Un ID desconocido muestra una salida explícita al listado.
 
@@ -8,7 +14,7 @@ Al pie del Dashboard, «Pruebas de desarrollo» abre el registro y el ingreso co
 
 Publicar abre el selector dentro del shell. Detalles y vista previa ocupan toda la pantalla. Las entradas directas sin borrador o resumen regresan al selector. Los enlaces anteriores `/publicar` y `/publicar/confirmacion` conservan una redirección.
 
-La aplicación comienza en `/inicio`. Las cinco pestañas conservan su navegador. El menú y los accesos de Inicio abren destinos secundarios sobre la pestaña actual. Las rutas profundas admiten entrada directa. El Dashboard implementado abre el directorio y el muro desde sus categorías. Cada tarjeta abre `/servicios/:id` con su identificador de demostración. Volver recupera la búsqueda local.
+La aplicación comienza en `/inicio`. Las cinco pestañas conservan su navegador. El menú y las categorías de Inicio reemplazan destinos principales; las tarjetas apilan detalles secundarios. Las rutas profundas admiten entrada directa. El Dashboard implementado abre el directorio y el muro desde sus categorías. Cada tarjeta abre `/servicios/:id` con su identificador de demostración. Volver recupera la búsqueda local.
 
 | Referencia en `design/references/screens/` | Destino | Ruta | Archivo previsto bajo `lib/` |
 |---|---|---|---|
@@ -19,7 +25,7 @@ La aplicación comienza en `/inicio`. Las cinco pestañas conservan su navegador
 | 05_Muro_Colaborativo.png | Cadena de Favores | `/favores` | `features/solidarity/presentation/screens/solidarity_wall_screen.dart` |
 | 06_Publicacion_Paso_1.png | Publicar | `/publicar/tipo` | `features/publications/presentation/screens/publication_type_screen.dart` |
 | 07_Mapa_Geolocalizado.png | Mapa | `/mapa` | `features/maps/presentation/screens/neighborhood_map_screen.dart` |
-| 08_Tablero_Emergencia.png | Modo SOS | `/sos` | `features/emergency/presentation/screens/emergency_dashboard_screen.dart` |
+| 08_Tablero_Emergencia.png | Modo SOS | `/sos/tablero` | `features/emergency/presentation/screens/emergency_dashboard_screen.dart` |
 | 09_Grupos_y_Brigadas.png | Brigadas | `/sos/brigadas` | `features/emergency/presentation/screens/brigades_screen.dart` |
 | 10_Confirmacion_Ayuda.png | Confirmación de ayuda | `/sos/confirmacion` | `features/emergency/presentation/screens/help_confirmation_screen.dart` |
 | 11_Inicio_Sesion_PIN.png | Ingreso con PIN | `/auth/login` | `features/auth/presentation/screens/login_pin_screen.dart` |
@@ -34,7 +40,7 @@ La aplicación comienza en `/inicio`. Las cinco pestañas conservan su navegador
 | 20_Offline_Sincronizado.png | Sincronización | `/offline/sincronizado` | `features/offline/presentation/screens/synchronized_screen.dart` |
 | 21_Accesibilidad.png | Accesibilidad | `/configuracion/accesibilidad` | `features/settings/presentation/screens/accessibility_screen.dart` |
 | 22_Calificacion_Visto_Bueno.png | Nueva reseña | `/resenas/nueva` | `features/reviews/presentation/screens/create_review_screen.dart` |
-| 23_Mapa_Alerta_Critica.png | Mapa SOS | `/sos/mapa` | `features/emergency/presentation/screens/emergency_map_screen.dart` |
+| 23_Mapa_Alerta_Critica.png | Mapa SOS | `/sos/mapa` | `features/emergency/presentation/screens/emergency_map_placeholder_screen.dart (temporal; mapa definitivo pendiente)` |
 | 24_Ayuda_Aceptada_Ruta_Chat.png | Seguimiento de ayuda | `/sos/seguimiento` | `features/emergency/presentation/screens/help_tracking_screen.dart` |
 | — | Mensajes | `/mensajes` | `features/chat/presentation/screens/conversations_screen.dart` |
 | — | Conversación | `/mensajes/:id` | `features/chat/presentation/screens/chat_screen.dart` |

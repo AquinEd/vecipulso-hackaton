@@ -1,3 +1,5 @@
+import '../../../../app/app_navigation.dart';
+
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hackaton_veci_pulso/app/app_routes.dart';
@@ -94,7 +96,7 @@ class _HomeScreenState extends State<HomeScreen> {
           label: AppRoute.sos.title,
           icon: Icons.sos,
           sos: true,
-          onPressed: () => context.push(AppRoute.sos.path),
+          onPressed: () => AppNavigation.open(context, AppRoute.sos),
         ),
         ExpansionTile(
           title: const Text('Pruebas de desarrollo'),

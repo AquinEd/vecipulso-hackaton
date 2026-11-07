@@ -1,3 +1,5 @@
+import '../../../app/app_navigation.dart';
+
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hackaton_veci_pulso/app/app_routes.dart';
@@ -38,11 +40,7 @@ class AppDrawer extends StatelessWidget {
                   : null,
               onTap: () {
                 Scaffold.of(context).closeDrawer();
-                if (route == AppRoute.home || route == AppRoute.map) {
-                  shell.goBranch(route == AppRoute.home ? 0 : 1);
-                } else {
-                  context.push(route.path);
-                }
+                AppNavigation.open(context, route);
               },
             ),
         ],
