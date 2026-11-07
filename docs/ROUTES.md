@@ -4,7 +4,7 @@ El Drawer y las categorías del Dashboard cambian destinos principales mediante 
 
 En modo normal, Inicio abre `/inicio` (Dashboard) y Mapa abre `/mapa` (recursos). Seleccionar Modo SOS activa el estado temporal y abre `/sos/tablero`; `/sos` mantiene su redirección de compatibilidad. En modo SOS, Inicio abre el tablero y Mapa abre `/sos/mapa` en su propia rama del shell, con una sola barra inferior. El botón «Ver mapa de reportes» usa ese mismo destino sin apilarlo. Publicar, Mensajes y Perfil conservan sus destinos habituales y el estado SOS permanece activo.
 
-El mapa SOS solo muestra «Mapa de Reportes SOS» y la etiqueta «Demostración — Mapa SOS pendiente de implementación». Desde allí, Atrás o «Volver al Tablero SOS» abre el tablero. «Salir del Modo SOS» desactiva el estado y abre el Dashboard; Atrás desde el tablero también sale a Inicio. Estas reglas se aplican al botón de la interfaz y a Atrás de Android. Inicio y Mapa no restauran rutas SOS obsoletas después de salir. El mapa comunitario conserva sus filtros durante el cambio de modo. La aplicación continúa iniciando en `/inicio`.
+El Mapa de Emergencia incluye filtros locales y detalles que se abren y cierran en un panel de consulta. Desde allí, Atrás o «Volver al Tablero SOS» abre el tablero. «Salir del Modo SOS» desactiva el estado y abre el Dashboard; Atrás desde el tablero también sale a Inicio. Estas reglas se aplican al botón de la interfaz y a Atrás de Android. Inicio y Mapa no restauran rutas SOS obsoletas después de salir. El mapa comunitario conserva sus filtros durante el cambio de modo. La aplicación continúa iniciando en `/inicio`.
 
 «Cadena de Favores» abre `/favores` reemplazando la sección principal desde el Dashboard o el Drawer. «Explorar economía solidaria» abre su ruta hija existente `/favores/ampliado` con la misma pantalla en modo ampliado. Volver recupera la selección anterior. Ambas vistas comparten el encabezado, el Drawer y la barra de cinco destinos del shell.
 
@@ -40,7 +40,7 @@ La aplicación comienza en `/inicio`. Las cinco pestañas conservan su navegador
 | 20_Offline_Sincronizado.png | Sincronización | `/offline/sincronizado` | `features/offline/presentation/screens/synchronized_screen.dart` |
 | 21_Accesibilidad.png | Accesibilidad | `/configuracion/accesibilidad` | `features/settings/presentation/screens/accessibility_screen.dart` |
 | 22_Calificacion_Visto_Bueno.png | Nueva reseña | `/resenas/nueva` | `features/reviews/presentation/screens/create_review_screen.dart` |
-| 23_Mapa_Alerta_Critica.png | Mapa SOS | `/sos/mapa` | `features/emergency/presentation/screens/emergency_map_placeholder_screen.dart (temporal; mapa definitivo pendiente)` |
+| 23_Mapa_Alerta_Critica.png | Mapa SOS | `/sos/mapa` | `features/emergency/presentation/screens/emergency_map_screen.dart` |
 | 24_Ayuda_Aceptada_Ruta_Chat.png | Seguimiento de ayuda | `/sos/seguimiento` | `features/emergency/presentation/screens/help_tracking_screen.dart` |
 | — | Mensajes | `/mensajes` | `features/chat/presentation/screens/conversations_screen.dart` |
 | — | Conversación | `/mensajes/:id` | `features/chat/presentation/screens/chat_screen.dart` |

@@ -123,9 +123,11 @@ void main() {
         expect(find.byType(EmergencyReportCard), findsNWidgets(3));
       }
       await tap(t, find.text('Ver mapa de reportes'));
-      expect(find.text('Mapa de Reportes SOS'), findsOneWidget);
+      expect(find.text('Mapa de Emergencia'), findsOneWidget);
       expect(
-        find.text('Demostración — Mapa SOS pendiente de implementación'),
+        find.text(
+          'MAPA DE DEMOSTRACIÓN — No representa emergencias ni ubicaciones reales.',
+        ),
         findsOneWidget,
       );
       await tap(t, find.byType(BackButton));
