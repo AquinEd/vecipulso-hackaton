@@ -78,3 +78,7 @@ La pestaña Mapa muestra seis puntos ilustrativos sin conexión. Busca por nombr
 Desde la confirmación de ayuda, «Ver simulación de seguimiento» abre la coordinación local de la fase 12. La ruta dibujada y los perfiles son ficticios. Llamar muestra un aviso y Chat permite leer dos mensajes de ejemplo. No hay aceptación real, llamadas ni envío de mensajes.
 
 La fase 13 incorpora el Mapa de Emergencia en /sos/mapa. Toca un marcador para consultar su ficha o filtra por solicitudes urgentes, reportes en revisión, recursos y brigadas. Todos restablece la vista. El plano y la disponibilidad son ficticios. Funciona sin GPS, reportes reales ni backend.
+
+## Visto Bueno Vecinal
+
+Desde el perfil de un proveedor, «Calificar experiencia (demo)» abre el formulario de la fase 14. Elige entre una y cinco estrellas y, si lo deseas, escribe hasta 300 caracteres. «Previsualizar Visto Bueno» muestra cómo se leería la opinión. Puedes cerrar el diálogo y corregirla. Al salir del formulario se descarta el borrador.

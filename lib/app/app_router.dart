@@ -15,6 +15,7 @@ import 'app_mode_destination.dart';
 import '../features/solidarity/presentation/screens/solidarity_wall_screen.dart';
 import '../features/solidarity/models/solidarity_post.dart';
 import '../features/services/presentation/screens/services_screen.dart';
+import '../features/reviews/presentation/screens/create_review_screen.dart';
 import '../features/services/presentation/screens/provider_detail_screen.dart';
 
 import 'package:flutter/material.dart';
@@ -197,6 +198,10 @@ GoRouter createRouter({AppModeController? modeController}) {
         GoRoute(
           path: route.path,
           builder: (context, state) => switch (route) {
+            AppRoute.review => CreateReviewScreen(
+              key: ValueKey(state.uri.queryParameters['providerId']),
+              providerId: state.uri.queryParameters['providerId'],
+            ),
             AppRoute.details => PublicationDetailsScreen(
               controller: controller,
             ),
