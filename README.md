@@ -24,6 +24,10 @@ Para elegir un destino, sustituye el identificador con el que aparezca en la lis
 flutter run -d ID_DEL_DISPOSITIVO
 ```
 
+## Publicación rápida
+
+Abre Publicar, elige una de las cuatro plantillas y pulsa «Confirmar demostración». Puedes editar el título y el detalle antes de confirmar. «Ver mi publicación» muestra la vista previa local. El borrador se descarta al salir del recorrido.
+
 ## Organización
 
 El proyecto usa Material 3, go_router y una estructura por funcionalidad preparada para MVVM. Desde Inicio o el Drawer, «Cadena de Favores» abre el Muro Colaborativo. Filtra las tarjetas con Todos, Ofrezco, Necesito y Dono, o abre «Explorar economía solidaria» para consultar donaciones, solicitudes, intercambios y préstamos. Ambas vistas usan publicaciones ficticias. Contactar, favoritos y comentarios muestran avisos informativos. SOS continúa en preparación.

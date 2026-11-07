@@ -11,6 +11,8 @@ class AppTextField extends StatelessWidget {
     required this.validator,
     this.keyboardType,
     this.formatters,
+    this.maxLines = 1,
+    this.maxLength,
     this.next = false,
     this.onSubmitted,
   });
@@ -20,18 +22,26 @@ class AppTextField extends StatelessWidget {
   final FormFieldValidator<String> validator;
   final TextInputType? keyboardType;
   final List<TextInputFormatter>? formatters;
+  final int maxLines;
+  final int? maxLength;
   final bool next;
   final VoidCallback? onSubmitted;
   @override
   Widget build(BuildContext context) => TextFormField(
     controller: controller,
+    maxLines: maxLines,
+    maxLength: maxLength,
     validator: validator,
     keyboardType: keyboardType,
     inputFormatters: formatters,
     textCapitalization: keyboardType == TextInputType.name
         ? TextCapitalization.words
         : TextCapitalization.none,
-    textInputAction: next ? TextInputAction.next : TextInputAction.done,
+    textInputAction: maxLines > 1
+        ? TextInputAction.newline
+        : next
+        ? TextInputAction.next
+        : TextInputAction.done,
     onFieldSubmitted: onSubmitted == null ? null : (_) => onSubmitted!(),
     decoration: InputDecoration(
       labelText: label,

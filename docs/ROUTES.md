@@ -6,6 +6,8 @@ El Dashboard y el Drawer abren `/servicios` dentro del shell. Las tarjetas apila
 
 Al pie del Dashboard, «Pruebas de desarrollo» abre el registro y el ingreso con PIN. Registro abre `/auth/pin` sobre el formulario y permite volver a editar los datos. Tras confirmar la clave, «Ir al inicio» abre el Dashboard. El login muestra un aviso de verificación pendiente y ofrece un regreso explícito a la demo.
 
+Publicar abre el selector dentro del shell. Detalles y vista previa ocupan toda la pantalla. Las entradas directas sin borrador o resumen regresan al selector. Los enlaces anteriores `/publicar` y `/publicar/confirmacion` conservan una redirección.
+
 La aplicación comienza en `/inicio`. Las cinco pestañas conservan su navegador. El menú y los accesos de Inicio abren destinos secundarios sobre la pestaña actual. Las rutas profundas admiten entrada directa. El Dashboard implementado abre el directorio y el muro desde sus categorías. Cada tarjeta abre `/servicios/:id` con su identificador de demostración. Volver recupera la búsqueda local.
 
 | Referencia en `design/references/screens/` | Destino | Ruta | Archivo previsto bajo `lib/` |
@@ -15,7 +17,7 @@ La aplicación comienza en `/inicio`. Las cinco pestañas conservan su navegador
 | 03_Directorio_Servicios.png | Servicios del Barrio | `/servicios` | `features/services/presentation/screens/services_screen.dart` |
 | 04_Perfil_Proveedor.png | Perfil de proveedor | `/servicios/:id` | `features/services/presentation/screens/provider_detail_screen.dart` |
 | 05_Muro_Colaborativo.png | Cadena de Favores | `/favores` | `features/solidarity/presentation/screens/solidarity_wall_screen.dart` |
-| 06_Publicacion_Paso_1.png | Publicar | `/publicar` | `features/publications/presentation/screens/publication_type_screen.dart` |
+| 06_Publicacion_Paso_1.png | Publicar | `/publicar/tipo` | `features/publications/presentation/screens/publication_type_screen.dart` |
 | 07_Mapa_Geolocalizado.png | Mapa | `/mapa` | `features/maps/presentation/screens/neighborhood_map_screen.dart` |
 | 08_Tablero_Emergencia.png | Modo SOS | `/sos` | `features/emergency/presentation/screens/emergency_dashboard_screen.dart` |
 | 09_Grupos_y_Brigadas.png | Brigadas | `/sos/brigadas` | `features/emergency/presentation/screens/brigades_screen.dart` |
@@ -26,7 +28,7 @@ La aplicación comienza en `/inicio`. Las cinco pestañas conservan su navegador
 | 14_Tutorial_Accesible.png | Tutorial | `/tutorial` | `features/tutorial/presentation/screens/tutorial_screen.dart` |
 | 15_Muro_Solidario_Ampliado.png | Muro ampliado | `/favores/ampliado` | `features/solidarity/presentation/screens/solidarity_wall_screen.dart` |
 | 16_Publicacion_Paso_2_Confirmar.png | Detalles de publicación | `/publicar/detalles` | `features/publications/presentation/screens/publication_details_screen.dart` |
-| 17_Publicacion_Confirmada.png | Publicación exitosa | `/publicar/confirmacion` | `features/publications/presentation/screens/publication_success_screen.dart` |
+| 17_Publicacion_Confirmada.png | Vista previa lista | `/publicar/exito` | `features/publications/presentation/screens/publication_success_screen.dart` |
 | 18_SOS_Acciones_Criticas.png | Acciones SOS | `/sos/acciones` | `features/emergency/presentation/screens/emergency_actions_screen.dart` |
 | 19_Offline_Pendiente_Sync.png | Sincronización pendiente | `/offline/pendiente` | `features/offline/presentation/screens/pending_sync_screen.dart` |
 | 20_Offline_Sincronizado.png | Sincronización | `/offline/sincronizado` | `features/offline/presentation/screens/synchronized_screen.dart` |
