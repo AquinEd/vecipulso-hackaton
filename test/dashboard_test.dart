@@ -15,12 +15,14 @@ void main() {
         await tester.pumpAndSettle();
         expect(
           find.text(
-            title == 'Servicios del Barrio' ? 'Servicios de Proximidad' : title,
+            title == 'Servicios del Barrio'
+                ? 'Servicios de Proximidad'
+                : 'Muro Colaborativo',
           ),
           findsOneWidget,
         );
         if (title == 'Cadena de Favores') {
-          expect(find.text('Funcionalidad en preparación.'), findsOneWidget);
+          expect(find.text('Explorar economía solidaria'), findsOneWidget);
         }
         await tester.tap(find.byType(BackButton));
         await tester.pumpAndSettle();

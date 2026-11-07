@@ -1,5 +1,7 @@
 # Arquitectura
 
+El módulo `features/solidarity/` conserva seis publicaciones constantes en `data/demo_solidarity_posts.dart`. Cada `SolidarityPost` declara su ID, vecino, tipo, categoría, modalidad y vistas de destino. La selección local devuelve referencias a los mismos objetos. El muro y Economía solidaria utilizan `SolidarityWallScreen` y `SolidarityPostCard`. La tarjeta usa el formateador público de proveedores. El filtro pertenece al estado del muro dentro del shell. Las pruebas en `test/solidarity_test.dart` recorren filtros, navegación, avisos y tamaños de pantalla.
+
 El catálogo inmutable de `features/services/data/demo_services.dart` alimenta el directorio y la selección del Dashboard. Cada `ServicePreview` reúne el servicio y el proveedor bajo un ID estable. Su método `matches` combina texto normalizado, distancia y valoración. El directorio conserva sus controles en memoria mientras se visita un perfil. Los trabajos, las reseñas y los distintivos pertenecen a cada registro de demostración.
 
 `features/auth/presentation/screens/` contiene las tres interfaces de demostración. Comparten el encabezado, el teclado, los indicadores y el campo de formulario. Los validadores puros viven en `auth/utils/`. El formulario conserva sus controladores mientras la ruta sigue abierta. Crear PIN compara dos entradas locales y las descarta al terminar o salir. Login conserva únicamente un contador. Las pruebas de interfaz recorren ambos flujos desde el Dashboard.

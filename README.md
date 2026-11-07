@@ -26,7 +26,7 @@ flutter run -d ID_DEL_DISPOSITIVO
 
 ## Organización
 
-El proyecto usa Material 3, go_router y una estructura por funcionalidad preparada para MVVM. El shell conserva cinco pestañas y permite abrir servicios, solidaridad y SOS. Solidaridad y SOS muestran pantallas de preparación. La ubicación está pendiente y no se solicitan permisos.
+El proyecto usa Material 3, go_router y una estructura por funcionalidad preparada para MVVM. Desde Inicio o el Drawer, «Cadena de Favores» abre el Muro Colaborativo. Filtra las tarjetas con Todos, Ofrezco, Necesito y Dono, o abre «Explorar economía solidaria» para consultar donaciones, solicitudes, intercambios y préstamos. Ambas vistas usan publicaciones ficticias. Contactar, favoritos y comentarios muestran avisos informativos. SOS continúa en preparación.
 
 - [Arquitectura](docs/ARCHITECTURE.md)
 - [Pantallas y rutas](docs/ROUTES.md)
