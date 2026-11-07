@@ -21,17 +21,12 @@ class ReviewStarSelector extends StatelessWidget {
             Semantics(
               selected: star == value,
               child: IconButton(
-                constraints: const BoxConstraints.tightFor(
-                  width: 48,
-                  height: 48,
-                ),
+                constraints: const BoxConstraints(minWidth: 48, minHeight: 48),
                 tooltip: star == 1 ? '1 estrella' : '$star estrellas',
                 onPressed: () => onChanged(star),
                 icon: Icon(
                   star <= value ? Icons.star : Icons.star_border,
-                  color: star <= value
-                      ? AppColors.stars
-                      : Colors.grey.shade700,
+                  color: star <= value ? AppColors.stars : Colors.grey.shade700,
                   size: 32,
                 ),
               ),

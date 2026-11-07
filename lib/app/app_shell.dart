@@ -6,8 +6,6 @@ import 'app_navigation.dart';
 
 import 'package:provider/provider.dart';
 
-import '../core/theme/app_colors.dart';
-
 import 'package:go_router/go_router.dart';
 import 'package:hackaton_veci_pulso/shared/widgets/navigation/app_drawer.dart';
 import 'package:hackaton_veci_pulso/shared/widgets/navigation/app_bottom_navigation.dart';
@@ -54,7 +52,9 @@ class AppShell extends StatelessWidget {
       },
       child: Scaffold(
         appBar: AppBar(
-          backgroundColor: emergency ? AppColors.sos : null,
+          backgroundColor: emergency
+              ? Theme.of(context).colorScheme.error
+              : null,
           foregroundColor: emergency ? Colors.white : null,
           automaticallyImplyLeading: false,
           leading:

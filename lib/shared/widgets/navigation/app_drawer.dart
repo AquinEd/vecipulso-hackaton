@@ -28,6 +28,8 @@ class AppDrawer extends StatelessWidget {
             (AppRoute.notifications, Icons.notifications_outlined),
             (AppRoute.settings, Icons.settings_outlined),
             (AppRoute.sos, Icons.sos),
+            (AppRoute.tutorial, Icons.menu_book_outlined),
+            (AppRoute.access, Icons.accessibility_new),
           ])
             ListTile(
               leading: Icon(icon),
@@ -40,7 +42,11 @@ class AppDrawer extends StatelessWidget {
                   : null,
               onTap: () {
                 Scaffold.of(context).closeDrawer();
-                AppNavigation.open(context, route);
+                if (route == AppRoute.access || route == AppRoute.tutorial) {
+                  context.push(route.path);
+                } else {
+                  AppNavigation.open(context, route);
+                }
               },
             ),
         ],

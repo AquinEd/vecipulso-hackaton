@@ -1,4 +1,7 @@
 import '../../../../app/app_navigation.dart';
+import '../../../../app/accessibility_controller.dart';
+
+import 'package:provider/provider.dart';
 
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -41,6 +44,11 @@ class _HomeScreenState extends State<HomeScreen> {
         const HomeHeroBanner(),
         const SizedBox(height: 16),
         const HomeCategorySelector(),
+        if (context.watch<AccessibilityController?>()?.clearInstructions ??
+            false)
+          const Text(
+            'Escribe el nombre de un servicio y toca un resultado para ver su ficha.',
+          ),
         const SizedBox(height: 12),
         TextField(
           controller: search,
@@ -98,6 +106,11 @@ class _HomeScreenState extends State<HomeScreen> {
           sos: true,
           onPressed: () => AppNavigation.open(context, AppRoute.sos),
         ),
+        if (context.watch<AccessibilityController?>()?.clearInstructions ??
+            false)
+          const Text(
+            'Modo SOS abre el tablero de demostración. Allí puedes consultar reportes de ejemplo.',
+          ),
         ExpansionTile(
           title: const Text('Pruebas de desarrollo'),
           children: [

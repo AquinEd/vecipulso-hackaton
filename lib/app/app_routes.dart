@@ -19,7 +19,7 @@ enum AppRoute {
   login('/auth/login', 'Ingreso con PIN'),
   register('/auth/registro', 'Registro'),
   pin('/auth/pin', 'Crear PIN'),
-  tutorial('/tutorial', 'Tutorial'),
+  tutorial('/tutorial', 'Tutorial de uso'),
   pending('/offline/pendiente', 'Sincronización pendiente'),
   synced('/offline/sincronizado', 'Sincronización'),
   settings('/configuracion', 'Configuración'),

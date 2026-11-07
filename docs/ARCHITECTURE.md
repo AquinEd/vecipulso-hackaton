@@ -1,5 +1,9 @@
 # Arquitectura
 
+Los marcadores de posición fija del mapa ilustrativo del seguimiento conservan su área de 48 × 48 píxeles lógicos para respetar las coordenadas del recorrido.
+
+Un `ChangeNotifierProvider` de `VeciPulsoApp` crea y libera el único `AccessibilityController` de la sesión. El consumidor configura el tema del mismo `MaterialApp.router`. Su builder multiplica por 1,2 el resultado del `TextScaler` del dispositivo para cada tamaño de fuente. El tema claro de alto contraste oscurece texto, verde comunitario y rojo SOS. Los temas de botones amplían el mínimo a 56 píxeles lógicos y la navegación inferior a 88 de alto. Las instrucciones opcionales aparecen en Tutorial, Accesibilidad, búsqueda de Inicio y acceso al tablero SOS.
+
 `AppModeController` centraliza los estados temporales `normal` y `sos` con ChangeNotifier y Provider, ya incluido en el proyecto. La aplicación crea y libera su controlador; `createRouter` permite inyectarlo en pruebas. Las entradas directas SOS activan el mismo modo. `AppNavigation` concentra el cambio de secciones y la salida explícita de SOS. El router mantiene StatefulShellRoute.indexedStack con sus cinco ramas. Tablero y mapa SOS pertenecen a Inicio y Mapa respectivamente, no al navegador raíz.
 
 `AppModeDestination` utiliza una identidad de página estable por rama y un IndexedStack para conservar el Dashboard y los filtros del mapa normal durante los cambios de modo. Las claves representan destinos estables, sin reinicios arbitrarios del navegador. Inicio y Mapa eligen su ruta según el modo; las otras pestañas siguen usando goBranch. PopScope gestiona Atrás en destinos principales; los detalles mantienen el historial normal. `test/app_mode_navigation_test.dart` comprueba reemplazos, selección repetida, Atrás Android, cambio de contenido, salida de SOS y conservación del filtro del mapa.

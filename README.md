@@ -1,5 +1,7 @@
 # VeciPulso
 
+Desde el menú lateral, abre **Tutorial de uso** para recorrer Servicios del Barrio, Cadena de Favores y Modo SOS. En **Accesibilidad** puedes activar texto grande, alto contraste, botones grandes e instrucciones claras durante la sesión. «Pedir ayuda» muestra un aviso de vista previa. «Restablecer ajustes» desactiva las cuatro opciones y conserva el modo actual.
+
 La fase 11 incorpora la vista previa local de ayuda comunitaria. Desde el Tablero SOS, pulsa «Solicitar ayuda», elige una necesidad, abre el resumen y pulsa «Ver confirmación visual (demo)». El perfil es ficticio y los controles de contacto muestran avisos informativos.
 
 La fase 10 implementa Grupos de Apoyo y Brigadas en `/sos/brigadas`, siguiendo la referencia 09 con widgets Flutter y estilo claro. El Tablero SOS ofrece «Grupos y Brigadas». La pantalla conserva el controlador SOS y la única barra inferior de cinco pestañas; Atrás de interfaz o Android vuelve al tablero, también desde una entrada directa. La app sigue iniciando en `/inicio`.

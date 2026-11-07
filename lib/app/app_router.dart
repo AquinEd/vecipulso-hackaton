@@ -11,6 +11,8 @@ import '../features/emergency/presentation/screens/emergency_actions_screen.dart
 
 import 'app_mode_controller.dart';
 import 'app_mode_destination.dart';
+import '../features/tutorial/presentation/screens/tutorial_screen.dart';
+import '../features/settings/presentation/screens/accessibility_screen.dart';
 
 import '../features/solidarity/presentation/screens/solidarity_wall_screen.dart';
 import '../features/solidarity/models/solidarity_post.dart';
@@ -57,6 +59,9 @@ GoRouter createRouter({AppModeController? modeController}) {
       if (path == AppRoute.details.path && controller.draft == null ||
           path == AppRoute.success.path && controller.preview == null) {
         return AppRoute.publish.path;
+      }
+      if (path == AppRoute.tutorial.path || path == AppRoute.access.path) {
+        return null;
       }
       if (!path.startsWith('/publicar/') ||
           path == AppRoute.publish.path && controller.preview != null) {
@@ -198,6 +203,8 @@ GoRouter createRouter({AppModeController? modeController}) {
         GoRoute(
           path: route.path,
           builder: (context, state) => switch (route) {
+            AppRoute.tutorial => const TutorialScreen(),
+            AppRoute.access => const AccessibilityScreen(),
             AppRoute.review => CreateReviewScreen(
               key: ValueKey(state.uri.queryParameters['providerId']),
               providerId: state.uri.queryParameters['providerId'],
