@@ -25,19 +25,10 @@ class _HomeScreenState extends State<HomeScreen> {
     super.dispose();
   }
 
-  String normalize(String text) => text
-      .trim()
-      .toLowerCase()
-      .replaceAll('á', 'a')
-      .replaceAll('é', 'e')
-      .replaceAll('í', 'i')
-      .replaceAll('ó', 'o')
-      .replaceAll('ú', 'u');
   @override
   Widget build(BuildContext context) {
-    final query = normalize(search.text);
     final matches = widget.services.where(
-      (s) => normalize('${s.name} ${s.description}').contains(query),
+      (service) => service.matches(search.text),
     );
     return ListView(
       padding: const EdgeInsets.all(16),
