@@ -1,3 +1,4 @@
+import '../../../core/utils/normalize_search.dart';
 import '../utils/provider_display_name.dart';
 
 enum ServiceCategory {
@@ -55,17 +56,6 @@ class ServicePreview {
     ].nonNulls.join(' ');
     return (maxMeters == null || distanceMeters <= maxMeters) &&
         (!fourStars || rating >= 4) &&
-        _normalize(searchable).contains(_normalize(query));
+        normalizeSearch(searchable).contains(normalizeSearch(query));
   }
-
-  static String _normalize(String text) => text
-      .trim()
-      .toLowerCase()
-      .replaceAll('á', 'a')
-      .replaceAll('é', 'e')
-      .replaceAll('í', 'i')
-      .replaceAll('ó', 'o')
-      .replaceAll('ú', 'u')
-      .replaceAll('ü', 'u')
-      .replaceAll('ñ', 'n');
 }

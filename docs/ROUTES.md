@@ -41,3 +41,5 @@ La aplicación comienza en `/inicio`. Las cinco pestañas conservan su navegador
 | — | Perfil | `/perfil` | `features/profile/presentation/screens/profile_screen.dart` |
 | — | Notificaciones | `/notificaciones` | `features/notifications/presentation/screens/notifications_screen.dart` |
 | — | Configuración | `/configuracion` | `features/settings/presentation/screens/settings_screen.dart` |
+
+La pestaña Mapa abre `/mapa` dentro del shell. Cada punto abre un panel de detalles. Ver proveedor apila el perfil existente del comercio y volver recupera el mapa con sus filtros.

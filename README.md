@@ -36,3 +36,7 @@ El proyecto usa Material 3, go_router y una estructura por funcionalidad prepara
 - [Pantallas y rutas](docs/ROUTES.md)
 - [Recursos originales](docs/ASSETS.md)
 - [Funciones pendientes](docs/BACKLOG.md)
+
+## Mapa de recursos
+
+La pestaña Mapa muestra seis puntos ilustrativos sin conexión. Busca por nombre, categoría o descripción y activa las categorías desde la leyenda. Cada marcador abre su ficha y los dos comercios enlazan al perfil del directorio.

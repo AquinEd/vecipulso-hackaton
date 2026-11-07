@@ -29,7 +29,7 @@ void main() {
       }
       await tester.tap(find.text('Mapa'));
       await tester.pumpAndSettle();
-      expect(find.text('Funcionalidad en preparación.'), findsOneWidget);
+      expect(find.text('Mapa de recursos'), findsOneWidget);
     },
   );
   testWidgets(

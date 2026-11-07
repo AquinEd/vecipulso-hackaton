@@ -1,3 +1,4 @@
+import '../features/maps/presentation/screens/neighborhood_map_screen.dart';
 import '../features/solidarity/presentation/screens/solidarity_wall_screen.dart';
 import '../features/solidarity/models/solidarity_post.dart';
 import '../features/services/presentation/screens/services_screen.dart';
@@ -55,6 +56,8 @@ GoRouter createRouter() {
                   path: tab.path,
                   builder: (context, state) => tab == AppRoute.home
                       ? const HomeScreen()
+                      : tab == AppRoute.map
+                      ? const NeighborhoodMapScreen()
                       : tab == AppRoute.publish
                       ? PublicationTypeScreen(controller: controller)
                       : FeaturePlaceholderScreen(title: tab.title),

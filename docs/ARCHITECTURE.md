@@ -13,3 +13,5 @@ VeciPulso organiza el código por funcionalidad con MVVM ligero. `main.dart` ini
 `core/theme/` define paleta, tipografía del sistema, espaciado, radios y tema Material 3. `core/constants/` contiene AppAssets. Configuración transversal, servicios de plataforma y utilidades tienen sus directorios reservados en core.
 
 `shared/widgets/` contiene navegación, botones, tarjetas, encabezados, imágenes y la pantalla pendiente. Las vistas de negocio se ubican en `features/<feature>/presentation/screens/`. Al introducir estado de negocio, cada feature podrá añadir widgets propios y viewmodels observables con provider. Los modelos irán en models/ y el acceso a datos en data/repositories/. La pantalla temporal de Inicio solo necesita estado de navegación.
+
+El módulo features/maps separa el modelo de marcador, el catálogo local y la presentación. NeighborhoodMapCanvas dibuja las calles y parques a escala y coloca controles sobre posiciones relativas. La pantalla conserva en memoria las categorías activas y la consulta normalizada. Los comercios toman su ID, título y descripción de ServicePreview.
