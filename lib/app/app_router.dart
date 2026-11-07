@@ -1,5 +1,9 @@
 import 'package:provider/provider.dart';
 
+import '../features/offline/presentation/controllers/offline_demo_controller.dart';
+import '../features/offline/presentation/screens/pending_sync_screen.dart';
+import '../features/offline/presentation/screens/synchronized_screen.dart';
+
 import '../features/emergency/presentation/screens/brigades_screen.dart';
 import '../features/emergency/presentation/screens/help_confirmation_screen.dart';
 import '../features/emergency/presentation/screens/help_tracking_screen.dart';
@@ -60,7 +64,12 @@ GoRouter createRouter({AppModeController? modeController}) {
           path == AppRoute.success.path && controller.preview == null) {
         return AppRoute.publish.path;
       }
-      if (path == AppRoute.tutorial.path || path == AppRoute.access.path) {
+      if ([
+        AppRoute.tutorial,
+        AppRoute.access,
+        AppRoute.pending,
+        AppRoute.synced,
+      ].any((route) => route.path == path)) {
         return null;
       }
       if (!path.startsWith('/publicar/') ||
@@ -203,6 +212,15 @@ GoRouter createRouter({AppModeController? modeController}) {
         GoRoute(
           path: route.path,
           builder: (context, state) => switch (route) {
+            AppRoute.pending => ChangeNotifierProvider(
+              create: (_) => OfflineDemoController(),
+              child: const PendingSyncScreen(),
+            ),
+            AppRoute.synced => SynchronizedScreen(
+              demo: state.extra is OfflineDemoController
+                  ? state.extra as OfflineDemoController
+                  : null,
+            ),
             AppRoute.tutorial => const TutorialScreen(),
             AppRoute.access => const AccessibilityScreen(),
             AppRoute.review => CreateReviewScreen(

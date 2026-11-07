@@ -1,5 +1,7 @@
 # Navegación
 
+«Estados offline (demo)» apila `/offline/pendiente` desde el Drawer. Elegir éxito abre `/offline/sincronizado`; su entrada directa muestra una vista previa. Atrás conserva el origen y, sin historial, vuelve a Inicio o al Tablero según el modo. «Ir al tablero de ayuda» abre `/sos/tablero` y activa SOS mediante la navegación existente.
+
 El Drawer apila `/tutorial` y `/configuracion/accesibilidad` sobre el origen. Ambas son pantallas enfocadas con un encabezado y sin barra inferior. Atrás recupera el destino anterior. Si se abre una ruta directamente, Atrás conduce a Inicio o al Tablero SOS según el modo vigente. Finalizar el tutorial usa la misma salida.
 
 El Drawer y las categorías del Dashboard cambian destinos principales mediante `AppNavigation.open` y `go()`, cerrando el Drawer antes de navegar. Servicios, Cadena de Favores, Notificaciones y Configuración sustituyen la sección anterior. Atrás vuelve a Inicio sin recorrer secciones previas. Los detalles de proveedores, el muro ampliado y los pasos de formularios conservan `push()` para volver al origen inmediato.
