@@ -28,6 +28,7 @@ class AppShell extends StatelessWidget {
         path == AppRoute.sos.path || path == AppRoute.riskMap.path;
     final principal = [
       AppRoute.services.path,
+      AppRoute.help.path,
       AppRoute.solidarity.path,
       AppRoute.sos.path,
       AppRoute.riskMap.path,
@@ -35,7 +36,7 @@ class AppShell extends StatelessWidget {
       AppRoute.settings.path,
     ].contains(path);
     void back() {
-      if (path == AppRoute.riskMap.path) {
+      if (path == AppRoute.riskMap.path || path == AppRoute.help.path) {
         AppNavigation.open(context, AppRoute.sos);
       } else if (path == AppRoute.sos.path) {
         AppNavigation.exitSos(context);
@@ -56,6 +57,7 @@ class AppShell extends StatelessWidget {
           automaticallyImplyLeading: false,
           leading:
               emergency ||
+                  path == AppRoute.help.path ||
                   path == AppRoute.notifications.path ||
                   path == AppRoute.settings.path
               ? BackButton(onPressed: back)

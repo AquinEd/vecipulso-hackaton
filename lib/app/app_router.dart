@@ -1,6 +1,8 @@
 import 'package:provider/provider.dart';
 
 import '../features/emergency/presentation/screens/brigades_screen.dart';
+import '../features/emergency/presentation/screens/help_confirmation_screen.dart';
+import '../features/emergency/models/emergency_action_option.dart';
 
 import '../features/emergency/models/emergency_action_type.dart';
 import '../features/emergency/presentation/screens/emergency_actions_screen.dart';
@@ -39,6 +41,7 @@ GoRouter createRouter({AppModeController? modeController}) {
       if (path == AppRoute.sos.path ||
           path == AppRoute.riskMap.path ||
           path == AppRoute.actions.path ||
+          path == AppRoute.help.path ||
           path == AppRoute.brigades.path ||
           path == '/sos') {
         mode.activateSos();
@@ -97,6 +100,15 @@ GoRouter createRouter({AppModeController? modeController}) {
                   ),
                 if (tab == AppRoute.home) ...[
                   GoRoute(
+                    path: AppRoute.help.path,
+                    builder: (_, state) => HelpConfirmationScreen(
+                      category: switch (state.extra) {
+                        EmergencyActionCategory category => category,
+                        _ => null,
+                      },
+                    ),
+                  ),
+                  GoRoute(
                     path: AppRoute.brigades.path,
                     builder: (_, _) => const BrigadesScreen(),
                   ),
@@ -154,6 +166,7 @@ GoRouter createRouter({AppModeController? modeController}) {
           AppRoute.solidarity,
           AppRoute.sos,
           AppRoute.actions,
+          AppRoute.help,
           AppRoute.brigades,
           AppRoute.riskMap,
           AppRoute.notifications,

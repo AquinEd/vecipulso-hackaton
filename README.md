@@ -1,10 +1,12 @@
 # VeciPulso
 
+La fase 11 incorpora la vista previa local de ayuda comunitaria. Desde el Tablero SOS, pulsa «Solicitar ayuda», elige una necesidad, abre el resumen y pulsa «Ver confirmación visual (demo)». El perfil es ficticio y los controles de contacto muestran avisos informativos.
+
 La fase 10 implementa Grupos de Apoyo y Brigadas en `/sos/brigadas`, siguiendo la referencia 09 con widgets Flutter y estilo claro. El Tablero SOS ofrece «Grupos y Brigadas». La pantalla conserva el controlador SOS y la única barra inferior de cinco pestañas; Atrás de interfaz o Android vuelve al tablero, también desde una entrada directa. La app sigue iniciando en `/inicio`.
 
 Los cuatro grupos ficticios son Brigada Los Álamos (cuadras 1–5, 12 integrantes), Grupo El Progreso (6–10, 8), Equipo Salud Vecinal (11–15, 6) y Movilidad Solidaria (16–20, 11). Todos, Brigadas y Voluntarios son filtros excluyentes combinados con búsqueda local por nombre, categoría, sector y cada cuadra del intervalo, ignorando mayúsculas y tildes. El estado vacío permite restablecer búsqueda y filtros. «Contacto directo» abre un diálogo con el nombre del grupo, «Contacto no disponible todavía» y «Entendido». La pantalla indica «Grupos de demostración · Contactos no disponibles»; no realiza comunicaciones ni registros.
 
-Pendientes: Supabase, brigadas reales, identificación de miembros, contactos verificados, chat y llamadas, registro de voluntarios, coordinación de ayuda, notificaciones, GPS y sincronización offline. Las pantallas 10, 23 (mapa definitivo) y 24 siguen pendientes.
+Pendientes: Supabase, brigadas reales, identificación de miembros, contactos verificados, chat y llamadas, registro de voluntarios, coordinación de ayuda, notificaciones, GPS y sincronización offline. Las pantallas 23 (mapa definitivo) y 24 siguen pendientes.
 
 
 Validación de fase 10 (7 de noviembre de 2026): `dart format lib test` aplicado, `flutter pub get` completado sin cambios de versión, `flutter analyze` sin incidencias y `flutter test` con 63 pruebas aprobadas (55 anteriores y 8 nuevas). Las nuevas pruebas cubren filtros, búsqueda, sectores, contacto y navegación, además de 320/412 px, texto al 150 %, teclado y 50 grupos. `flutter devices` confirmó `emulator-5554`; `flutter run -d emulator-5554 --no-resident` compiló, instaló e inició la app en Pixel 6, Android 17/API 37. Se inspeccionaron pantalla, filtro Voluntarios y diálogo de Movilidad Solidaria, con una sola barra inferior y sin desbordamientos visibles.

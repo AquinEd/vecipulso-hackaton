@@ -36,7 +36,7 @@ class _EmergencyActionsScreenState extends State<EmergencyActionsScreen> {
     if (modalOpen) return;
     modalOpen = true;
     try {
-      await showModalBottomSheet<void>(
+      final category = await showModalBottomSheet<EmergencyActionCategory>(
         context: context,
         useRootNavigator: true,
         useSafeArea: true,
@@ -44,6 +44,9 @@ class _EmergencyActionsScreenState extends State<EmergencyActionsScreen> {
         showDragHandle: true,
         builder: (_) => EmergencyActionSelector(action: action),
       );
+      if (mounted && category != null) {
+        context.go(AppRoute.help.path, extra: category);
+      }
     } finally {
       modalOpen = false;
     }
