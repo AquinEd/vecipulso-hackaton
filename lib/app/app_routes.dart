@@ -1,7 +1,7 @@
 enum AppRoute {
   home('/inicio', 'Inicio'),
   map('/mapa', 'Mapa'),
-  publish('/publicar', 'Publicar'),
+  publish('/publicar/tipo', 'Publicar'),
   messages('/mensajes', 'Mensajes'),
   profile('/perfil', 'Perfil'),
   services('/servicios', 'Servicios del Barrio'),
@@ -9,7 +9,7 @@ enum AppRoute {
   solidarity('/favores', 'Cadena de Favores'),
   expanded('/favores/ampliado', 'Muro ampliado'),
   details('/publicar/detalles', 'Detalles de publicación'),
-  success('/publicar/confirmacion', 'Publicación exitosa'),
+  success('/publicar/exito', 'Publicación preparada'),
   sos('/sos', 'Modo SOS'),
   brigades('/sos/brigadas', 'Brigadas'),
   help('/sos/confirmacion', 'Confirmación de ayuda'),

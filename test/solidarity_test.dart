@@ -100,7 +100,7 @@ void main() {
     await t.pumpAndSettle();
     await t.tap(find.text('Publicar'));
     await t.pumpAndSettle();
-    expect(find.text('Funcionalidad en preparación.'), findsOneWidget);
+    expect(find.text('¿Qué quieres publicar?'), findsOneWidget);
     await t.tap(find.text('Inicio'));
     await t.pumpAndSettle();
     await t.tap(find.text('Explorar economía solidaria'));
