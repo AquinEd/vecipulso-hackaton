@@ -6,7 +6,7 @@ El Dashboard de la referencia 02 está implementado con búsqueda local. Quedan 
 |---|---|
 | Identidad | Integrar Supabase para crear cuentas y perfiles, registrar el PIN de forma segura, validarlo en el servidor y recuperar el nombre. Implementar sesiones, autorización de rutas y backend, recuperación de credenciales y bloqueo temporal por intentos fallidos. |
 | Servicios | Conectar Supabase, registrar proveedores reales, calcular distancias con GPS autorizado, habilitar contacto y solicitudes. Incorporar reseñas auténticas, moderación y verificación comunitaria. El directorio, los filtros y los perfiles actuales usan datos ilustrativos. |
-| Solidaridad y publicaciones | Necesidades, ofrecimientos, donaciones, intercambios y préstamos. Crear, confirmar y ampliar publicaciones. |
+| Solidaridad y publicaciones | Implementados el muro, sus filtros locales y Economía solidaria con tarjetas y datos de demostración. Pendientes la integración con Supabase, creación y edición de publicaciones reales, contacto y chat entre vecinos, favoritos persistentes, comentarios reales, Visto Bueno Vecinal auténtico, moderación, notificaciones y sincronización offline. |
 | Mapa | Solicitar ubicación al usar el mapa, manejar denegación y mostrar marcadores y filtros. |
 | SOS | Reportes, solicitudes críticas, recursos, brigadas y seguimiento de ayuda. |
 | Offline | Almacenamiento local y cola con reintentos e idempotencia. |
@@ -19,4 +19,4 @@ Se prevén Flutter, Supabase, PostgreSQL y Supabase Realtime. El listado de conv
 
 ## Componentes previstos
 
-AppSearchBar para búsqueda. LocationChip, RatingStars, ServiceCard, SolidarityCard y EmergencyCard para los listados. SOSButton, OfflineBanner y StatusBadge para acciones y estados. MessageBubble y ChatInput para conversaciones.
+AppSearchBar para búsqueda. LocationChip, RatingStars, ServiceCard y EmergencyCard para los listados. SOSButton, OfflineBanner y StatusBadge para acciones y estados. MessageBubble y ChatInput para conversaciones.

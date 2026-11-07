@@ -1,3 +1,5 @@
+import '../features/solidarity/presentation/screens/solidarity_wall_screen.dart';
+import '../features/solidarity/models/solidarity_post.dart';
 import '../features/services/presentation/screens/services_screen.dart';
 import '../features/services/presentation/screens/provider_detail_screen.dart';
 
@@ -36,6 +38,17 @@ GoRouter createRouter() => GoRouter(
               ),
               if (tab == AppRoute.home) ...[
                 GoRoute(
+                  path: AppRoute.solidarity.path,
+                  builder: (_, _) => const SolidarityWallScreen(),
+                  routes: [
+                    GoRoute(
+                      path: AppRoute.expanded.path.split('/').last,
+                      builder: (_, _) =>
+                          const SolidarityWallScreen(mode: WallMode.economy),
+                    ),
+                  ],
+                ),
+                GoRoute(
                   path: AppRoute.services.path,
                   builder: (_, _) => const ServicesScreen(),
                 ),
@@ -51,6 +64,8 @@ GoRouter createRouter() => GoRouter(
     ),
     for (final route in AppRoute.values.where(
       (r) => ![
+        AppRoute.solidarity,
+        AppRoute.expanded,
         AppRoute.services,
         AppRoute.provider,
         AppRoute.home,
