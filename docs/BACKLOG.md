@@ -4,7 +4,7 @@ El Dashboard de la referencia 02 está implementado con búsqueda local. Quedan 
 
 | Área | Trabajo previsto |
 |---|---|
-| Identidad | DNI autodeclarado, nombre, creación de PIN de seis dígitos y teclado aleatorio en cada apertura del login. Se excluye el reconocimiento facial. |
+| Identidad | Integrar Supabase para crear cuentas y perfiles, registrar el PIN de forma segura, validarlo en el servidor y recuperar el nombre. Implementar sesiones, autorización de rutas y backend, recuperación de credenciales y bloqueo temporal por intentos fallidos. |
 | Servicios | Directorio, búsqueda, filtros, perfil del proveedor y reseñas. |
 | Solidaridad y publicaciones | Necesidades, ofrecimientos, donaciones, intercambios y préstamos. Crear, confirmar y ampliar publicaciones. |
 | Mapa | Solicitar ubicación al usar el mapa, manejar denegación y mostrar marcadores y filtros. |
@@ -19,4 +19,4 @@ Se prevén Flutter, Supabase, PostgreSQL y Supabase Realtime. El listado de conv
 
 ## Componentes previstos
 
-AppTextField, AppSearchBar y RandomPinKeypad para entrada. LocationChip, RatingStars, ServiceCard, SolidarityCard y EmergencyCard para los listados. SOSButton, OfflineBanner y StatusBadge para acciones y estados. MessageBubble y ChatInput para conversaciones.
+AppSearchBar para búsqueda. LocationChip, RatingStars, ServiceCard, SolidarityCard y EmergencyCard para los listados. SOSButton, OfflineBanner y StatusBadge para acciones y estados. MessageBubble y ChatInput para conversaciones.

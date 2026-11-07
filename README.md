@@ -1,5 +1,7 @@
 # VeciPulso
 
+En «Pruebas de desarrollo», al pie de Inicio, puedes probar el registro con DNI autodeclarado y nombre, crear y confirmar un PIN de seis dígitos o explorar el ingreso con teclado aleatorio. La fase 3 funciona en memoria. Las cuentas y sesiones reales quedan pendientes de la integración con Supabase.
+
 Aplicación de integración vecinal para descubrir servicios, intercambiar favores y coordinar ayuda. El Dashboard está implementado. El buscador filtra tres servicios locales de ejemplo por nombre o descripción. Las valoraciones, los distintivos y las distancias son ilustrativos. La ubicación sigue por configurar y la integración con el backend queda pendiente.
 
 ## Ejecutar en Windows
