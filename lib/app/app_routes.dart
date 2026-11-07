@@ -10,7 +10,7 @@ enum AppRoute {
   expanded('/favores/ampliado', 'Muro ampliado'),
   details('/publicar/detalles', 'Detalles de publicación'),
   success('/publicar/exito', 'Publicación preparada'),
-  sos('/sos', 'Modo SOS'),
+  sos('/sos/tablero', 'Modo SOS'),
   brigades('/sos/brigadas', 'Brigadas'),
   help('/sos/confirmacion', 'Confirmación de ayuda'),
   actions('/sos/acciones', 'Acciones SOS'),

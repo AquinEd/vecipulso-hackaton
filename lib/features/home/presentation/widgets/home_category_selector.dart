@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hackaton_veci_pulso/app/app_routes.dart';
-import 'package:go_router/go_router.dart';
+
+import '../../../../app/app_navigation.dart';
 
 class HomeCategorySelector extends StatelessWidget {
   const HomeCategorySelector({super.key});
@@ -9,7 +10,7 @@ class HomeCategorySelector extends StatelessWidget {
     final services = Semantics(
       selected: true,
       child: FilledButton(
-        onPressed: () => context.push(AppRoute.services.path),
+        onPressed: () => AppNavigation.open(context, AppRoute.services),
         child: Text(AppRoute.services.title, textAlign: TextAlign.center),
       ),
     );
@@ -19,7 +20,7 @@ class HomeCategorySelector extends StatelessWidget {
         backgroundColor: Theme.of(context).colorScheme.surface,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
       ),
-      onPressed: () => context.push(AppRoute.solidarity.path),
+      onPressed: () => AppNavigation.open(context, AppRoute.solidarity),
       child: Text(AppRoute.solidarity.title, textAlign: TextAlign.center),
     );
     return LayoutBuilder(

@@ -173,45 +173,44 @@ void main() {
     );
   });
 
-  testWidgets(
-    'El Drawer devuelve a la pestaña de origen y las cinco pestañas abren',
-    (t) async {
-      final router = createRouter();
-      addTearDown(router.dispose);
-      await t.pumpWidget(MaterialApp.router(routerConfig: router));
-      await t.pumpAndSettle();
-      for (final tab in [
-        'Mapa',
-        'Publicar',
-        'Mensajes',
-        'Perfil',
-        'Inicio',
-        'Mapa',
-      ]) {
-        await t.tap(
-          find.descendant(
-            of: find.byType(NavigationBar),
-            matching: find.text(tab),
-          ),
-        );
-        await t.pumpAndSettle();
-      }
-      await t.tap(find.byTooltip('Abrir menú'));
-      await t.pumpAndSettle();
+  testWidgets('El Drawer vuelve al Dashboard y las cinco pestañas abren', (
+    t,
+  ) async {
+    final router = createRouter();
+    addTearDown(router.dispose);
+    await t.pumpWidget(MaterialApp.router(routerConfig: router));
+    await t.pumpAndSettle();
+    for (final tab in [
+      'Mapa',
+      'Publicar',
+      'Mensajes',
+      'Perfil',
+      'Inicio',
+      'Mapa',
+    ]) {
       await t.tap(
         find.descendant(
-          of: find.byType(Drawer),
-          matching: find.text('Servicios del Barrio'),
+          of: find.byType(NavigationBar),
+          matching: find.text(tab),
         ),
       );
       await t.pumpAndSettle();
-      expect(find.text('Servicios de Proximidad'), findsOneWidget);
-      await t.tap(find.byType(BackButton));
-      await t.pumpAndSettle();
-      expect(router.state.uri.path, '/mapa');
-      expect(find.byType(NavigationBar), findsOneWidget);
-    },
-  );
+    }
+    await t.tap(find.byTooltip('Abrir menú'));
+    await t.pumpAndSettle();
+    await t.tap(
+      find.descendant(
+        of: find.byType(Drawer),
+        matching: find.text('Servicios del Barrio'),
+      ),
+    );
+    await t.pumpAndSettle();
+    expect(find.text('Servicios de Proximidad'), findsOneWidget);
+    await t.tap(find.byType(BackButton));
+    await t.pumpAndSettle();
+    expect(router.state.uri.path, '/inicio');
+    expect(find.byType(NavigationBar), findsOneWidget);
+  });
 
   testWidgets('Ruta directa, teclado y texto grande en 320 px', (t) async {
     t.view.devicePixelRatio = 1;

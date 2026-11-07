@@ -98,11 +98,6 @@ void main() {
     expect(router.state.uri.path, '/favores');
     await t.tap(find.widgetWithText(ChoiceChip, 'Dono'));
     await t.pumpAndSettle();
-    await t.tap(find.text('Publicar'));
-    await t.pumpAndSettle();
-    expect(find.text('¿Qué quieres publicar?'), findsOneWidget);
-    await t.tap(find.text('Inicio'));
-    await t.pumpAndSettle();
     await t.tap(find.text('Explorar economía solidaria'));
     await t.pumpAndSettle();
     expect(find.text('Todo sin dinero: juntos nos apoyamos'), findsOneWidget);
@@ -122,6 +117,16 @@ void main() {
       t.widget<ChoiceChip>(find.widgetWithText(ChoiceChip, 'Dono')).selected,
       isTrue,
     );
+    await t.tap(find.text('Publicar'));
+    await t.pumpAndSettle();
+    expect(find.text('¿Qué quieres publicar?'), findsOneWidget);
+    await t.tap(find.text('Inicio'));
+    await t.pumpAndSettle();
+    expect(find.text('¡Hola, vecino!'), findsOneWidget);
+    await t.tap(find.byTooltip('Abrir menú'));
+    await t.pumpAndSettle();
+    await t.tap(find.widgetWithText(ListTile, 'Cadena de Favores'));
+    await t.pumpAndSettle();
     await t.tap(find.byType(BackButton));
     await t.pumpAndSettle();
     expect(router.state.uri.path, '/inicio');
