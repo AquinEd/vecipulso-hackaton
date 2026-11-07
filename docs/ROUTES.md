@@ -1,6 +1,6 @@
 # Navegación
 
-La aplicación comienza en `/inicio`. Las cinco pestañas conservan su navegador. El menú y los accesos de Inicio abren destinos secundarios sobre la pestaña actual. Las rutas profundas admiten entrada directa. Solo Inicio y el menú tienen interfaz propia en esta fase.
+La aplicación comienza en `/inicio`. Las cinco pestañas conservan su navegador. El menú y los accesos de Inicio abren destinos secundarios sobre la pestaña actual. Las rutas profundas admiten entrada directa. El Dashboard implementado abre el directorio y el muro desde sus categorías. Cada tarjeta abre `/servicios/:id` con su identificador de demostración. Volver recupera la búsqueda local.
 
 | Referencia en `design/references/screens/` | Destino | Ruta | Archivo previsto bajo `lib/` |
 |---|---|---|---|

@@ -6,7 +6,7 @@ void main() {
   testWidgets('Inicio presenta cinco pestañas y el acceso SOS', (tester) async {
     await tester.pumpWidget(const VeciPulsoApp());
     await tester.pumpAndSettle();
-    expect(find.text('Ubicación pendiente'), findsOneWidget);
+    expect(find.text('Ubicación por configurar'), findsOneWidget);
     for (final title in ['Inicio', 'Mapa', 'Publicar', 'Mensajes', 'Perfil']) {
       expect(
         find.descendant(
@@ -40,7 +40,7 @@ void main() {
     expect(find.text('Funcionalidad en preparación.'), findsOneWidget);
     await tester.tap(find.byType(BackButton));
     await tester.pumpAndSettle();
-    expect(find.text('Tu barrio'), findsOneWidget);
+    expect(find.text('¡Hola, vecino!'), findsOneWidget);
   });
   testWidgets('Cambiar de pestaña mantiene una sola barra', (tester) async {
     await tester.pumpWidget(const VeciPulsoApp());
@@ -51,6 +51,6 @@ void main() {
     expect(find.byType(NavigationBar), findsOneWidget);
     await tester.tap(find.text('Inicio'));
     await tester.pumpAndSettle();
-    expect(find.text('Tu barrio'), findsOneWidget);
+    expect(find.text('¡Hola, vecino!'), findsOneWidget);
   });
 }

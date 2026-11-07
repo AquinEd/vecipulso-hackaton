@@ -1,6 +1,6 @@
 # Próximas fases
 
-La siguiente entrega será el Dashboard a partir de 02_Inicio_Dashboard.png. Las prioridades posteriores se definirán durante la hackathon.
+El Dashboard de la referencia 02 está implementado con búsqueda local. Quedan pendientes los proveedores registrados, sus valoraciones y la ubicación autorizada. Las prioridades posteriores se definirán durante la hackathon.
 
 | Área | Trabajo previsto |
 |---|---|
