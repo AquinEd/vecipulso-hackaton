@@ -6,16 +6,22 @@ import '../../../core/constants/app_assets.dart';
 import '../common/app_asset_image.dart';
 
 class GuidePage extends StatelessWidget {
-  const GuidePage({super.key, required this.title, required this.children});
+  const GuidePage({
+    super.key,
+    required this.title,
+    required this.children,
+    this.fallback = AppRoute.home,
+  });
+  final AppRoute fallback;
   final String title;
   final List<Widget> children;
 
-  static void close(BuildContext context) {
+  static void close(BuildContext context, [AppRoute fallback = AppRoute.home]) {
     if (context.canPop()) {
       context.pop();
     } else {
       // The router redirects Inicio to the dashboard when SOS is active.
-      context.go(AppRoute.home.path);
+      context.go(fallback.path);
     }
   }
 
@@ -23,7 +29,7 @@ class GuidePage extends StatelessWidget {
   Widget build(BuildContext context) => PopScope(
     canPop: context.canPop(),
     onPopInvokedWithResult: (didPop, _) {
-      if (!didPop) close(context);
+      if (!didPop) close(context, fallback);
     },
     child: Scaffold(
       appBar: AppBar(
@@ -43,7 +49,7 @@ class GuidePage extends StatelessWidget {
             children: [
               Row(
                 children: [
-                  BackButton(onPressed: () => close(context)),
+                  BackButton(onPressed: () => close(context, fallback)),
                   Expanded(
                     child: Semantics(
                       header: true,

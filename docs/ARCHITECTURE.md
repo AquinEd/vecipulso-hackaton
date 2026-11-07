@@ -1,5 +1,7 @@
 # Arquitectura
 
+La fase 17 conserva las ramas Mensajes y Perfil del IndexedStack. `DemoConversation` comparte el catálogo entre lista y chat y reutiliza la normalización y los nombres públicos. `DemoNotice` describe los avisos ilustrativos. El router mantiene en memoria sus identificadores leídos durante la sesión. El filtro pertenece a cada vista. El perfil es ficticio y está aislado del formulario de registro. Las pantallas secundarias reutilizan `GuidePage`, el tema y las preferencias de accesibilidad.
+
 La ruta pendiente crea y libera su propio `OfflineDemoController` con provider. El controlador admite cinco estados en memoria: `offline`, `pending`, `sending`, `synchronized` y `error`. Recuperar la conexión simulada lleva de pendiente a enviando. El usuario elige el resultado y puede reintentar desde error o restablecer desde cualquier estado. La ruta de resultado recibe el escenario al abrirse desde el flujo y presenta una vista previa al abrirse directamente. Ambas pantallas reutilizan GuidePage, el tema y las preferencias globales. El flujo está aislado de publicaciones y reportes SOS.
 
 Los marcadores de posición fija del mapa ilustrativo del seguimiento conservan su área de 48 × 48 píxeles lógicos para respetar las coordenadas del recorrido.

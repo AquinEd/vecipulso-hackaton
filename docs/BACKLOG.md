@@ -12,7 +12,7 @@ El Dashboard de la referencia 02 está implementado con búsqueda local. Quedan 
 | SOS | Implementado el tablero 08 frontend: encabezado rojo de demostración, cinco reportes ficticios, prioridades, detalles de consulta, avisos informativos, lista ampliable, estado temporal normal/SOS, navegación principal por reemplazo, pestañas según modo, salida explícita y mapa SOS ilustrativo de fase 13 con pruebas de Atrás Android. Implementada la pantalla 18: Centro de Ayuda Vecinal, tres acciones, trece categorías, selección temporal, resúmenes de demostración, accesos desde el tablero y pruebas de navegación y accesibilidad. Pendientes backend, Supabase, reportes reales, GPS, solicitud y ofrecimiento real de ayuda, envío y confirmación real de alertas, recursos reales, coordinación de voluntarios, brigadas reales y contactos verificados, aceptación real de voluntarios, seguimiento y chat reales, notificaciones y sincronización offline. |
 | Offline | Fase 16 implementada visualmente con cinco estados, resultado y reintento manuales. Pendientes la persistencia local (SQLite), detección de internet, cola con idempotencia y sincronización real con un servidor. |
 | Accesibilidad | Fase 15 implementada. Tutorial consultable y cuatro preferencias en memoria. Queda pendiente integrar almacenamiento para conservar los ajustes entre sesiones. |
-| Cuenta | Perfil propio, preferencias y notificaciones. |
+| Cuenta | Fase 17 completada en frontend con perfil de demostración, configuración, centro de avisos, lista de mensajes y chat visual. Pendientes Supabase, autenticación real, perfiles y publicaciones persistentes, mensajería real, notificaciones push, GPS y sincronización offline real. |
 
 ## Chat
 
