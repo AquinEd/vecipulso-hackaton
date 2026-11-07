@@ -31,6 +31,8 @@ class AppDrawer extends StatelessWidget {
             (AppRoute.tutorial, Icons.menu_book_outlined),
             (AppRoute.access, Icons.accessibility_new),
             (AppRoute.pending, Icons.wifi_off),
+            (AppRoute.messages, Icons.forum_outlined),
+            (AppRoute.profile, Icons.person_outline),
           ])
             ListTile(
               leading: Icon(icon),
@@ -47,7 +49,9 @@ class AppDrawer extends StatelessWidget {
                   : null,
               onTap: () {
                 Scaffold.of(context).closeDrawer();
-                if (route == AppRoute.access ||
+                if (route == AppRoute.settings ||
+                    route == AppRoute.notifications ||
+                    route == AppRoute.access ||
                     route == AppRoute.tutorial ||
                     route == AppRoute.pending) {
                   context.push(route.path);

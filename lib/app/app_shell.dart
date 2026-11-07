@@ -32,8 +32,6 @@ class AppShell extends StatelessWidget {
       AppRoute.solidarity.path,
       AppRoute.sos.path,
       AppRoute.riskMap.path,
-      AppRoute.notifications.path,
-      AppRoute.settings.path,
     ].contains(path);
     void back() {
       if (path == AppRoute.riskMap.path || path == AppRoute.help.path) {
@@ -57,11 +55,7 @@ class AppShell extends StatelessWidget {
               : null,
           foregroundColor: emergency ? Colors.white : null,
           automaticallyImplyLeading: false,
-          leading:
-              emergency ||
-                  path == AppRoute.help.path ||
-                  path == AppRoute.notifications.path ||
-                  path == AppRoute.settings.path
+          leading: emergency || path == AppRoute.help.path
               ? BackButton(onPressed: back)
               : null,
           title: sos && path != AppRoute.brigades.path

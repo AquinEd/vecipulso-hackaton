@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:hackaton_veci_pulso/app/accessibility_controller.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hackaton_veci_pulso/app/app_mode_controller.dart';
@@ -34,7 +36,10 @@ Future<(GoRouter, AppModeController)> start(WidgetTester t) async {
     mode.dispose();
   });
   await t.pumpWidget(
-    MaterialApp.router(theme: AppTheme.light, routerConfig: router),
+    ChangeNotifierProvider(
+      create: (_) => AccessibilityController(),
+      child: MaterialApp.router(theme: AppTheme.light, routerConfig: router),
+    ),
   );
   await t.pumpAndSettle();
   return (router, mode);
@@ -46,7 +51,6 @@ void main() {
     ['Servicios del Barrio', 'Cadena de Favores'],
     ['Servicios del Barrio', 'Modo SOS'],
     ['Servicios del Barrio', 'Servicios del Barrio', 'Servicios del Barrio'],
-    ['Notificaciones', 'Configuración'],
   ]) {
     for (final systemBack in [false, true]) {
       testWidgets(
@@ -104,8 +108,8 @@ void main() {
       }
       for (final (label, content) in [
         ('Publicar', '¿Qué quieres publicar?'),
-        ('Mensajes', 'Funcionalidad en preparación.'),
-        ('Perfil', 'Funcionalidad en preparación.'),
+        ('Mensajes', 'Conversaciones de demostración'),
+        ('Perfil', 'Mi perfil'),
       ]) {
         await tab(t, label);
         expect(find.text(content), findsOneWidget);

@@ -52,7 +52,7 @@ void main() {
     await tester.pumpAndSettle();
     await tester.tap(find.text('Mensajes'));
     await tester.pumpAndSettle();
-    expect(find.text('Funcionalidad en preparación.'), findsOneWidget);
+    expect(find.text('Conversaciones de demostración'), findsOneWidget);
     expect(find.byType(NavigationBar), findsOneWidget);
     await tester.tap(find.text('Inicio'));
     await tester.pumpAndSettle();

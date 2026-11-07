@@ -1,10 +1,12 @@
 # Navegación
 
+El Drawer abre Mensajes y Perfil como pestañas. Notificaciones y Configuración se apilan sobre el origen desde Perfil o el Drawer. El chat se apila desde Mensajes. Sin historial, el chat vuelve a Mensajes y las otras dos pantallas vuelven a Inicio según el modo activo.
+
 «Estados offline (demo)» apila `/offline/pendiente` desde el Drawer. Elegir éxito abre `/offline/sincronizado`; su entrada directa muestra una vista previa. Atrás conserva el origen y, sin historial, vuelve a Inicio o al Tablero según el modo. «Ir al tablero de ayuda» abre `/sos/tablero` y activa SOS mediante la navegación existente.
 
 El Drawer apila `/tutorial` y `/configuracion/accesibilidad` sobre el origen. Ambas son pantallas enfocadas con un encabezado y sin barra inferior. Atrás recupera el destino anterior. Si se abre una ruta directamente, Atrás conduce a Inicio o al Tablero SOS según el modo vigente. Finalizar el tutorial usa la misma salida.
 
-El Drawer y las categorías del Dashboard cambian destinos principales mediante `AppNavigation.open` y `go()`, cerrando el Drawer antes de navegar. Servicios, Cadena de Favores, Notificaciones y Configuración sustituyen la sección anterior. Atrás vuelve a Inicio sin recorrer secciones previas. Los detalles de proveedores, el muro ampliado y los pasos de formularios conservan `push()` para volver al origen inmediato.
+El Drawer y las categorías del Dashboard cambian destinos principales mediante `AppNavigation.open` y `go()`, cerrando el Drawer antes de navegar. Servicios y Cadena de Favores sustituyen la sección anterior. Atrás vuelve a Inicio sin recorrer secciones previas. Los detalles de proveedores, el muro ampliado y los pasos de formularios conservan `push()` para volver al origen inmediato.
 
 En modo normal, Inicio abre `/inicio` (Dashboard) y Mapa abre `/mapa` (recursos). Seleccionar Modo SOS activa el estado temporal y abre `/sos/tablero`; `/sos` mantiene su redirección de compatibilidad. En modo SOS, Inicio abre el tablero y Mapa abre `/sos/mapa` en su propia rama del shell, con una sola barra inferior. El botón «Ver mapa de reportes» usa ese mismo destino sin apilarlo. Publicar, Mensajes y Perfil conservan sus destinos habituales y el estado SOS permanece activo.
 
@@ -46,8 +48,8 @@ La aplicación comienza en `/inicio`. Las cinco pestañas conservan su navegador
 | 22_Calificacion_Visto_Bueno.png | Nueva reseña | `/resenas/nueva` | `features/reviews/presentation/screens/create_review_screen.dart` |
 | 23_Mapa_Alerta_Critica.png | Mapa SOS | `/sos/mapa` | `features/emergency/presentation/screens/emergency_map_screen.dart` |
 | 24_Ayuda_Aceptada_Ruta_Chat.png | Seguimiento de ayuda | `/sos/seguimiento` | `features/emergency/presentation/screens/help_tracking_screen.dart` |
-| — | Mensajes | `/mensajes` | `features/chat/presentation/screens/conversations_screen.dart` |
-| — | Conversación | `/mensajes/:id` | `features/chat/presentation/screens/chat_screen.dart` |
+| — | Mensajes | `/mensajes` | `features/messages/presentation/screens/messages_screen.dart` |
+| — | Conversación | `/mensajes/:id` | `features/messages/presentation/screens/chat_screen.dart` |
 | — | Perfil | `/perfil` | `features/profile/presentation/screens/profile_screen.dart` |
 | — | Notificaciones | `/notificaciones` | `features/notifications/presentation/screens/notifications_screen.dart` |
 | — | Configuración | `/configuracion` | `features/settings/presentation/screens/settings_screen.dart` |

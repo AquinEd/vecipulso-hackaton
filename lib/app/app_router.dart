@@ -1,5 +1,11 @@
 import 'package:provider/provider.dart';
 
+import '../features/settings/presentation/screens/settings_screen.dart';
+import '../features/notifications/presentation/screens/notifications_screen.dart';
+import '../features/profile/presentation/screens/profile_screen.dart';
+import '../features/messages/presentation/screens/messages_screen.dart';
+import '../features/messages/presentation/screens/chat_screen.dart';
+
 import '../features/offline/presentation/controllers/offline_demo_controller.dart';
 import '../features/offline/presentation/screens/pending_sync_screen.dart';
 import '../features/offline/presentation/screens/synchronized_screen.dart';
@@ -43,6 +49,7 @@ import '../features/publications/presentation/screens/publication_success_screen
 
 GoRouter createRouter({AppModeController? modeController}) {
   final controller = PublicationDraftController();
+  final readNoticeIds = <String>{};
   final mode = modeController ?? AppModeController();
   return GoRouter(
     redirect: (_, state) {
@@ -103,7 +110,9 @@ GoRouter createRouter({AppModeController? modeController}) {
                         ? AppModeDestination(map: tab == AppRoute.map)
                         : tab == AppRoute.publish
                         ? PublicationTypeScreen(controller: controller)
-                        : FeaturePlaceholderScreen(title: tab.title),
+                        : tab == AppRoute.messages
+                        ? const MessagesScreen()
+                        : const ProfileScreen(),
                   ),
                 ),
                 if (tab == AppRoute.home || tab == AppRoute.map)
@@ -147,15 +156,6 @@ GoRouter createRouter({AppModeController? modeController}) {
                       ),
                     ),
                   ),
-                  for (final route in [
-                    AppRoute.notifications,
-                    AppRoute.settings,
-                  ])
-                    GoRoute(
-                      path: route.path,
-                      builder: (_, _) =>
-                          FeaturePlaceholderScreen(title: route.title),
-                    ),
 
                   GoRoute(
                     path: AppRoute.solidarity.path,
@@ -197,8 +197,7 @@ GoRouter createRouter({AppModeController? modeController}) {
           AppRoute.tracking,
           AppRoute.brigades,
           AppRoute.riskMap,
-          AppRoute.notifications,
-          AppRoute.settings,
+
           AppRoute.expanded,
           AppRoute.services,
           AppRoute.provider,
@@ -221,6 +220,11 @@ GoRouter createRouter({AppModeController? modeController}) {
                   ? state.extra as OfflineDemoController
                   : null,
             ),
+            AppRoute.chat => ChatScreen(id: state.pathParameters['id']!),
+            AppRoute.notifications => NotificationsScreen(
+              readIds: readNoticeIds,
+            ),
+            AppRoute.settings => const SettingsScreen(),
             AppRoute.tutorial => const TutorialScreen(),
             AppRoute.access => const AccessibilityScreen(),
             AppRoute.review => CreateReviewScreen(
