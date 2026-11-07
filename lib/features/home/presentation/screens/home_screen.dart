@@ -1,69 +1,111 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hackaton_veci_pulso/app/app_routes.dart';
-import 'package:hackaton_veci_pulso/shared/widgets/common/app_section_header.dart';
+import 'package:hackaton_veci_pulso/features/home/data/dashboard_demo_data.dart';
+import 'package:hackaton_veci_pulso/features/services/models/service_preview.dart';
 import 'package:hackaton_veci_pulso/shared/widgets/buttons/app_button.dart';
-import 'package:hackaton_veci_pulso/shared/widgets/cards/app_card.dart';
-import 'package:hackaton_veci_pulso/core/theme/app_spacing.dart';
-import 'package:hackaton_veci_pulso/core/theme/app_colors.dart';
-import 'package:hackaton_veci_pulso/core/theme/app_radius.dart';
+import 'package:hackaton_veci_pulso/shared/widgets/common/app_section_header.dart';
+import 'package:hackaton_veci_pulso/features/home/presentation/widgets/home_greeting.dart';
+import 'package:hackaton_veci_pulso/features/home/presentation/widgets/home_hero_banner.dart';
+import 'package:hackaton_veci_pulso/features/home/presentation/widgets/home_category_selector.dart';
+import 'package:hackaton_veci_pulso/features/home/presentation/widgets/nearby_service_card.dart';
 
-class HomeScreen extends StatelessWidget {
-  const HomeScreen({super.key});
+class HomeScreen extends StatefulWidget {
+  const HomeScreen({super.key, this.services = dashboardDemoData});
+  final List<ServicePreview> services;
   @override
-  Widget build(BuildContext context) => ListView(
-    padding: const EdgeInsets.all(AppSpacing.medium),
-    children: [
-      const AppSectionHeader(title: 'Tu barrio'),
-      const ListTile(
-        contentPadding: EdgeInsets.zero,
-        leading: Icon(Icons.location_on_outlined),
-        title: Text('Ubicación pendiente'),
-      ),
-      Container(
-        padding: const EdgeInsets.all(AppSpacing.large),
-        decoration: BoxDecoration(
-          color: AppColors.primary,
-          borderRadius: BorderRadius.circular(AppRadius.card),
-        ),
-        child: const Text(
-          'Servicios, favores y apoyo cerca de ti',
-          style: TextStyle(
-            color: Colors.white,
-            fontSize: 25,
-            fontWeight: FontWeight.bold,
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+  final search = TextEditingController();
+  @override
+  void dispose() {
+    search.dispose();
+    super.dispose();
+  }
+
+  String normalize(String text) => text
+      .trim()
+      .toLowerCase()
+      .replaceAll('á', 'a')
+      .replaceAll('é', 'e')
+      .replaceAll('í', 'i')
+      .replaceAll('ó', 'o')
+      .replaceAll('ú', 'u');
+  @override
+  Widget build(BuildContext context) {
+    final query = normalize(search.text);
+    final matches = widget.services.where(
+      (s) => normalize('${s.name} ${s.description}').contains(query),
+    );
+    return ListView(
+      padding: const EdgeInsets.all(16),
+      keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
+      children: [
+        const HomeGreeting(),
+        const SizedBox(height: 16),
+        const HomeHeroBanner(),
+        const SizedBox(height: 16),
+        const HomeCategorySelector(),
+        const SizedBox(height: 12),
+        TextField(
+          controller: search,
+          onChanged: (_) => setState(() {}),
+          textInputAction: TextInputAction.search,
+          onTapOutside: (_) => FocusScope.of(context).unfocus(),
+          decoration: InputDecoration(
+            hintText: 'Busca servicios o productos...',
+            prefixIcon: const Icon(Icons.search),
+            suffixIcon: search.text.isEmpty
+                ? null
+                : IconButton(
+                    tooltip: 'Borrar búsqueda',
+                    icon: const Icon(Icons.clear),
+                    onPressed: () => setState(search.clear),
+                  ),
           ),
         ),
-      ),
-      const SizedBox(height: AppSpacing.large),
-      const AppSectionHeader(title: 'Explora tu barrio'),
-      const SizedBox(height: AppSpacing.small),
-      AppCard(
-        child: Column(
+        const SizedBox(height: 20),
+        const Wrap(
+          spacing: 8,
+          runSpacing: 2,
+          crossAxisAlignment: WrapCrossAlignment.center,
           children: [
-            for (final (route, icon) in const [
-              (AppRoute.services, Icons.storefront_outlined),
-              (AppRoute.solidarity, Icons.volunteer_activism_outlined),
-              (AppRoute.map, Icons.map_outlined),
-            ])
-              ListTile(
-                leading: Icon(icon, color: AppColors.primary),
-                title: Text(route.title),
-                trailing: const Icon(Icons.chevron_right),
-                onTap: () => route == AppRoute.map
-                    ? context.go(route.path)
-                    : context.push(route.path),
-              ),
+            AppSectionHeader(title: 'Servicios cercanos'),
+            Text('Datos de ejemplo'),
           ],
         ),
-      ),
-      const SizedBox(height: AppSpacing.medium),
-      AppButton(
-        label: 'Modo SOS',
-        icon: Icons.sos,
-        sos: true,
-        onPressed: () => context.push(AppRoute.sos.path),
-      ),
-    ],
-  );
+        const SizedBox(height: 8),
+        if (matches.isEmpty)
+          const Padding(
+            padding: EdgeInsets.symmetric(vertical: 20),
+            child: Text('No se encontraron servicios para esta búsqueda.'),
+          ),
+        for (final service in matches)
+          Padding(
+            padding: const EdgeInsets.only(bottom: 8),
+            child: NearbyServiceCard(
+              service: service,
+              onTap: () {
+                FocusScope.of(context).unfocus();
+                context.push(
+                  AppRoute.provider.path.replaceFirst(
+                    ':id',
+                    Uri.encodeComponent(service.id),
+                  ),
+                );
+              },
+            ),
+          ),
+        const SizedBox(height: 8),
+        AppButton(
+          label: AppRoute.sos.title,
+          icon: Icons.sos,
+          sos: true,
+          onPressed: () => context.push(AppRoute.sos.path),
+        ),
+      ],
+    );
+  }
 }

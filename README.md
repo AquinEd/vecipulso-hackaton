@@ -1,6 +1,6 @@
 # VeciPulso
 
-Aplicación de integración vecinal para descubrir servicios, intercambiar favores y coordinar ayuda. La fase 1 entrega un inicio provisional navegable, la identidad visual y las bases para construir el Dashboard.
+Aplicación de integración vecinal para descubrir servicios, intercambiar favores y coordinar ayuda. El Dashboard está implementado. El buscador filtra tres servicios locales de ejemplo por nombre o descripción. Las valoraciones, los distintivos y las distancias son ilustrativos. La ubicación sigue por configurar y la integración con el backend queda pendiente.
 
 ## Ejecutar en Windows
 
