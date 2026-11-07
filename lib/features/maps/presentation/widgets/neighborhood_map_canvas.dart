@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../../../shared/widgets/common/illustrated_streets_painter.dart';
 import '../../models/community_map_marker.dart';
 
 class NeighborhoodMapCanvas extends StatelessWidget {
@@ -20,7 +21,7 @@ class NeighborhoodMapCanvas extends StatelessWidget {
         builder: (context, size) => Stack(
           fit: StackFit.expand,
           children: [
-            const CustomPaint(painter: _Streets()),
+            const CustomPaint(painter: IllustratedStreetsPainter()),
             for (final marker in markers)
               Positioned(
                 left: (size.maxWidth * marker.relativeX - 24).clamp(
@@ -74,39 +75,4 @@ class NeighborhoodMapCanvas extends StatelessWidget {
       ),
     ),
   );
-}
-
-class _Streets extends CustomPainter {
-  const _Streets();
-  @override
-  void paint(Canvas canvas, Size size) {
-    canvas.scale(size.width / 740, size.height / 920);
-    canvas.drawColor(const Color(0xffe8f2ed), BlendMode.src);
-    final street = Paint()
-      ..color = Colors.white
-      ..strokeWidth = 11;
-    for (double x = -370; x < 740; x += 74) {
-      canvas.drawLine(Offset(x, 0), Offset(x + 338, 920), street);
-    }
-    for (double y = 0; y < 1100; y += 83) {
-      canvas.drawLine(Offset(0, y), Offset(740, y - 136), street);
-    }
-    final park = Paint()..color = const Color(0xffcfe6cf);
-    for (final center in const [
-      Offset(138, 138),
-      Offset(538, 80),
-      Offset(359, 218),
-      Offset(374, 567),
-      Offset(102, 642),
-      Offset(625, 689),
-    ]) {
-      canvas.drawOval(
-        Rect.fromCenter(center: center, width: 90, height: 66),
-        park,
-      );
-    }
-  }
-
-  @override
-  bool shouldRepaint(_Streets oldDelegate) => false;
 }

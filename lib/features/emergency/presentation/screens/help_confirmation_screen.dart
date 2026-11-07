@@ -10,6 +10,7 @@ import '../../../../shared/widgets/cards/app_card.dart';
 import '../../../services/utils/provider_display_name.dart';
 import '../../data/demo_emergency_actions.dart';
 import '../../models/emergency_action_option.dart';
+import '../../models/confirmation_origin.dart';
 import '../../models/emergency_action_type.dart';
 
 class HelpConfirmationScreen extends StatelessWidget {
@@ -194,6 +195,14 @@ class HelpConfirmationScreen extends StatelessWidget {
                   'Detalles de la ayuda',
                   'Tipo de ayuda: ${support.title}\n$need\n$emergencyDemoLocation\n\nDemostración — solicitud no enviada\nNingún voluntario ha aceptado esta solicitud.',
                 ),
+              ),
+              const SizedBox(height: AppSpacing.small),
+              OutlinedButton(
+                onPressed: () => context.go(
+                  AppRoute.tracking.path,
+                  extra: ConfirmationOrigin(selected?.category),
+                ),
+                child: const Text('Ver simulación de seguimiento'),
               ),
               const SizedBox(height: AppSpacing.small),
               OutlinedButton(
