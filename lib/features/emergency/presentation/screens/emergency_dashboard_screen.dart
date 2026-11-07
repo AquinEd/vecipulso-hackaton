@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+
+import '../../models/emergency_action_type.dart';
 
 import '../../../../app/app_navigation.dart';
 
@@ -21,19 +24,11 @@ class EmergencyDashboardScreen extends StatefulWidget {
 class _EmergencyDashboardScreenState extends State<EmergencyDashboardScreen> {
   bool expanded = false;
 
-  void showNotice(String title, String message) => showDialog<void>(
-    context: context,
-    builder: (dialog) => AlertDialog(
-      title: Text(title),
-      content: Text(message),
-      scrollable: true,
-      actions: [
-        TextButton(
-          onPressed: () => Navigator.pop(dialog),
-          child: const Text('Entendido'),
-        ),
-      ],
-    ),
+  void openActions([EmergencyActionType? action]) => context.go(
+    Uri(
+      path: AppRoute.actions.path,
+      queryParameters: action == null ? null : {'action': action.name},
+    ).toString(),
   );
 
   @override
@@ -149,24 +144,26 @@ class _EmergencyDashboardScreenState extends State<EmergencyDashboardScreen> {
                   const SizedBox(height: 16),
                   const AppSectionHeader(title: 'Acciones rápidas'),
                   const SizedBox(height: 12),
+                  OutlinedButton.icon(
+                    onPressed: () => openActions(),
+                    icon: const Icon(Icons.support_outlined),
+                    label: const Text('Centro de ayuda vecinal'),
+                  ),
+                  const SizedBox(height: 12),
                   LayoutBuilder(
                     builder: (context, constraints) {
                       final request = AppButton(
                         label: 'Solicitar ayuda',
                         icon: Icons.warning_rounded,
                         sos: true,
-                        onPressed: () => showNotice(
-                          'Solicitud de ayuda no disponible todavía',
-                          'Esta función estará disponible cuando se integren el registro de emergencias y el servidor. No se ha enviado ninguna solicitud',
-                        ),
+                        onPressed: () =>
+                            openActions(EmergencyActionType.criticalSupport),
                       );
                       final offer = AppButton(
                         label: 'Ofrecer ayuda',
                         icon: Icons.volunteer_activism_outlined,
-                        onPressed: () => showNotice(
-                          'Ofrecer ayuda estará disponible próximamente',
-                          'Podrás ofrecer recursos y apoyo a otros vecinos cuando se implemente este módulo',
-                        ),
+                        onPressed: () =>
+                            openActions(EmergencyActionType.offerResources),
                       );
                       if (constraints.maxWidth < 400 ||
                           MediaQuery.textScalerOf(context).scale(14) > 18) {

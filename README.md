@@ -1,5 +1,18 @@
 # VeciPulso
 
+La fase 9 implementa el Centro de Ayuda Vecinal en `/sos/acciones`, siguiendo la referencia 18 con widgets Flutter: encabezado rojo, tres tarjetas, selectores y resúmenes locales. Todo el recorrido muestra «DEMOSTRACIÓN — Ninguna acción se enviará» y usa «Ubicación de ejemplo: Barrio Los Álamos».
+
+- Emitir alerta vecinal: Sismo, Incendio, Seguridad y Salud.
+- Solicitar soporte crítico: Persona atrapada, Ayuda médica, Agua o alimentos y Transporte o refugio.
+- Ofrecer ayuda o recursos: Agua, Botiquín, Herramientas, Transporte y Espacio seguro o refugio.
+
+Seleccionar abre un único panel. El resumen requiere una categoría; permite cambiarla y cerrar la demostración. Cancelar, deslizar el panel, Atrás o cerrar descarta la selección. Los estados son «No enviada» o «No registrado». No hay conexiones, persistencia ni cambios en los reportes o el muro.
+
+Desde el Tablero SOS, «Centro de ayuda vecinal» abre las tres acciones; Solicitar y Ofrecer ayuda abren sus selectores correspondientes. Atrás desde acciones siempre vuelve al tablero, incluso en una entrada directa. La vista enfocada oculta la barra inferior y conserva el controlador SOS existente; al regresar vuelve la única barra de cinco pestañas. Salir de SOS restaura Inicio y Mapa normales.
+
+
+Validación de fase 9 (7 de noviembre de 2026): dart format lib test aplicado, flutter pub get completado sin cambios de versión, flutter analyze sin incidencias y 55 pruebas aprobadas. Incluye trece categorías y sus resúmenes a 412 y 320 px con texto al 150 %, cancelación, reapertura limpia, Atrás Android, restauración del modo y conservación del filtro del mapa. flutter devices confirmó emulator-5554; flutter run -d emulator-5554 --no-resident compiló, instaló e inició la versión final en Pixel 6 (Android 17, API 37). Se inspeccionaron visualmente el centro, el selector de alertas y el recorrido Solicitar ayuda → Ayuda médica → resumen No enviada → cerrar, sin desbordamientos visibles. No se enviaron ni registraron acciones reales.
+
 La navegación principal del Drawer y las categorías del Dashboard reemplaza la sección actual; Atrás vuelve al Dashboard sin recorrer otras secciones. Los detalles y formularios conservan su regreso al origen inmediato. Inicio muestra el Dashboard y Mapa muestra los recursos comunitarios en modo normal. Activar Modo SOS cambia Inicio al tablero y Mapa al placeholder «Mapa de Reportes SOS», manteniendo Publicar, Mensajes y Perfil disponibles. El modo permanece activo entre pestañas. «Salir del Modo SOS» o Atrás desde el tablero restaura el Dashboard; Atrás desde el mapa SOS vuelve al tablero. El mapa normal conserva sus filtros al entrar y salir de SOS. El mapa SOS definitivo sigue pendiente.
 
 Validación de la corrección (7 de noviembre de 2026): formato aplicado, dependencias resueltas sin cambios de versión, análisis sin incidencias y 44 pruebas aprobadas. En Pixel 6 (`emulator-5554`, Android 17) se compiló e instaló la app y se verificó Servicios → Cadena de Favores → SOS → Mapa SOS → Inicio SOS → Atrás Android → Dashboard → Mapa normal. Se inspeccionó el placeholder con una sola barra inferior; el registro de errores de Flutter estaba vacío.
@@ -8,7 +21,7 @@ La fase 8 implementa el tablero de emergencia en `/sos/tablero`, accesible desde
 
 Validación inicial de fase 8 (7 de noviembre de 2026): formato de `lib` y `test` aplicado, `flutter pub get` completado, `flutter analyze` sin incidencias y `flutter test` con 31 pruebas aprobadas. `flutter run -d emulator-5554 --no-resident` compiló e instaló la app en Pixel 6 (Android 17, API 37). Se inspeccionaron visualmente el tablero y las acciones tras desplazamiento, sin desbordamientos visibles; el registro de errores de Flutter estaba vacío. El tamaño de 320 px con texto al 150 % se verificó mediante pruebas de widgets.
 
-Solicitar y Ofrecer ayuda muestran avisos informativos. Ver mapa de reportes abre el placeholder del futuro mapa SOS. Se conserva el inicio en `/inicio` y la navegación inferior de cinco pestañas. No existen alertas ni registros reales. Quedan pendientes Supabase, GPS, reportes reales, solicitudes y ofrecimientos de ayuda, confirmación de alertas, mapa SOS, brigadas, seguimiento, notificaciones, sincronización offline y chat de emergencia. `test/emergency_dashboard_test.dart` verifica la interfaz, las interacciones y el diseño a 320 px con texto al 150 %, junto con las pruebas anteriores.
+Solicitar y Ofrecer ayuda abren los selectores locales del Centro de Ayuda Vecinal (fase 9). Ver mapa de reportes abre el placeholder del futuro mapa SOS. Se conserva el inicio en `/inicio` y la navegación inferior de cinco pestañas. No existen alertas ni registros reales. Quedan pendientes Supabase, GPS, reportes reales, solicitudes y ofrecimientos de ayuda, confirmación de alertas, mapa SOS, brigadas, seguimiento, notificaciones, sincronización offline y chat de emergencia. `test/emergency_dashboard_test.dart` verifica la interfaz, las interacciones y el diseño a 320 px con texto al 150 %, junto con las pruebas anteriores.
 
 «Servicios del Barrio» abre el directorio local de cinco profesionales. La búsqueda admite nombres, oficios y descripciones sin tildes. Los límites de 500 m y 1 km se combinan con la valoración mínima de cuatro estrellas. Cada ficha muestra los trabajos y reseñas ilustrativos disponibles. Llamar y solicitar servicio muestran avisos informativos. Las pruebas de directorio y perfil se ejecutan con `flutter test`.
 

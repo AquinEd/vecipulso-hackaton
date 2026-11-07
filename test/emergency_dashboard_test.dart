@@ -112,22 +112,14 @@ void main() {
       );
       router.go('/sos/tablero');
       await t.pumpAndSettle();
-      for (final (button, title, message) in [
-        (
-          'Solicitar ayuda',
-          'Solicitud de ayuda no disponible todavía',
-          'Esta función estará disponible cuando se integren el registro de emergencias y el servidor. No se ha enviado ninguna solicitud',
-        ),
-        (
-          'Ofrecer ayuda',
-          'Ofrecer ayuda estará disponible próximamente',
-          'Podrás ofrecer recursos y apoyo a otros vecinos cuando se implemente este módulo',
-        ),
+      for (final (button, title) in [
+        ('Solicitar ayuda', 'Tipo de necesidad'),
+        ('Ofrecer ayuda', 'Tipo de recurso'),
       ]) {
         await tap(t, find.text(button));
         expect(find.text(title), findsOneWidget);
-        expect(find.text(message), findsOneWidget);
-        await tap(t, find.text('Entendido'));
+        await tap(t, find.text('Cancelar'));
+        await tap(t, find.byType(BackButton));
         expect(find.byType(EmergencyReportCard), findsNWidgets(3));
       }
       await tap(t, find.text('Ver mapa de reportes'));

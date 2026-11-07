@@ -49,3 +49,7 @@ La aplicación comienza en `/inicio`. Las cinco pestañas conservan su navegador
 | — | Configuración | `/configuracion` | `features/settings/presentation/screens/settings_screen.dart` |
 
 La pestaña Mapa abre `/mapa` dentro del shell. Cada punto abre un panel de detalles. Ver proveedor apila el perfil existente del comercio y volver recupera el mapa con sus filtros.
+
+Fase 9: `/sos/acciones` implementa el Centro de Ayuda Vecinal (referencia 18). Admite `?action=neighborAlert`, `?action=criticalSupport` y `?action=offerResources` para abrir un selector al entrar. Un valor ausente o desconocido muestra el centro sin panel. Solicitar ayuda usa `criticalSupport` y Ofrecer ayuda usa `offerResources`.
+
+El tablero abre acciones con go(), reemplazando el destino. Acciones es una vista enfocada dentro de la rama Inicio del shell, sin barra inferior; usa el mismo controlador SOS y conserva el estado de las otras ramas. Atrás Android y el botón Atrás vuelven a `/sos/tablero` sin recorrer Servicios u otras secciones. Con un panel abierto, Atrás primero cierra el panel. Salir del Modo SOS desactiva el modo y abre `/inicio`. El tablero recupera su única barra inferior; Inicio y Mapa mantienen las reglas de la fase 8. Las categorías y los resúmenes son estados internos del panel, sin nuevas rutas.
