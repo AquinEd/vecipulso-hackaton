@@ -39,6 +39,11 @@ class EmergencyActionSummary extends StatelessWidget {
         onPressed: onChange,
         child: const Text('Cambiar selección'),
       ),
+      if (action.type == EmergencyActionType.criticalSupport)
+        FilledButton(
+          onPressed: () => Navigator.pop(context, option.category),
+          child: const Text('Ver confirmación visual (demo)'),
+        ),
       const SizedBox(height: 8),
       FilledButton(
         onPressed: () => Navigator.pop(context),
