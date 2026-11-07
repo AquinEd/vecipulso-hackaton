@@ -15,6 +15,7 @@ class AppTextField extends StatelessWidget {
     this.maxLength,
     this.next = false,
     this.onSubmitted,
+    this.suffixIcon,
   });
   final TextEditingController controller;
   final String label, hint;
@@ -26,6 +27,7 @@ class AppTextField extends StatelessWidget {
   final int? maxLength;
   final bool next;
   final VoidCallback? onSubmitted;
+  final Widget? suffixIcon;
   @override
   Widget build(BuildContext context) => TextFormField(
     controller: controller,
@@ -44,6 +46,7 @@ class AppTextField extends StatelessWidget {
         : TextInputAction.done,
     onFieldSubmitted: onSubmitted == null ? null : (_) => onSubmitted!(),
     decoration: InputDecoration(
+      suffixIcon: suffixIcon,
       labelText: label,
       hintText: hint,
       floatingLabelBehavior: FloatingLabelBehavior.always,

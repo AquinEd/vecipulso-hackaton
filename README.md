@@ -1,5 +1,14 @@
 # VeciPulso
 
+La fase 10 implementa Grupos de Apoyo y Brigadas en `/sos/brigadas`, siguiendo la referencia 09 con widgets Flutter y estilo claro. El Tablero SOS ofrece «Grupos y Brigadas». La pantalla conserva el controlador SOS y la única barra inferior de cinco pestañas; Atrás de interfaz o Android vuelve al tablero, también desde una entrada directa. La app sigue iniciando en `/inicio`.
+
+Los cuatro grupos ficticios son Brigada Los Álamos (cuadras 1–5, 12 integrantes), Grupo El Progreso (6–10, 8), Equipo Salud Vecinal (11–15, 6) y Movilidad Solidaria (16–20, 11). Todos, Brigadas y Voluntarios son filtros excluyentes combinados con búsqueda local por nombre, categoría, sector y cada cuadra del intervalo, ignorando mayúsculas y tildes. El estado vacío permite restablecer búsqueda y filtros. «Contacto directo» abre un diálogo con el nombre del grupo, «Contacto no disponible todavía» y «Entendido». La pantalla indica «Grupos de demostración · Contactos no disponibles»; no realiza comunicaciones ni registros.
+
+Pendientes: Supabase, brigadas reales, identificación de miembros, contactos verificados, chat y llamadas, registro de voluntarios, coordinación de ayuda, notificaciones, GPS y sincronización offline. Las pantallas 10, 23 (mapa definitivo) y 24 siguen pendientes.
+
+
+Validación de fase 10 (7 de noviembre de 2026): `dart format lib test` aplicado, `flutter pub get` completado sin cambios de versión, `flutter analyze` sin incidencias y `flutter test` con 63 pruebas aprobadas (55 anteriores y 8 nuevas). Las nuevas pruebas cubren filtros, búsqueda, sectores, contacto y navegación, además de 320/412 px, texto al 150 %, teclado y 50 grupos. `flutter devices` confirmó `emulator-5554`; `flutter run -d emulator-5554 --no-resident` compiló, instaló e inició la app en Pixel 6, Android 17/API 37. Se inspeccionaron pantalla, filtro Voluntarios y diálogo de Movilidad Solidaria, con una sola barra inferior y sin desbordamientos visibles.
+
 La fase 9 implementa el Centro de Ayuda Vecinal en `/sos/acciones`, siguiendo la referencia 18 con widgets Flutter: encabezado rojo, tres tarjetas, selectores y resúmenes locales. Todo el recorrido muestra «DEMOSTRACIÓN — Ninguna acción se enviará» y usa «Ubicación de ejemplo: Barrio Los Álamos».
 
 - Emitir alerta vecinal: Sismo, Incendio, Seguridad y Salud.
@@ -21,7 +30,7 @@ La fase 8 implementa el tablero de emergencia en `/sos/tablero`, accesible desde
 
 Validación inicial de fase 8 (7 de noviembre de 2026): formato de `lib` y `test` aplicado, `flutter pub get` completado, `flutter analyze` sin incidencias y `flutter test` con 31 pruebas aprobadas. `flutter run -d emulator-5554 --no-resident` compiló e instaló la app en Pixel 6 (Android 17, API 37). Se inspeccionaron visualmente el tablero y las acciones tras desplazamiento, sin desbordamientos visibles; el registro de errores de Flutter estaba vacío. El tamaño de 320 px con texto al 150 % se verificó mediante pruebas de widgets.
 
-Solicitar y Ofrecer ayuda abren los selectores locales del Centro de Ayuda Vecinal (fase 9). Ver mapa de reportes abre el placeholder del futuro mapa SOS. Se conserva el inicio en `/inicio` y la navegación inferior de cinco pestañas. No existen alertas ni registros reales. Quedan pendientes Supabase, GPS, reportes reales, solicitudes y ofrecimientos de ayuda, confirmación de alertas, mapa SOS, brigadas, seguimiento, notificaciones, sincronización offline y chat de emergencia. `test/emergency_dashboard_test.dart` verifica la interfaz, las interacciones y el diseño a 320 px con texto al 150 %, junto con las pruebas anteriores.
+Solicitar y Ofrecer ayuda abren los selectores locales del Centro de Ayuda Vecinal (fase 9). Ver mapa de reportes abre el placeholder del futuro mapa SOS. Se conserva el inicio en `/inicio` y la navegación inferior de cinco pestañas. No existen alertas ni registros reales. Quedan pendientes Supabase, GPS, reportes reales, solicitudes y ofrecimientos de ayuda, confirmación de alertas, mapa SOS, brigadas reales, seguimiento, notificaciones, sincronización offline y chat de emergencia. `test/emergency_dashboard_test.dart` verifica la interfaz, las interacciones y el diseño a 320 px con texto al 150 %, junto con las pruebas anteriores.
 
 «Servicios del Barrio» abre el directorio local de cinco profesionales. La búsqueda admite nombres, oficios y descripciones sin tildes. Los límites de 500 m y 1 km se combinan con la valoración mínima de cuatro estrellas. Cada ficha muestra los trabajos y reseñas ilustrativos disponibles. Llamar y solicitar servicio muestran avisos informativos. Las pruebas de directorio y perfil se ejecutan con `flutter test`.
 
