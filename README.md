@@ -1,5 +1,7 @@
 # VeciPulso
 
+**Fase 16 · Offline y sincronización visual.** Abre «Estados offline (demo)» desde el menú lateral. Crea el ejemplo, simula recuperar la conexión y elige éxito o error. Puedes reintentar tras un error o restablecer la demostración. Las dos pantallas respetan las cuatro preferencias de accesibilidad. El ejercicio funciona en memoria, sin comprobar internet, guardar solicitudes ni enviar notificaciones.
+
 Desde el menú lateral, abre **Tutorial de uso** para recorrer Servicios del Barrio, Cadena de Favores y Modo SOS. En **Accesibilidad** puedes activar texto grande, alto contraste, botones grandes e instrucciones claras durante la sesión. «Pedir ayuda» muestra un aviso de vista previa. «Restablecer ajustes» desactiva las cuatro opciones y conserva el modo actual.
 
 La fase 11 incorpora la vista previa local de ayuda comunitaria. Desde el Tablero SOS, pulsa «Solicitar ayuda», elige una necesidad, abre el resumen y pulsa «Ver confirmación visual (demo)». El perfil es ficticio y los controles de contacto muestran avisos informativos.

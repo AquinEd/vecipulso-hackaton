@@ -30,10 +30,15 @@ class AppDrawer extends StatelessWidget {
             (AppRoute.sos, Icons.sos),
             (AppRoute.tutorial, Icons.menu_book_outlined),
             (AppRoute.access, Icons.accessibility_new),
+            (AppRoute.pending, Icons.wifi_off),
           ])
             ListTile(
               leading: Icon(icon),
-              title: Text(route.title),
+              title: Text(
+                route == AppRoute.pending
+                    ? 'Estados offline (demo)'
+                    : route.title,
+              ),
               textColor: route == AppRoute.sos
                   ? Theme.of(context).colorScheme.error
                   : null,
@@ -42,7 +47,9 @@ class AppDrawer extends StatelessWidget {
                   : null,
               onTap: () {
                 Scaffold.of(context).closeDrawer();
-                if (route == AppRoute.access || route == AppRoute.tutorial) {
+                if (route == AppRoute.access ||
+                    route == AppRoute.tutorial ||
+                    route == AppRoute.pending) {
                   context.push(route.path);
                 } else {
                   AppNavigation.open(context, route);
