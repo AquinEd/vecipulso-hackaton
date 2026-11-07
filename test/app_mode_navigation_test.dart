@@ -88,7 +88,7 @@ void main() {
       for (var i = 0; i < 3; i++) {
         await tab(t, 'Mapa');
         expect(router.state.uri.path, '/sos/mapa');
-        expect(find.text('Mapa de Reportes SOS'), findsOneWidget);
+        expect(find.text('Mapa de Emergencia'), findsOneWidget);
         expect(find.text('Modo Emergencia'), findsNothing);
         expect(find.text('Mapa de recursos'), findsNothing);
         expect(
@@ -99,7 +99,7 @@ void main() {
         await tab(t, 'Inicio');
         expect(router.state.uri.path, '/sos/tablero');
         expect(find.text('Modo Emergencia'), findsOneWidget);
-        expect(find.text('Mapa de Reportes SOS'), findsNothing);
+        expect(find.text('Mapa de Emergencia'), findsNothing);
         expect(mode.mode, AppMode.sos);
       }
       for (final (label, content) in [

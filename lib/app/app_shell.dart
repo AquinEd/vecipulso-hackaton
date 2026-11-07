@@ -65,7 +65,13 @@ class AppShell extends StatelessWidget {
               ? BackButton(onPressed: back)
               : null,
           title: sos && path != AppRoute.brigades.path
-              ? const Text('Modo SOS · Demo')
+              ? Text(
+                  path == AppRoute.riskMap.path
+                      ? 'Mapa de Emergencia'
+                      : 'Modo SOS · Demo',
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                )
               : const AppAssetImage(
                   path: AppAssets.vecipulsoLogoHorizontalPNG,
                   label: 'VeciPulso',
