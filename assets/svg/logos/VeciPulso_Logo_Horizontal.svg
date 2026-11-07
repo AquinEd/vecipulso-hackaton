@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1090 290" width="1090" height="290"><g transform="translate(5,-45) scale(0.70)">
+<path d="M91 231 Q91 213 105 202 L238 101 Q256 87 274 101 L407 202 Q421 213 421 231 L421 367 Q421 389 400 389 H112 Q91 389 91 367 Z" fill="none" stroke="#053E38" stroke-width="27" stroke-linejoin="round" stroke-linecap="round"/>
+<circle cx="257" cy="219" r="31" fill="#18A66A"/>
+<circle cx="181" cy="255" r="24" fill="#18A66A"/>
+<circle cx="331" cy="255" r="24" fill="#18A66A"/>
+<path d="M190 345 C192 290 219 271 257 271 C295 271 320 290 323 345 Z" fill="#18A66A" />
+<path d="M134 343 C137 313 153 297 180 297 C192 297 202 303 210 309 L211 343 Z" fill="#18A66A"/>
+<path d="M301 309 C308 302 318 297 331 297 C357 297 375 313 377 343 H300 Z" fill="#18A66A"/>
+<path d="M168 392 H212 L231 365 L253 431 L280 347 L303 397 H350" fill="none" stroke="#D82E3D" stroke-width="21" stroke-linecap="round" stroke-linejoin="round"/>
+</g>
+<text x="352" y="214" font-family="DejaVu Sans, sans-serif" font-size="110" font-weight="800" fill="#10273A">Veci</text>
+<text x="615" y="214" font-family="DejaVu Sans, sans-serif" font-size="110" font-weight="800" fill="#18A66A">Pulso</text>
+<path d="M360 249 H836" stroke="#006B5B" opacity=".18" stroke-width="6" stroke-linecap="round"/></svg>

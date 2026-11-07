@@ -83,3 +83,5 @@ android/local.properties
 *.tmp
 *.bak
 *.orig
+*.sqlite-wal
+*.sqlite-shm

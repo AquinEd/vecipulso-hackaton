@@ -1,0 +1,71 @@
+{
+  "brand": "VeciPulso",
+  "primaryColor": "#006B5B",
+  "textColor": "#10273A",
+  "emergencyColor": "#D82E3D",
+  "logos": [
+    "VeciPulso_Icono_App_1024.png",
+    "VeciPulso_Logo_Horizontal.png",
+    "VeciPulso_Logo_Para_Fondo_Oscuro.png",
+    "VeciPulso_Simbolo_Transparente.png"
+  ],
+  "banners": [
+    "Banner_Servicios_Sin_Texto.png",
+    "Fondo_Pantallas_Claras_Sin_Texto.png",
+    "Banner_Modo_SOS_Sin_Texto.png",
+    "Fondo_Login_Registro_Sin_Texto.png",
+    "Banner_Cadena_De_Favores_Sin_Texto.png",
+    "Fondo_Emergencia_Oscuro_Sin_Texto.png",
+    "Banner_Inicio_Barrio_Sin_Texto.png"
+  ],
+  "icons": [
+    "Pin_Ayuda_Humanitaria.png",
+    "Icono_Servicios.png",
+    "Icono_Botiquin.png",
+    "Icono_Ubicacion.png",
+    "Icono_Seguridad.png",
+    "Icono_Verificado.png",
+    "Icono_Inicio.png",
+    "Icono_Favores.png",
+    "Icono_Flecha.png",
+    "Icono_Mapa.png",
+    "Icono_Perfil.png",
+    "Icono_Solicitar_Ayuda.png",
+    "Icono_Intercambio.png",
+    "Pin_Recurso_Disponible.png",
+    "Icono_Modo_SOS.png",
+    "Icono_Publicar.png",
+    "Pin_Comercio_Local.png",
+    "Icono_Notificaciones.png",
+    "Pin_Brigada.png",
+    "Icono_Buscar.png",
+    "Icono_Chat.png",
+    "Icono_Configuracion.png",
+    "Icono_Donacion.png",
+    "Icono_Ofrecer_Ayuda.png",
+    "Pin_Zona_Riesgo.png",
+    "Icono_Offline.png",
+    "Icono_Agua.png",
+    "Icono_Brigadas.png"
+  ],
+  "states": [
+    "Estado_Sin_Resultados.png",
+    "Estado_Solicitud_Enviada.png",
+    "Estado_Pendiente_Sincronizar.png",
+    "Estado_Sin_Conexion.png",
+    "Estado_Ubicacion.png"
+  ],
+  "illustrations": [
+    "Servicios_Cercanos.png",
+    "Solidaridad.png",
+    "Barrio_Ilustrado.png",
+    "Alerta_Barrio.png",
+    "Donacion_Recursos.png",
+    "Sirena_Emergencias.png",
+    "Vecinos_Bienvenida.png",
+    "Tienda_Barrio.png",
+    "Grupo_Comunidad.png",
+    "Mapa_Cercano.png",
+    "Intercambio_Vecinal.png"
+  ]
+}
