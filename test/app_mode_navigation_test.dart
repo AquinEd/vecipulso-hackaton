@@ -1,3 +1,6 @@
+import 'support/directory_fixture.dart';
+
+import 'package:hackaton_veci_pulso/features/services/data/services_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:hackaton_veci_pulso/app/accessibility_controller.dart';
@@ -40,7 +43,10 @@ Future<(GoRouter, AppModeController)> start(WidgetTester t) async {
   await t.pumpWidget(
     ChangeNotifierProvider(
       create: (_) => AccessibilityController(),
-      child: MaterialApp.router(theme: AppTheme.light, routerConfig: router),
+      child: Provider<ServicesRepository?>.value(
+        value: DirectoryFixture(),
+        child: MaterialApp.router(theme: AppTheme.light, routerConfig: router),
+      ),
     ),
   );
   await t.pumpAndSettle();
@@ -163,15 +169,15 @@ void main() {
   ) async {
     final (router, _) = await start(t);
     await drawer(t, 'Servicios del Barrio');
-    await t.enterText(find.byType(TextField), 'carpinteria');
+    await t.enterText(find.byType(TextField), 'mesas');
     await t.pumpAndSettle();
-    await tap(t, find.text('Carpintería Vecinal'));
+    await tap(t, find.text('Mesas'));
     expect(find.text('Perfil del proveedor'), findsOneWidget);
     expect(router.canPop(), isTrue);
     await t.binding.handlePopRoute();
     await t.pumpAndSettle();
     expect(find.text('Servicios de Proximidad'), findsOneWidget);
-    expect(find.text('carpinteria'), findsOneWidget);
+    expect(find.text('mesas'), findsOneWidget);
     await t.binding.handlePopRoute();
     await t.pumpAndSettle();
     expect(router.state.uri.path, '/inicio');

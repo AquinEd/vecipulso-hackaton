@@ -30,9 +30,9 @@ void main() {
       await t.pumpWidget(
         MaterialApp.router(theme: AppTheme.light, routerConfig: router),
       );
-      router.go('/servicios');
+      router.go('/inicio');
       await t.pumpAndSettle();
-      await tap(t, find.text('Hasta 500 m'));
+
       await t.enterText(find.byType(TextField), provider.serviceName);
       await t.pumpAndSettle();
       await tap(t, find.text(provider.providerDisplayName));
@@ -111,12 +111,6 @@ void main() {
       expect(
         t.widget<TextField>(find.byType(TextField)).controller!.text,
         provider.serviceName,
-      );
-      expect(
-        t
-            .widget<ChoiceChip>(find.widgetWithText(ChoiceChip, 'Hasta 500 m'))
-            .selected,
-        isTrue,
       );
     });
   }

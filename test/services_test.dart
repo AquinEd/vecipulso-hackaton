@@ -1,3 +1,10 @@
+import 'dart:async';
+
+import 'package:provider/provider.dart';
+import 'package:hackaton_veci_pulso/features/services/data/services_repository.dart';
+
+import 'support/directory_fixture.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
@@ -8,6 +15,36 @@ import 'package:hackaton_veci_pulso/features/services/models/service_preview.dar
 import 'package:hackaton_veci_pulso/features/services/utils/provider_display_name.dart';
 
 void main() {
+  testWidgets('Zona vacía, carga y actualización sin coordenadas', (t) async {
+    final router = signedInRouter();
+    addTearDown(router.dispose);
+    final repo = DirectoryFixture()..emptyZone = true;
+    router.go('/servicios');
+    await t.pumpWidget(
+      Provider<ServicesRepository?>.value(
+        value: repo,
+        child: MaterialApp.router(routerConfig: router),
+      ),
+    );
+    await t.pumpAndSettle();
+    expect(
+      find.text('No se encontraron servicios para esta búsqueda.'),
+      findsOneWidget,
+    );
+    expect(find.text('Carpintería'), findsOneWidget);
+    expect(find.text('Hasta 500 m'), findsNothing);
+    expect(find.text('4+ estrellas'), findsNothing);
+    repo.slow = Completer();
+    await t.tap(find.text('Cocina'));
+    await t.pump();
+    expect(find.byType(CircularProgressIndicator), findsOneWidget);
+    repo.slow!.complete([]);
+    await t.pumpAndSettle();
+    repo.emptyZone = false;
+    await t.tap(find.text('Limpiar filtros'));
+    await t.pumpAndSettle();
+    expect(find.text('Mesas'), findsOneWidget);
+  });
   test('El nombre público cuenta grafemas y omite segundos nombres', () {
     for (final (surname, expected) in [
       ('López', 'Lópe'),
@@ -27,7 +64,13 @@ void main() {
   testWidgets('Cada perfil distingue al vecino de su servicio', (t) async {
     final router = signedInRouter();
     addTearDown(router.dispose);
-    await t.pumpWidget(MaterialApp.router(routerConfig: router));
+    final repo = DirectoryFixture();
+    await t.pumpWidget(
+      Provider<ServicesRepository?>.value(
+        value: repo,
+        child: MaterialApp.router(routerConfig: router),
+      ),
+    );
     for (final (id, person, service, occupation) in [
       (
         'demo-carpinteria',
@@ -108,7 +151,13 @@ void main() {
     addTearDown(t.view.reset);
     final router = signedInRouter();
     addTearDown(router.dispose);
-    await t.pumpWidget(MaterialApp.router(routerConfig: router));
+    final repo = DirectoryFixture();
+    await t.pumpWidget(
+      Provider<ServicesRepository?>.value(
+        value: repo,
+        child: MaterialApp.router(routerConfig: router),
+      ),
+    );
     router.go('/servicios');
     await t.pumpAndSettle();
     Future<void> tap(String label) async {
@@ -128,32 +177,44 @@ void main() {
       await t.pumpAndSettle();
     }
 
-    await tap('Hasta 500 m');
-    await tap('4+ estrellas');
-    await t.enterText(find.byType(TextField), 'cerrajeria');
+    await tap('Cocina');
+    expect(find.textContaining('No se encontraron'), findsOneWidget);
+    await tap('Carpintería');
+    await t.enterText(find.byType(TextField), 'ausente');
+    await t.pump(const Duration(milliseconds: 300));
     await t.pumpAndSettle();
     expect(find.textContaining('No se encontraron'), findsOneWidget);
-    await tap('1 km');
-    await tap('Cerrajería Cerca');
-    expect(find.text('Cerrajería'), findsOneWidget);
-    expect(find.text('★ 4.8'), findsOneWidget);
-    expect(find.textContaining('Sin reseñas'), findsOneWidget);
-    expect(find.textContaining('98 reseñas'), findsNothing);
+    await tap('Limpiar filtros');
+    await t.enterText(find.byType(TextField), 'mes');
+    await t.pump(const Duration(milliseconds: 300));
+    await t.pumpAndSettle();
+    expect(find.textContaining('Sin valoraciones'), findsOneWidget);
+    expect(find.byIcon(Icons.phone_outlined), findsNothing);
+    await tap('Mesas');
+    expect(router.state.uri.path, '/servicios/${DirectoryFixture.id}');
+    expect(find.text('Madera'), findsOneWidget);
     await t.tap(find.byType(BackButton));
     await t.pumpAndSettle();
-    expect(
-      t.widget<TextField>(find.byType(TextField)).controller!.text,
-      'cerrajeria',
-    );
-    expect(t.widget<FilterChip>(find.byType(FilterChip)).selected, isTrue);
-    expect(
-      t.widget<ChoiceChip>(find.widgetWithText(ChoiceChip, '1 km')).selected,
-      isTrue,
-    );
-    await t.tap(find.byTooltip('Borrar búsqueda'));
+    expect(t.widget<TextField>(find.byType(TextField)).controller!.text, 'mes');
+    repo.slow = Completer();
+    await t.tap(find.text('Cocina'));
+    await t.pump();
+    await t.tap(find.text('Todos'));
+    await t.pump();
+    repo.slow!.complete([]);
     await t.pumpAndSettle();
-    await tap('Todos');
-    await tap('José Ramí');
+    expect(find.text('Mesas'), findsOneWidget);
+    for (final failure in [ServicesFailure.network, ServicesFailure.denied]) {
+      repo.failure = failure;
+      await t.tap(find.byTooltip('Actualizar'));
+      await t.pumpAndSettle();
+      expect(find.text(failure.message), findsOneWidget);
+      repo.failure = null;
+      await tap('Reintentar');
+      expect(find.text('Mesas'), findsOneWidget);
+    }
+    router.go('/servicios/demo-carpinteria');
+    await t.pumpAndSettle();
     expect(find.textContaining('98 reseñas'), findsOneWidget);
     expect(find.text('Puertas y marcos'), findsOneWidget);
     expect(find.text('Carolina R.'), findsOneWidget);
@@ -180,7 +241,13 @@ void main() {
   ) async {
     final router = signedInRouter();
     addTearDown(router.dispose);
-    await t.pumpWidget(MaterialApp.router(routerConfig: router));
+    final repo = DirectoryFixture();
+    await t.pumpWidget(
+      Provider<ServicesRepository?>.value(
+        value: repo,
+        child: MaterialApp.router(routerConfig: router),
+      ),
+    );
     await t.pumpAndSettle();
     for (final tab in [
       'Mapa',
@@ -222,30 +289,36 @@ void main() {
     addTearDown(t.platformDispatcher.clearTextScaleFactorTestValue);
     final router = signedInRouter();
     addTearDown(router.dispose);
-    await t.pumpWidget(MaterialApp.router(routerConfig: router));
+    final repo = DirectoryFixture();
+    await t.pumpWidget(
+      Provider<ServicesRepository?>.value(
+        value: repo,
+        child: MaterialApp.router(routerConfig: router),
+      ),
+    );
     router.go('/servicios/inexistente');
     await t.pumpAndSettle();
     expect(find.text('Proveedor no encontrado'), findsOneWidget);
     await t.tap(find.text('Volver al directorio'));
     await t.pumpAndSettle();
-    await t.enterText(find.byType(TextField), 'jose');
+    await t.enterText(find.byType(TextField), 'mes');
     t.view.viewInsets = const FakeViewPadding(bottom: 240);
     await t.pumpAndSettle();
     await t.scrollUntilVisible(
-      find.text('José Ramí'),
+      find.text('Mesas'),
       100,
       scrollable: find.byType(Scrollable).first,
     );
     await Scrollable.ensureVisible(
-      t.element(find.text('José Ramí')),
+      t.element(find.text('Mesas')),
       alignment: 0.5,
     );
     await t.pumpAndSettle();
-    await t.tap(find.text('José Ramí'));
+    await t.tap(find.text('Mesas'));
     t.view.viewInsets = const FakeViewPadding();
     await t.pumpAndSettle();
     await t.scrollUntilVisible(
-      find.text('Solicitar servicio'),
+      find.text('Madera'),
       180,
       scrollable: find.byType(Scrollable).first,
     );
