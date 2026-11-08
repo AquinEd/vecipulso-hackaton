@@ -3,6 +3,15 @@ import 'features/emergency/data/sos_repository.dart';
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
+import 'features/maps/data/map_environment.dart';
+import 'features/maps/data/map_points_repository.dart';
+import 'features/maps/presentation/controllers/map_points_controller.dart';
+import 'features/maps/data/location_service.dart';
+import 'features/maps/presentation/controllers/location_controller.dart';
+import 'features/maps/data/map_origin_repository.dart';
+
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 import 'app/app.dart';
@@ -17,7 +26,8 @@ Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   final problem = SupabaseConfig.problem;
   late final AuthController auth;
-  SosRepository? sos;
+  MapOriginRepository? mapOrigins;
+  MapPointsRepository? mapPoints;
   if (problem != null) {
     auth = AuthController.unavailable(problem);
   } else {
@@ -28,7 +38,8 @@ Future<void> main() async {
         debug: false,
       );
       auth = AuthController(SupabaseAuthRepository(supabase.client));
-      sos = SupabaseSosRepository(supabase.client);
+      mapOrigins = SupabaseMapOriginRepository(supabase.client);
+      mapPoints = SupabaseMapPointsRepository(supabase.client);
     } catch (error) {
       auth = AuthController.unavailable(
         '${AuthFailure.from(error).message} Reinicia la aplicación.',
@@ -36,13 +47,21 @@ Future<void> main() async {
       );
     }
   }
-  runApp(VeciPulsoApp(auth: auth));
   runApp(
-    Provider<SosRepository?>.value(
-      value: sos,
-      child: VeciPulsoApp(auth: auth),
+    ChangeNotifierProvider(
+      create: (_) => LocationController(
+        GeolocatorLocationService(),
+        sessionId: () => auth.observedId,
+      ),
+      child: ChangeNotifierProvider<MapPointsController?>(
+        create: (_) =>
+            mapPoints == null ? null : MapPointsController(mapPoints),
+        child: Provider<MapEnvironment>.value(
+          value: MapEnvironment.openStreetMap(origins: mapOrigins),
+          child: VeciPulsoApp(auth: auth),
+        ),
+      ),
     ),
   );
-
   if (auth.repository != null) unawaited(auth.restore());
 }
