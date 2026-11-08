@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:go_router/go_router.dart';
-import 'package:hackaton_veci_pulso/app/app.dart';
+
+import 'support/auth_fixture.dart';
 
 void main() {
   for (final direct in [false, true]) {
@@ -9,7 +10,7 @@ void main() {
       testWidgets('Recorrer tutorial y volver (directa $direct, SOS $sos)', (
         t,
       ) async {
-        await t.pumpWidget(const VeciPulsoApp());
+        await t.pumpWidget(signedInApp());
         await t.pumpAndSettle();
         final router = GoRouter.of(t.element(find.byType(NavigationBar)));
         final origin = sos ? '/sos/tablero' : '/servicios';

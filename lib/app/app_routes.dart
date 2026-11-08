@@ -16,6 +16,7 @@ enum AppRoute {
   actions('/sos/acciones', 'Acciones SOS'),
   riskMap('/sos/mapa', 'Mapa SOS'),
   tracking('/sos/seguimiento', 'Seguimiento de ayuda'),
+  authStatus('/auth/estado', 'Estado de acceso'),
   login('/auth/login', 'Ingreso con PIN'),
   register('/auth/registro', 'Registro'),
   pin('/auth/pin', 'Crear PIN'),

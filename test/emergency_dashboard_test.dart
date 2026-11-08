@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:hackaton_veci_pulso/app/app_router.dart';
+
+import 'support/auth_fixture.dart';
+
 import 'package:hackaton_veci_pulso/core/theme/app_colors.dart';
 import 'package:hackaton_veci_pulso/core/theme/app_theme.dart';
 import 'package:hackaton_veci_pulso/features/emergency/data/demo_emergency_reports.dart';
@@ -28,7 +30,7 @@ void main() {
 
   for (final path in ['/sos/tablero', '/sos']) {
     testWidgets('Entrada directa $path y salida al Dashboard', (t) async {
-      final router = createRouter();
+      final router = signedInRouter();
       addTearDown(router.dispose);
       await t.pumpWidget(
         MaterialApp.router(theme: AppTheme.light, routerConfig: router),
@@ -68,7 +70,7 @@ void main() {
   testWidgets(
     'Cada tarjeta abre su propio detalle de solo lectura y se cierra',
     (t) async {
-      final router = createRouter();
+      final router = signedInRouter();
       addTearDown(router.dispose);
       await t.pumpWidget(
         MaterialApp.router(theme: AppTheme.light, routerConfig: router),
@@ -105,7 +107,7 @@ void main() {
       t.platformDispatcher.textScaleFactorTestValue = 1.5;
       addTearDown(t.view.reset);
       addTearDown(t.platformDispatcher.clearTextScaleFactorTestValue);
-      final router = createRouter();
+      final router = signedInRouter();
       addTearDown(router.dispose);
       await t.pumpWidget(
         MaterialApp.router(theme: AppTheme.light, routerConfig: router),
@@ -146,7 +148,7 @@ void main() {
   testWidgets(
     'SOS vuelve al Dashboard y conserva el filtro de Mapa y las cinco pestañas',
     (t) async {
-      final router = createRouter();
+      final router = signedInRouter();
       addTearDown(router.dispose);
       await t.pumpWidget(
         MaterialApp.router(theme: AppTheme.light, routerConfig: router),

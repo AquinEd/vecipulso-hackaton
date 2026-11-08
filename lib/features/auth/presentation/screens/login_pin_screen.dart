@@ -1,6 +1,8 @@
+import 'package:provider/provider.dart';
+
+import '../controllers/auth_controller.dart';
+
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
-import 'package:hackaton_veci_pulso/app/app_routes.dart';
 
 import '../widgets/auth_header.dart';
 import '../widgets/pin_dots_indicator.dart';
@@ -13,64 +15,69 @@ class LoginPinScreen extends StatefulWidget {
 }
 
 class _LoginPinScreenState extends State<LoginPinScreen> {
-  // La demostración solo necesita contar las pulsaciones.
-  int count = 0;
-  void inform(String message) => showDialog<void>(
-    context: context,
-    builder: (context) => AlertDialog(
-      content: Text(message),
-      actions: [
+  final entry = <int>[];
+  @override
+  void dispose() {
+    entry.clear();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final auth = context.watch<AuthController>();
+    final disabled = auth.busy || auth.blockedUntil != null;
+    return AuthPage(
+      children: [
+        AuthHeader(
+          dark: true,
+          title: 'Iniciar sesión',
+          subtitle: 'Ingresa tu clave de 6 dígitos',
+          footer: PinDotsIndicator(count: entry.length, dark: true),
+        ),
+        AbsorbPointer(
+          absorbing: disabled,
+          child: PinKeypad(
+            randomized: true,
+            onDigit: (digit) {
+              if (entry.length < 6) setState(() => entry.add(digit));
+            },
+            onDelete: () {
+              if (entry.isNotEmpty) setState(entry.removeLast);
+            },
+          ),
+        ),
+        if (auth.busy) const LinearProgressIndicator(),
+        if (auth.message case final String message)
+          Semantics(liveRegion: true, child: Text(message)),
+        if (entry.length == 6)
+          FilledButton(
+            onPressed: disabled
+                ? null
+                : () {
+                    final pin = entry.join();
+                    setState(entry.clear);
+                    auth.verify(pin);
+                  },
+            child: const Text('Continuar'),
+          ),
         TextButton(
-          onPressed: () => Navigator.pop(context),
-          child: const Text('Entendido'),
+          onPressed: () => showDialog<void>(
+            context: context,
+            builder: (ctx) => AlertDialog(
+              content: const Text(
+                'El PIN desbloquea esta instalación. La cuenta anónima no se puede recuperar con DNI y PIN en otro dispositivo.',
+              ),
+              actions: [
+                TextButton(
+                  onPressed: () => Navigator.pop(ctx),
+                  child: const Text('Entendido'),
+                ),
+              ],
+            ),
+          ),
+          child: const Text('¿Olvidaste tu PIN?'),
         ),
       ],
-    ),
-  );
-  @override
-  Widget build(BuildContext context) => AuthPage(
-    children: [
-      AuthHeader(
-        dark: true,
-        title: 'Iniciar sesión',
-        subtitle: 'Ingresa tu clave de 6 dígitos',
-        footer: PinDotsIndicator(count: count, dark: true),
-      ),
-      PinKeypad(
-        randomized: true,
-        onDigit: (_) {
-          if (count < 6) setState(() => count++);
-        },
-        onDelete: () {
-          if (count > 0) setState(() => count--);
-        },
-      ),
-      if (count == 6)
-        FilledButton(
-          onPressed: () {
-            setState(() => count = 0);
-            inform('La verificación real del PIN requiere el servidor.');
-          },
-          child: const Text('Continuar'),
-        ),
-      TextButton(
-        onPressed: () => inform(
-          'La recuperación del PIN estará disponible cuando se implemente el sistema de autenticación',
-        ),
-        child: const Text('¿Olvidaste tu PIN?'),
-      ),
-      const Text('¿Aún no tienes cuenta?', textAlign: TextAlign.center),
-      OutlinedButton(
-        onPressed: () {
-          setState(() => count = 0);
-          context.push(AppRoute.register.path);
-        },
-        child: const Text('Regístrate'),
-      ),
-      TextButton(
-        onPressed: () => context.go(AppRoute.home.path),
-        child: const Text('Volver al inicio de demostración'),
-      ),
-    ],
-  );
+    );
+  }
 }

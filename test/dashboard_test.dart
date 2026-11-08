@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:hackaton_veci_pulso/app/app.dart';
+
+import 'support/auth_fixture.dart';
 
 void main() {
   testWidgets(
     'El Dashboard presenta la marca, el banner y ambas categorías navegables',
     (tester) async {
-      await tester.pumpWidget(const VeciPulsoApp());
+      await tester.pumpWidget(signedInApp());
       await tester.pumpAndSettle();
       expect(find.bySemanticsLabel('VeciPulso'), findsOneWidget);
       expect(find.text('¡Juntos hacemos un mejor barrio!'), findsOneWidget);
@@ -35,7 +36,7 @@ void main() {
   testWidgets(
     'El buscador filtra, conserva la consulta al volver del detalle y permite borrarla',
     (tester) async {
-      await tester.pumpWidget(const VeciPulsoApp());
+      await tester.pumpWidget(signedInApp());
       await tester.pumpAndSettle();
       final field = find.byType(TextField);
       await tester.enterText(field, 'muebles');
@@ -76,7 +77,7 @@ void main() {
       tester.platformDispatcher.textScaleFactorTestValue = 1.5;
       addTearDown(tester.view.reset);
       addTearDown(tester.platformDispatcher.clearTextScaleFactorTestValue);
-      await tester.pumpWidget(const VeciPulsoApp());
+      await tester.pumpWidget(signedInApp());
       await tester.pumpAndSettle();
       final field = find.byType(TextField);
       await tester.scrollUntilVisible(

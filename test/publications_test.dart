@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:hackaton_veci_pulso/app/app_router.dart';
+
+import 'support/auth_fixture.dart';
+
 import 'package:hackaton_veci_pulso/features/publications/models/publication_draft.dart';
 import 'package:hackaton_veci_pulso/features/publications/data/publication_templates.dart';
 import 'package:hackaton_veci_pulso/features/solidarity/models/solidarity_post.dart';
@@ -35,7 +37,7 @@ void main() {
     t.platformDispatcher.textScaleFactorTestValue = 1.5;
     addTearDown(t.view.reset);
     addTearDown(t.platformDispatcher.clearTextScaleFactorTestValue);
-    final router = createRouter();
+    final router = signedInRouter();
     addTearDown(router.dispose);
     await t.pumpWidget(MaterialApp.router(routerConfig: router));
     await t.pumpAndSettle();

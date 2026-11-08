@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:hackaton_veci_pulso/app/app_router.dart';
+
+import 'support/auth_fixture.dart';
+
 import 'package:hackaton_veci_pulso/core/theme/app_theme.dart';
 import 'package:hackaton_veci_pulso/features/services/data/demo_services.dart';
 
@@ -23,7 +25,7 @@ void main() {
       t.view.devicePixelRatio = 1;
       t.view.physicalSize = const Size(412, 1100);
       addTearDown(t.view.reset);
-      final router = createRouter();
+      final router = signedInRouter();
       addTearDown(router.dispose);
       await t.pumpWidget(
         MaterialApp.router(theme: AppTheme.light, routerConfig: router),
@@ -120,7 +122,7 @@ void main() {
   }
 
   testWidgets('Entradas directas sin proveedor válido', (t) async {
-    final router = createRouter();
+    final router = signedInRouter();
     addTearDown(router.dispose);
     await t.pumpWidget(MaterialApp.router(routerConfig: router));
     for (final invalid in [false, true]) {
@@ -153,7 +155,8 @@ void main() {
         t.platformDispatcher.textScaleFactorTestValue = scale;
         addTearDown(t.view.reset);
         addTearDown(t.platformDispatcher.clearTextScaleFactorTestValue);
-        final router = createRouter()..go('$path?providerId=demo-carpinteria');
+        final router = signedInRouter()
+          ..go('$path?providerId=demo-carpinteria');
         addTearDown(router.dispose);
         await t.pumpWidget(
           MaterialApp.router(theme: AppTheme.light, routerConfig: router),

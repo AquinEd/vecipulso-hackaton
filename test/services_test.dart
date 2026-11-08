@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:hackaton_veci_pulso/app/app_router.dart';
+
+import 'support/auth_fixture.dart';
+
 import 'package:hackaton_veci_pulso/features/services/data/demo_services.dart';
 import 'package:hackaton_veci_pulso/features/services/models/service_preview.dart';
 import 'package:hackaton_veci_pulso/features/services/utils/provider_display_name.dart';
@@ -23,7 +25,7 @@ void main() {
   });
 
   testWidgets('Cada perfil distingue al vecino de su servicio', (t) async {
-    final router = createRouter();
+    final router = signedInRouter();
     addTearDown(router.dispose);
     await t.pumpWidget(MaterialApp.router(routerConfig: router));
     for (final (id, person, service, occupation) in [
@@ -104,7 +106,7 @@ void main() {
     t.view.devicePixelRatio = 1;
     t.view.physicalSize = const Size(430, 1000);
     addTearDown(t.view.reset);
-    final router = createRouter();
+    final router = signedInRouter();
     addTearDown(router.dispose);
     await t.pumpWidget(MaterialApp.router(routerConfig: router));
     router.go('/servicios');
@@ -176,7 +178,7 @@ void main() {
   testWidgets('El Drawer vuelve al Dashboard y las cinco pestañas abren', (
     t,
   ) async {
-    final router = createRouter();
+    final router = signedInRouter();
     addTearDown(router.dispose);
     await t.pumpWidget(MaterialApp.router(routerConfig: router));
     await t.pumpAndSettle();
@@ -218,7 +220,7 @@ void main() {
     t.platformDispatcher.textScaleFactorTestValue = 1.5;
     addTearDown(t.view.reset);
     addTearDown(t.platformDispatcher.clearTextScaleFactorTestValue);
-    final router = createRouter();
+    final router = signedInRouter();
     addTearDown(router.dispose);
     await t.pumpWidget(MaterialApp.router(routerConfig: router));
     router.go('/servicios/inexistente');

@@ -111,19 +111,6 @@ class _HomeScreenState extends State<HomeScreen> {
           const Text(
             'Modo SOS abre el tablero de demostración. Allí puedes consultar reportes de ejemplo.',
           ),
-        ExpansionTile(
-          title: const Text('Pruebas de desarrollo'),
-          children: [
-            for (final (label, route) in const [
-              ('Probar registro', AppRoute.register),
-              ('Probar inicio con PIN', AppRoute.login),
-            ])
-              ListTile(
-                title: Text(label),
-                onTap: () => context.push(route.path),
-              ),
-          ],
-        ),
       ],
     );
   }
