@@ -41,7 +41,45 @@ flutter run --dart-define-from-file=config/supabase.dev.json
 
 `flutter pub get` y `dart format .` completados. `flutter analyze` sin incidencias. `flutter test` aprobó las 122 pruebas, con repositorio simulado para autenticación. Se cubrieron validaciones, confirmación incorrecta, doble envío, conservación del formulario, registro, DNI duplicado, sesión ausente o restaurada, bloqueo, error de red, acceso directo y ausencia de navegación tras fallo. Se revisaron nombres de archivos y patrones reconocibles de credenciales en el árbol y el historial de las referencias locales. Los SQL de `docs/database/` sirvieron de referencia de lectura.
 
-### Checklist manual pendiente
+### Fase 2.1 · Repetir la prueba real
+
+La prueba de dispositivo usa los mismos defines, el repositorio de producción y las dos RPC de v5. Comprueba que el archivo local apunta al proyecto de pruebas previsto. Cada ejecución completa crea dos cuentas anónimas y dos perfiles sintéticos en ese proyecto. El intento de DNI duplicado ocurre en la segunda cuenta, antes de crear su perfil. Los cinco fallos de PIN afectan exclusivamente a la primera cuenta creada por esa ejecución. La prueba conserva los registros del servidor.
+
+```powershell
+flutter devices
+flutter test integration_test/supabase_auth_test.dart -d emulator-5554 --dart-define-from-file=config/supabase.dev.json
+```
+
+Sustituir `emulator-5554` por el dispositivo disponible. El identificador de zona proviene del catálogo remoto. Los DNI y PIN se generan en memoria. Para probar restauración, el test reinicializa el SDK y abre de nuevo las preferencias de Android con una clave de almacenamiento exclusiva de la ejecución. Verifica que permanece el mismo UUID y que el controlador exige PIN. La comprobación RLS consulta dos perfiles cuya existencia se confirmó primero con su propietario. La prueba verifica tanto el rechazo del PIN correcto durante el bloqueo como su aceptación después del plazo del servidor. Reservar al menos cinco minutos más el tiempo de compilación.
+
+### Resultado observado el 7 de noviembre de 2026
+
+En el emulador Android API 37, la prueba de integración aprobó en 5 min 9 s contra el proyecto definido en el JSON local ignorado por Git. Se comprobó también que el endpoint de configuración de Auth anunciaba acceso anónimo habilitado.
+
+| Comprobación real | Resultado |
+| --- | --- |
+| Arranque de la aplicación | Tras la prueba se instaló y abrió `lib/main.dart` con los defines locales. Android mostró «Crea tu cuenta» usando el almacenamiento habitual de la app. |
+| Catálogo con clave publicable y sin sesión | Lectura de al menos una zona con UUID y nombre. El registro utilizó su UUID. |
+| Alta y perfil | A llegó a interfaz desbloqueada después de la RPC y de consultar su perfil. El servidor rechazó el DNI duplicado de B. B pudo registrarse con otro DNI en su misma sesión. |
+| Sesión persistida | Una nueva inicialización del SDK recuperó el UUID de A desde el almacenamiento de Android. El controlador exigió PIN y el servidor aceptó el correcto. |
+| PIN incorrecto | Los primeros cuatro fallos devolvieron 4, 3, 2 y 1 intentos restantes. El quinto devolvió bloqueo con fecha de expiración. El servidor rechazó el PIN correcto durante el bloqueo y lo aceptó al vencer el plazo. |
+| RLS de perfiles | A y B leyeron su propio perfil. Al consultar el UUID del otro usuario, ambas sesiones recibieron cero filas. Ambos perfiles pertenecían a la misma zona. |
+| Regresión local | `flutter analyze` sin incidencias. Las 122 pruebas de `flutter test --concurrency=1` aprobaron. Una ejecución paralela previa agotó memoria en Windows. |
+
+La primera ejecución creó un perfil antes de fallar al reinicializar la misma instancia de almacenamiento en el propio test. Se corrigió el test para crear una instancia por inicialización, conservando su clave. La ejecución completa creó otros dos perfiles sintéticos. Los tres perfiles permanecieron en el proyecto. El cliente de producción fue compatible con las firmas probadas.
+
+La restauración comprobada reinició el SDK dentro del proceso Android. El cierre forzado del proceso con sesión registrada, la expiración o revocación del token y el corte de red durante una RPC siguen como pruebas manuales.
+
+### Antes de integrar Servicios de Proximidad
+
+La validación de autenticación no consulta el directorio de servicios. El siguiente trabajo se desprende del contrato SQL y del modelo actual de Flutter.
+
+- Inyectar el cliente de la sesión autenticada en el futuro repositorio de servicios. El SQL obtiene la zona mediante `mi_zona()`. Probar el aislamiento con perfiles y servicios de dos zonas distintas.
+- Mapear la respuesta de `buscar_servicios_cercanos` al modelo de presentación. El UUID corresponde al servicio, `proveedor` contiene el nombre público ya preparado y distancia se expresa en metros. El modelo de demostración exige nombre y apellido por separado. Contemplar categoría del catálogo, descripción, antigüedad y promedio sin reseñas.
+- Acordar el origen de latitud y longitud y qué mostrar cuando el usuario carezca de ubicación. Comprobar los filtros de radio, texto y estrellas con servicios autorizados que tengan coordenadas conocidas.
+- Leer el contacto mediante `servicio_contacto` respetando su política de autorización. Validar el detalle cuando el contacto esté oculto. Conservar la lectura del perfil privado limitada al titular.
+
+### Checklist manual de dispositivo
 
 Usar un proyecto de pruebas y dos instalaciones separadas con datos de prueba autorizados.
 
