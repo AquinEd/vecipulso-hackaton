@@ -1,5 +1,7 @@
 import 'package:provider/provider.dart';
 
+import '../widgets/service_operations.dart';
+
 import '../../data/services_repository.dart';
 import '../controllers/services_controllers.dart';
 
@@ -116,6 +118,24 @@ class ProviderDetailScreen extends StatelessWidget {
                   )
                 else
                   const Text('Contacto no disponible'),
+                if (repository.uid != detail.service.proveedorId)
+                  FilledButton(
+                    onPressed: () async {
+                      if (await requestService(context, repository, detail) &&
+                          context.mounted) {
+                        await openRequests(context, repository);
+                        if (context.mounted) await c.refresh(id);
+                      }
+                    },
+                    child: const Text('Solicitar servicio'),
+                  ),
+                TextButton(
+                  onPressed: () async {
+                    await openRequests(context, repository);
+                    if (context.mounted) await c.refresh(id);
+                  },
+                  child: const Text('Mis solicitudes'),
+                ),
                 TextButton(
                   onPressed: () => c.refresh(id),
                   child: const Text('Actualizar'),

@@ -1,5 +1,8 @@
 import 'dart:async';
 
+import '../widgets/service_operations.dart';
+import '../widgets/service_editor.dart';
+
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
@@ -65,6 +68,44 @@ class _DirectoryState extends State<_Directory> {
         ServiceHeading(
           title: 'Servicios de Proximidad',
           fallback: AppRoute.home.path,
+        ),
+        Wrap(
+          children: [
+            TextButton(
+              onPressed: c.categories.isEmpty
+                  ? null
+                  : () async {
+                      if (await editService(
+                            context,
+                            c.repository,
+                            c.categories,
+                          ) &&
+                          context.mounted) {
+                        search.clear();
+                        await c.filter('', null);
+                        if (context.mounted) {
+                          await openOwned(context, c.repository, c.categories);
+                          if (context.mounted) await c.refresh();
+                        }
+                      }
+                    },
+              child: const Text('Ofrecer un servicio'),
+            ),
+            TextButton(
+              onPressed: () async {
+                await openOwned(context, c.repository, c.categories);
+                if (context.mounted) await c.refresh();
+              },
+              child: const Text('Mis servicios'),
+            ),
+            TextButton(
+              onPressed: () async {
+                await openRequests(context, c.repository);
+                if (context.mounted) await c.refresh();
+              },
+              child: const Text('Mis solicitudes'),
+            ),
+          ],
         ),
         TextField(
           controller: search,
@@ -154,9 +195,12 @@ class _DirectoryState extends State<_Directory> {
                 ].join(' · '),
               ),
               trailing: const Icon(Icons.chevron_right),
-              onTap: () => context.push(
-                AppRoute.provider.path.replaceFirst(':id', e.service.id),
-              ),
+              onTap: () async {
+                await context.push(
+                  AppRoute.provider.path.replaceFirst(':id', e.service.id),
+                );
+                if (context.mounted) await c.refresh();
+              },
             ),
           ),
         if (c.data != null)

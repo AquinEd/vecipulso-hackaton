@@ -68,6 +68,43 @@ abstract class ServiceAccess {
 
 class ServicesRepository extends ServiceAccess {
   ServicesRepository(super.client);
+  RequestsRepository get requests => RequestsRepository(client);
+  Future<List<ServiceRow>> mine() => run(
+    () async => rows(
+      await client
+          .from('servicios')
+          .select(fields)
+          .eq('proveedor_id', uid)
+          .order('creado_en', ascending: false),
+      ServiceRow.fromJson,
+    ),
+  );
+  Future<void> saveContact(String id, String phone, bool consent) =>
+      run(() async {
+        final serviceId = serviceUuid(id);
+        final table = client.from('servicio_contacto');
+        final existing = await table
+            .select('servicio_id')
+            .eq('servicio_id', serviceId)
+            .maybeSingle();
+        final values = {'telefono': phone, 'autorizado': consent};
+        if (existing == null) {
+          await table.insert({'servicio_id': serviceId, ...values});
+        } else {
+          await table
+              .update(values)
+              .eq('servicio_id', serviceId)
+              .select('servicio_id')
+              .single();
+        }
+      });
+  Future<void> addWork(String id, String title, String workId) => run(() async {
+    await client.from('servicio_trabajos').insert({
+      'id': serviceUuid(workId),
+      'servicio_id': serviceUuid(id),
+      'titulo': title,
+    });
+  });
   RecommendationsRepository get recommendations =>
       RecommendationsRepository(client);
   Future<String?> zoneName(String id) => run(() async {
@@ -234,6 +271,7 @@ class ServicesRepository extends ServiceAccess {
             'activo': active,
           })
           .eq('id', serviceUuid(id))
+          .eq('proveedor_id', uid)
           .select(fields)
           .single(),
     ),

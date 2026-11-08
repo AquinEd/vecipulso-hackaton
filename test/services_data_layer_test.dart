@@ -9,6 +9,18 @@ import 'package:hackaton_veci_pulso/features/services/data/services_repository.d
 import 'package:hackaton_veci_pulso/features/services/models/service_rows.dart';
 import 'package:hackaton_veci_pulso/features/services/presentation/controllers/services_controllers.dart';
 
+class _Customer extends RequestsRepository {
+  _Customer(super.client);
+  @override
+  String get uid => '22222222-2222-4222-8222-222222222222';
+}
+
+class _Owner extends ServicesRepository {
+  _Owner(super.client);
+  @override
+  String get uid => '22222222-2222-4222-8222-222222222222';
+}
+
 class _SignedInRecommendations extends RecommendationsRepository {
   _SignedInRecommendations(super.client);
   @override
@@ -60,6 +72,149 @@ void main() {
           );
         }),
       );
+  test('Publicación y edición usan zona y propietario de sesión, incluida desactivación', () async {
+    const owner = '22222222-2222-4222-8222-222222222222';
+    final row = {
+      'id': id,
+      'zona_id': id,
+      'categoria_id': 7,
+      'proveedor_id': owner,
+      'titulo': 'Mesas',
+      'activo': true,
+      'creado_en': '2026-01-01T00:00:00Z',
+    };
+    final repo = _Owner(
+      client((r) async {
+        Object data;
+        if (r.url.path.endsWith('/rpc/mi_zona')) {
+          data = id;
+        } else if (r.method == 'POST') {
+          final body = jsonDecode(r.body) as Map;
+          expect(body['proveedor_id'], owner);
+          expect(body['zona_id'], id);
+          expect(body.containsKey('ubicacion_aprox'), isFalse);
+          data = row;
+        } else {
+          expect(r.url.queryParameters['proveedor_id'], 'eq.$owner');
+          if (r.method == 'PATCH') {
+            expect(jsonDecode(r.body)['activo'], false);
+            data = {...row, 'activo': false};
+          } else {
+            data = [row];
+          }
+        }
+        return http.Response(
+          jsonEncode(data),
+          200,
+          headers: {'content-type': 'application/json'},
+        );
+      }),
+    );
+    expect(
+      (await repo.publish(id: id, title: 'Mesas', categoryId: 7)).proveedorId,
+      owner,
+    );
+    expect((await repo.mine()).single.id, id);
+    expect(
+      (await repo.update(id, title: 'Mesas', active: false)).activo,
+      isFalse,
+    );
+  });
+  test(
+    'Edición denegada y solicitud inexistente conservan el error de dominio',
+    () async {
+      final repo = _Owner(
+        client(
+          (r) async => http.Response(
+            jsonEncode({'code': '42501', 'message': 'denied'}),
+            403,
+          ),
+        ),
+      );
+      await expectLater(
+        repo.update(id, title: 'Mesas', active: false),
+        throwsA(ServicesFailure.denied),
+      );
+      final requests = RequestsRepository(
+        client(
+          (r) async => http.Response(
+            jsonEncode({'code': 'P0001', 'message': 'La solicitud no existe'}),
+            400,
+          ),
+        ),
+      );
+      await expectLater(
+        requests.transition(id, RequestStatus.completada),
+        throwsA(ServicesFailure.missing),
+      );
+    },
+  );
+  test('Solicitar usa el UID de sesión, el estado por defecto y comunica solicitud duplicada', () async {
+    var attempts = 0;
+    final repo = _Customer(
+      client((r) async {
+        expect(r.method, 'POST');
+        expect(r.url.path, '/rest/v1/solicitudes_servicio');
+        final body = jsonDecode(r.body);
+        expect(body['solicitante_id'], '22222222-2222-4222-8222-222222222222');
+        expect(body.containsKey('estado'), isFalse);
+        attempts++;
+        if (attempts == 2) {
+          return http.Response(
+            jsonEncode({'code': '23505', 'message': 'duplicate'}),
+            409,
+          );
+        }
+        return http.Response(
+          jsonEncode({...request, 'estado': 'solicitada'}),
+          200,
+        );
+      }),
+    );
+    expect((await repo.create(id, id)).estado, RequestStatus.solicitada);
+    await expectLater(repo.create(id, id), throwsA(ServicesFailure.duplicate));
+  });
+  test(
+    'Categoría eliminada, puntuación inválida y experiencia no autorizada',
+    () async {
+      final repo = _Owner(
+        client((r) async {
+          if (r.url.path.endsWith('mi_zona')) {
+            return http.Response(jsonEncode(id), 200);
+          }
+          return http.Response(
+            jsonEncode({'code': '23503', 'message': 'invalid category'}),
+            409,
+          );
+        }),
+      );
+      await expectLater(
+        repo.publish(id: id, title: 'Mesas', categoryId: 999),
+        throwsA(ServicesFailure.missing),
+      );
+      var writes = 0;
+      final reviews = _SignedInRecommendations(
+        client((r) async {
+          writes++;
+          return http.Response(
+            jsonEncode({'code': '42501', 'message': 'denied'}),
+            403,
+          );
+        }),
+      );
+      for (final score in [0, 6]) {
+        await expectLater(
+          reviews.recommend(id, id, score),
+          throwsA(ServicesFailure.invalid),
+        );
+      }
+      expect(writes, 0);
+      await expectLater(
+        reviews.recommend(id, id, 4),
+        throwsA(ServicesFailure.denied),
+      );
+    },
+  );
   test('Media completa y sello SQL incluyen todas las páginas', () async {
     final repo = RecommendationsRepository(
       client((r) async {

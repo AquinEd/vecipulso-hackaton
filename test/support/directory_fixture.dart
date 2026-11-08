@@ -4,6 +4,8 @@ import 'package:hackaton_veci_pulso/features/services/data/services_repository.d
 import 'package:hackaton_veci_pulso/features/services/models/service_rows.dart';
 
 class DirectoryFixture implements ServicesRepository {
+  @override
+  String get uid => '22222222-2222-4222-8222-222222222222';
   static const id = '11111111-1111-4111-8111-111111111111';
   final row = DirectoryEntry.fromJson({
     'id': id,
