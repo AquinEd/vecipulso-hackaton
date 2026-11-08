@@ -128,7 +128,7 @@ void main() {
       expect(find.text('Mapa de Emergencia'), findsOneWidget);
       expect(
         find.text(
-          'MAPA DE DEMOSTRACIÓN — No representa emergencias ni ubicaciones reales.',
+          'Cartografía real — Puntos autorizados de la comunidad. No indica zonas de peligro oficiales.',
         ),
         findsOneWidget,
       );

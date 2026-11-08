@@ -1,3 +1,8 @@
+import 'package:provider/provider.dart';
+
+import '../../data/sos_repository.dart';
+import 'sos_alert_views.dart';
+
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
@@ -25,7 +30,11 @@ class _EmergencyActionsScreenState extends State<EmergencyActionsScreen> {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      if (!mounted || widget.initialAction == null) return;
+      if (!mounted ||
+          widget.initialAction == null ||
+          context.read<SosRepository?>() != null) {
+        return;
+      }
       openAction(
         demoEmergencyActions.firstWhere((a) => a.type == widget.initialAction),
       );
@@ -55,122 +64,158 @@ class _EmergencyActionsScreenState extends State<EmergencyActionsScreen> {
   void back() => context.go(AppRoute.sos.path);
 
   @override
-  Widget build(BuildContext context) => PopScope(
-    canPop: false,
-    onPopInvokedWithResult: (didPop, _) {
-      if (!didPop) back();
-    },
-    child: Scaffold(
-      appBar: AppBar(
-        backgroundColor: Theme.of(context).colorScheme.error,
-        foregroundColor: Colors.white,
-        toolbarHeight: MediaQuery.textScalerOf(context).scale(56),
-        leading: BackButton(onPressed: back),
-        title: Align(
-          alignment: Alignment.centerRight,
-          child: TextButton(
-            style: TextButton.styleFrom(foregroundColor: Colors.white),
-            onPressed: () => AppNavigation.exitSos(context),
-            child: const Text('Salir del Modo SOS'),
+  Widget build(BuildContext context) {
+    final repo = context.watch<SosRepository?>();
+    if (repo != null) {
+      return PopScope(
+        canPop: false,
+        onPopInvokedWithResult: (didPop, _) {
+          if (!didPop) back();
+        },
+        child: Scaffold(
+          appBar: AppBar(
+            leading: BackButton(onPressed: back),
+            title: const Text('Alertas comunitarias'),
           ),
-        ),
-      ),
-      body: SafeArea(
-        child: SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
+          body: ListView(
+            padding: const EdgeInsets.all(16),
             children: [
-              ColoredBox(
-                color: Theme.of(context).colorScheme.error,
-                child: Padding(
-                  padding: const EdgeInsets.fromLTRB(24, 4, 24, 24),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Row(
-                        children: [
-                          const Icon(
-                            Icons.warning_rounded,
-                            color: Colors.white,
-                            size: 36,
-                          ),
-                          const SizedBox(width: 12),
-                          Expanded(
-                            child: Text(
-                              'VeciPulso SOS',
-                              style: Theme.of(context).textTheme.headlineSmall
-                                  ?.copyWith(color: Colors.white),
-                            ),
-                          ),
-                        ],
-                      ),
-                      const SizedBox(height: 12),
-                      const Text(
-                        'Centro de ayuda vecinal',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 20,
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
-                      const SizedBox(height: 16),
-                      const Text(
-                        emergencyDemoNotice,
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ],
-                  ),
+              const Text(sosNotice),
+              FilledButton(
+                onPressed: () => showDialog<void>(
+                  context: context,
+                  builder: (_) => AlertEmissionForm(repository: repo),
                 ),
+                child: const Text('Emitir alerta o solicitar soporte crítico'),
               ),
-              Center(
-                child: ConstrainedBox(
-                  constraints: const BoxConstraints(maxWidth: 600),
-                  child: Padding(
-                    padding: const EdgeInsets.all(16),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      children: [
-                        const AppSectionHeader(title: '¿Qué necesitas hacer?'),
-                        const SizedBox(height: 20),
-                        for (final action in demoEmergencyActions)
-                          Padding(
-                            padding: const EdgeInsets.only(bottom: 20),
-                            child: EmergencyActionCard(
-                              key: ValueKey(action.type),
-                              action: action,
-                              onSelect: () => openAction(action),
-                            ),
-                          ),
-                        Container(
-                          padding: const EdgeInsets.all(16),
-                          decoration: BoxDecoration(
-                            color: const Color(0xfffff2da),
-                            borderRadius: BorderRadius.circular(16),
-                          ),
-                          child: const Row(
-                            children: [
-                              Icon(
-                                Icons.location_on_outlined,
-                                color: AppColors.warningText,
-                              ),
-                              SizedBox(width: 12),
-                              Expanded(child: Text(emergencyDemoLocation)),
-                            ],
-                          ),
-                        ),
-                        const SizedBox(height: 16),
-                      ],
-                    ),
-                  ),
-                ),
+              TextButton(
+                onPressed: back,
+                child: const Text('Volver al tablero'),
               ),
             ],
           ),
         ),
+      );
+    }
+    return PopScope(
+      canPop: false,
+      onPopInvokedWithResult: (didPop, _) {
+        if (!didPop) back();
+      },
+      child: Scaffold(
+        appBar: AppBar(
+          backgroundColor: Theme.of(context).colorScheme.error,
+          foregroundColor: Colors.white,
+          toolbarHeight: MediaQuery.textScalerOf(context).scale(56),
+          leading: BackButton(onPressed: back),
+          title: Align(
+            alignment: Alignment.centerRight,
+            child: TextButton(
+              style: TextButton.styleFrom(foregroundColor: Colors.white),
+              onPressed: () => AppNavigation.exitSos(context),
+              child: const Text('Salir del Modo SOS'),
+            ),
+          ),
+        ),
+        body: SafeArea(
+          child: SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                ColoredBox(
+                  color: Theme.of(context).colorScheme.error,
+                  child: Padding(
+                    padding: const EdgeInsets.fromLTRB(24, 4, 24, 24),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Row(
+                          children: [
+                            const Icon(
+                              Icons.warning_rounded,
+                              color: Colors.white,
+                              size: 36,
+                            ),
+                            const SizedBox(width: 12),
+                            Expanded(
+                              child: Text(
+                                'VeciPulso SOS',
+                                style: Theme.of(context).textTheme.headlineSmall
+                                    ?.copyWith(color: Colors.white),
+                              ),
+                            ),
+                          ],
+                        ),
+                        const SizedBox(height: 12),
+                        const Text(
+                          'Centro de ayuda vecinal',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 20,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                        const SizedBox(height: 16),
+                        const Text(
+                          emergencyDemoNotice,
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                Center(
+                  child: ConstrainedBox(
+                    constraints: const BoxConstraints(maxWidth: 600),
+                    child: Padding(
+                      padding: const EdgeInsets.all(16),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        children: [
+                          const AppSectionHeader(
+                            title: '¿Qué necesitas hacer?',
+                          ),
+                          const SizedBox(height: 20),
+                          for (final action in demoEmergencyActions)
+                            Padding(
+                              padding: const EdgeInsets.only(bottom: 20),
+                              child: EmergencyActionCard(
+                                key: ValueKey(action.type),
+                                action: action,
+                                onSelect: () => openAction(action),
+                              ),
+                            ),
+                          Container(
+                            padding: const EdgeInsets.all(16),
+                            decoration: BoxDecoration(
+                              color: const Color(0xfffff2da),
+                              borderRadius: BorderRadius.circular(16),
+                            ),
+                            child: const Row(
+                              children: [
+                                Icon(
+                                  Icons.location_on_outlined,
+                                  color: AppColors.warningText,
+                                ),
+                                SizedBox(width: 12),
+                                Expanded(child: Text(emergencyDemoLocation)),
+                              ],
+                            ),
+                          ),
+                          const SizedBox(height: 16),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
       ),
-    ),
-  );
+    );
+  }
 }
