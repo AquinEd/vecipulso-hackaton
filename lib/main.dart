@@ -1,3 +1,5 @@
+import 'features/emergency/data/sos_repository.dart';
+
 import 'dart:async';
 
 import 'package:flutter/material.dart';
@@ -9,10 +11,13 @@ import 'core/errors/auth_failure.dart';
 import 'features/auth/data/auth_repository.dart';
 import 'features/auth/presentation/controllers/auth_controller.dart';
 
+import 'package:provider/provider.dart';
+
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   final problem = SupabaseConfig.problem;
   late final AuthController auth;
+  SosRepository? sos;
   if (problem != null) {
     auth = AuthController.unavailable(problem);
   } else {
@@ -23,6 +28,7 @@ Future<void> main() async {
         debug: false,
       );
       auth = AuthController(SupabaseAuthRepository(supabase.client));
+      sos = SupabaseSosRepository(supabase.client);
     } catch (error) {
       auth = AuthController.unavailable(
         '${AuthFailure.from(error).message} Reinicia la aplicación.',
@@ -31,5 +37,12 @@ Future<void> main() async {
     }
   }
   runApp(VeciPulsoApp(auth: auth));
+  runApp(
+    Provider<SosRepository?>.value(
+      value: sos,
+      child: VeciPulsoApp(auth: auth),
+    ),
+  );
+
   if (auth.repository != null) unawaited(auth.restore());
 }

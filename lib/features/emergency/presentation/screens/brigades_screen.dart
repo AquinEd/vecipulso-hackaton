@@ -1,4 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
+import '../../data/sos_repository.dart';
+import 'sos_catalog_screen.dart';
+
 import 'package:go_router/go_router.dart';
 
 import '../../../../app/app_routes.dart';
@@ -81,6 +86,10 @@ class _BrigadesScreenState extends State<BrigadesScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final repository = context.watch<SosRepository?>();
+    if (repository != null) {
+      return SosCatalogScreen(repository: repository, brigades: true);
+    }
     final groups = widget.groups
         .where(
           (g) => (filter == null || g.type == filter) && g.matches(search.text),
