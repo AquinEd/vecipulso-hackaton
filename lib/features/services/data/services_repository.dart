@@ -70,6 +70,33 @@ class ServicesRepository extends ServiceAccess {
   ServicesRepository(super.client);
   static const fields =
       'id,proveedor_id,categoria_id,titulo,descripcion,anios_experiencia,zona_id,activo,creado_en';
+  static const pageSize = 25;
+  Future<List<DirectoryEntry>> page({
+    String query = '',
+    int? categoryId,
+    int offset = 0,
+  }) => run(() async {
+    var request = client
+        .from('servicios')
+        .select('$fields,recomendaciones(count)')
+        .eq('activo', true);
+    if (categoryId != null) request = request.eq('categoria_id', categoryId);
+    if (query.isNotEmpty) {
+      request = request.textSearch(
+        'titulo',
+        query,
+        config: 'spanish',
+        type: TextSearchType.plain,
+      );
+    }
+    return rows(
+      await request
+          .order('titulo')
+          .order('id')
+          .range(offset, offset + pageSize),
+      DirectoryEntry.fromJson,
+    );
+  });
   Future<List<ServiceCategoryRow>> categories() => run(
     () async => rows(
       await client

@@ -61,6 +61,30 @@ void main() {
         }),
       );
   test(
+    'Directorio por zona pagina y combina título con categoría en el servidor',
+    () async {
+      final repo = ServicesRepository(
+        client((r) async {
+          final q = r.url.queryParameters;
+          expect(r.method, 'GET');
+          expect(r.url.path, '/rest/v1/servicios');
+          expect(q['activo'], 'eq.true');
+          expect(q['categoria_id'], 'eq.7');
+          expect(q['titulo'], 'plfts(spanish).mesas');
+          expect(q['offset'], '25');
+          expect(q['limit'], '26');
+          expect(q['select'], contains('recomendaciones(count)'));
+          expect(q['select'], isNot(contains('telefono')));
+          return http.Response('[]', 200);
+        }),
+      );
+      expect(
+        await repo.page(query: 'mesas', categoryId: 7, offset: 25),
+        isEmpty,
+      );
+    },
+  );
+  test(
     'INSERT de recomendación espera confirmación y comunica duplicado',
     () async {
       var calls = 0;

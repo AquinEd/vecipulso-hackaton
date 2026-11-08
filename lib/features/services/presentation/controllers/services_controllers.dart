@@ -63,11 +63,33 @@ class ServiceController<T> extends ChangeNotifier {
   }
 }
 
-class DirectoryController extends ServiceController<List<ServiceRow>> {
+class DirectoryController extends ServiceController<List<DirectoryEntry>> {
   DirectoryController(this.repository);
   final ServicesRepository repository;
-  Future<void> refresh({int? categoryId}) =>
-      load(() => repository.directory(categoryId: categoryId));
+  List<ServiceCategoryRow> categories = [];
+  int? categoryId;
+  String query = '';
+  int offset = 0;
+  Future<void> refresh({bool reloadCategories = false}) => load(() async {
+    if (reloadCategories || categories.isEmpty) {
+      final generation = _generation;
+      final result = await repository.categories();
+      if (generation != _generation) return <DirectoryEntry>[];
+      categories = result;
+      if (!categories.any((c) => c.id == categoryId)) categoryId = null;
+    }
+    return repository.page(
+      categoryId: categoryId,
+      query: query,
+      offset: offset,
+    );
+  });
+  Future<void> filter(String text, int? category) {
+    query = text.trim().replaceAll(RegExp(r'\s+'), ' ');
+    categoryId = category;
+    offset = 0;
+    return refresh();
+  }
 }
 
 class NearbyController extends ServiceController<List<NearbyService>> {

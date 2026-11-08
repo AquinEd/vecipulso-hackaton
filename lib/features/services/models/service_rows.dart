@@ -1,4 +1,13 @@
 typedef JsonRow = Map<String, dynamic>;
+
+class DirectoryEntry {
+  DirectoryEntry.fromJson(JsonRow row)
+    : service = ServiceRow.fromJson(row),
+      count = ((row['recomendaciones'] as List).single as Map)['count'] as int;
+  final ServiceRow service;
+  final int count;
+}
+
 final _uuidPattern = RegExp(
   r'^[0-9a-fA-F]{8}-(?:[0-9a-fA-F]{4}-){3}[0-9a-fA-F]{12}$',
 );

@@ -1,3 +1,9 @@
+import 'package:provider/provider.dart';
+
+import '../../data/services_repository.dart';
+import '../../models/service_rows.dart';
+import '../controllers/services_controllers.dart';
+
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
@@ -22,6 +28,43 @@ class ProviderDetailScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final repository = context.watch<ServicesRepository?>();
+    if (repository != null &&
+        RegExp(r'^[0-9a-fA-F]{8}-(?:[0-9a-fA-F]{4}-){3}[0-9a-fA-F]{12}$')
+            .hasMatch(id)) {
+      return ChangeNotifierProvider(
+        key: ValueKey(id),
+        create: (_) =>
+            ServiceController<ServiceRow>()..load(() => repository.detail(id)),
+        child: Consumer<ServiceController<ServiceRow>>(
+          builder: (context, c, _) => ListView(
+            padding: const EdgeInsets.all(16),
+            children: [
+              ServiceHeading(
+                title: 'Perfil del proveedor',
+                fallback: AppRoute.services.path,
+              ),
+              if (c.stage == ServiceStage.loading)
+                const Center(child: CircularProgressIndicator()),
+              if (c.data case final service?)
+                AppCard(
+                  child: ListTile(
+                    title: Text(service.titulo),
+                    subtitle: Text(service.descripcion ?? ''),
+                  ),
+                ),
+              if (c.failure != null) ...[
+                Text(c.failure!.message),
+                TextButton(
+                  onPressed: () => c.load(() => repository.detail(id)),
+                  child: const Text('Reintentar'),
+                ),
+              ],
+            ],
+          ),
+        ),
+      );
+    }
     final provider = demoServices.where((s) => s.id == id).firstOrNull;
     return ListView(
       padding: const EdgeInsets.all(16),
