@@ -120,6 +120,9 @@ typedef ServiceDetail = ({
   ServiceContact? contact,
   List<ServiceWork> works,
   List<ServiceReview> reviews,
+  String? category,
+  String? zone,
+  ({int count, double? average, bool approved}) statistics,
 });
 
 class ServiceDetailController extends ServiceController<ServiceDetail> {
@@ -128,18 +131,28 @@ class ServiceDetailController extends ServiceController<ServiceDetail> {
   final RecommendationsRepository recommendations;
   Future<void> refresh(String id) => load(() async {
     final service = await services.detail(id);
+    if (!service.activo) throw ServicesFailure.missing;
     final parts = await (
       services.provider(service.proveedorId),
       services.contact(id),
       services.works(id),
       recommendations.reviews(id),
     ).wait;
+    final categories = await services.categories();
+    final zone = await services.zoneName(service.zonaId);
+    final statistics = await recommendations.statistics(id);
     return (
       service: service,
       provider: parts.$1,
       contact: parts.$2,
       works: parts.$3,
       reviews: parts.$4,
+      category: categories
+          .where((c) => c.id == service.categoriaId)
+          .firstOrNull
+          ?.nombre,
+      zone: zone,
+      statistics: statistics,
     );
   });
 }

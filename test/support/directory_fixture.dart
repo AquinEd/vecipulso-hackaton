@@ -42,7 +42,29 @@ class DirectoryFixture implements ServicesRepository {
   }
 
   @override
+  RecommendationsRepository get recommendations =>
+      DetailRecommendationsFixture();
+  @override
+  Future<String?> zoneName(String id) async => 'Zona de prueba';
+  @override
+  Future<PublicProvider?> provider(String id) async => null;
+  @override
+  Future<ServiceContact?> contact(String id) async => null;
+  @override
+  Future<List<ServiceWork>> works(String id) async => [];
+  @override
   Future<ServiceRow> detail(String id) async => row.service;
+  @override
+  dynamic noSuchMethod(Invocation invocation) => super.noSuchMethod(invocation);
+}
+
+class DetailRecommendationsFixture implements RecommendationsRepository {
+  @override
+  Future<List<ServiceReview>> reviews(String id) async => [];
+  @override
+  Future<({int count, double? average, bool approved})> statistics(
+    String id,
+  ) async => (count: 0, average: null, approved: false);
   @override
   dynamic noSuchMethod(Invocation invocation) => super.noSuchMethod(invocation);
 }

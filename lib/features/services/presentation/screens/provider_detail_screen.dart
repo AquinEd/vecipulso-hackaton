@@ -1,7 +1,6 @@
 import 'package:provider/provider.dart';
 
 import '../../data/services_repository.dart';
-import '../../models/service_rows.dart';
 import '../controllers/services_controllers.dart';
 
 import 'package:flutter/material.dart';
@@ -35,8 +34,9 @@ class ProviderDetailScreen extends StatelessWidget {
       return ChangeNotifierProvider(
         key: ValueKey(id),
         create: (_) =>
-            ServiceController<ServiceRow>()..load(() => repository.detail(id)),
-        child: Consumer<ServiceController<ServiceRow>>(
+            ServiceDetailController(repository, repository.recommendations)
+              ..refresh(id),
+        child: Consumer<ServiceDetailController>(
           builder: (context, c, _) => ListView(
             padding: const EdgeInsets.all(16),
             children: [
@@ -46,17 +46,85 @@ class ProviderDetailScreen extends StatelessWidget {
               ),
               if (c.stage == ServiceStage.loading)
                 const Center(child: CircularProgressIndicator()),
-              if (c.data case final service?)
+              if (c.data case final detail?) ...[
                 AppCard(
-                  child: ListTile(
-                    title: Text(service.titulo),
-                    subtitle: Text(service.descripcion ?? ''),
+                  child: Padding(
+                    padding: const EdgeInsets.all(16),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          detail.provider?.nombrePublico ??
+                              'Información pública del proveedor no disponible',
+                          style: Theme.of(context).textTheme.titleLarge,
+                        ),
+                        Text(
+                          detail.service.titulo,
+                          style: Theme.of(context).textTheme.titleMedium,
+                        ),
+                        if (detail.category != null) Text(detail.category!),
+                        if (detail.zone != null) Text(detail.zone!),
+                        if (detail.service.aniosExperiencia != null)
+                          Text(
+                            '${detail.service.aniosExperiencia} años de experiencia',
+                          ),
+                        Text(detail.service.descripcion ?? 'Sin descripción'),
+                        if (detail.statistics.average case final average?)
+                          Text(
+                            '★ ${average.toStringAsFixed(1)} · ${detail.statistics.count} recomendaciones',
+                          )
+                        else
+                          const Text('Sin valoraciones'),
+                        if (detail.statistics.approved)
+                          const Text('✓ Visto Bueno Vecinal'),
+                      ],
+                    ),
                   ),
                 ),
+                const AppSectionHeader(title: 'Trabajos realizados'),
+                if (detail.works.isEmpty) const Text('Sin trabajos publicados'),
+                for (final work in detail.works)
+                  AppCard(
+                    child: ListTile(
+                      leading: const Icon(Icons.carpenter_outlined),
+                      title: Text(work.titulo),
+                    ),
+                  ),
+                const AppSectionHeader(title: 'Reseñas de vecinos'),
+                if (detail.reviews.isEmpty) const Text('Sin recomendaciones'),
+                for (final review in detail.reviews)
+                  AppCard(
+                    child: ListTile(
+                      title: Text(review.autor),
+                      subtitle: Text(
+                        [
+                          '${review.puntaje} de 5 estrellas',
+                          if (review.comentario?.trim().isNotEmpty ?? false)
+                            review.comentario!,
+                          review.creadoEn
+                              .toLocal()
+                              .toIso8601String()
+                              .split('T')
+                              .first,
+                        ].join('\n'),
+                      ),
+                    ),
+                  ),
+                if (detail.contact?.autorizado == true)
+                  SelectableText(
+                    'Contacto autorizado: ${detail.contact!.telefono}',
+                  )
+                else
+                  const Text('Contacto no disponible'),
+                TextButton(
+                  onPressed: () => c.refresh(id),
+                  child: const Text('Actualizar'),
+                ),
+              ],
               if (c.failure != null) ...[
                 Text(c.failure!.message),
                 TextButton(
-                  onPressed: () => c.load(() => repository.detail(id)),
+                  onPressed: () => c.refresh(id),
                   child: const Text('Reintentar'),
                 ),
               ],

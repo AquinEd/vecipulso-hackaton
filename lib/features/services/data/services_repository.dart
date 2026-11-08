@@ -68,6 +68,16 @@ abstract class ServiceAccess {
 
 class ServicesRepository extends ServiceAccess {
   ServicesRepository(super.client);
+  RecommendationsRepository get recommendations =>
+      RecommendationsRepository(client);
+  Future<String?> zoneName(String id) => run(() async {
+    final row = await client
+        .from('zonas')
+        .select('nombre')
+        .eq('id', serviceUuid(id))
+        .maybeSingle();
+    return row?['nombre'] as String?;
+  });
   static const fields =
       'id,proveedor_id,categoria_id,titulo,descripcion,anios_experiencia,zona_id,activo,creado_en';
   static const pageSize = 25;
@@ -280,15 +290,51 @@ class RequestsRepository extends ServiceAccess {
 
 class RecommendationsRepository extends ServiceAccess {
   RecommendationsRepository(super.client);
-  Future<List<ServiceReview>> reviews(String serviceId) => run(
-    () async => rows(
-      await client.rpc(
-        'resenas_de_servicio',
-        params: {'p_servicio': serviceUuid(serviceId)},
-      ),
-      ServiceReview.fromJson,
-    ),
-  );
+  Future<({int count, double? average, bool approved})> statistics(String id) =>
+      run(() async {
+        var count = 0;
+        var sum = 0;
+        var pageLength = 500;
+        for (var offset = 0; ; offset += pageLength) {
+          final page = await client
+              .from('recomendaciones')
+              .select('id,puntaje')
+              .eq('servicio_id', serviceUuid(id))
+              .order('id')
+              .range(offset, offset + 499);
+          for (final row in page) {
+            sum += row['puntaje'] as int;
+            count++;
+          }
+          pageLength = page.length;
+          if (page.isEmpty) break;
+        }
+        final average = count == 0 ? null : sum / count;
+        final approved = await client.rpc(
+          'tiene_visto_bueno',
+          params: {'n': count, 'promedio': average},
+        );
+        return (count: count, average: average, approved: approved as bool);
+      });
+  Future<List<ServiceReview>> reviews(String serviceId) => run(() async {
+    final result = <ServiceReview>[];
+    var pageLength = 500;
+    for (var offset = 0; ; offset += pageLength) {
+      final page = rows(
+        await client
+            .rpc(
+              'resenas_de_servicio',
+              params: {'p_servicio': serviceUuid(serviceId)},
+            )
+            .order('id')
+            .range(offset, offset + 499),
+        ServiceReview.fromJson,
+      );
+      result.addAll(page);
+      pageLength = page.length;
+      if (page.isEmpty) return List.unmodifiable(result);
+    }
+  });
   Future<String> recommend(
     String id,
     String serviceId,

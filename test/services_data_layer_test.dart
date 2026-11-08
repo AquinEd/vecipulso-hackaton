@@ -60,6 +60,39 @@ void main() {
           );
         }),
       );
+  test('Media completa y sello SQL incluyen todas las páginas', () async {
+    final repo = RecommendationsRepository(
+      client((r) async {
+        if (r.url.path.endsWith('/rpc/tiene_visto_bueno')) {
+          expect(jsonDecode(r.body), {'n': 3, 'promedio': 4.0});
+          return http.Response('true', 200);
+        }
+        expect(r.url.path, '/rest/v1/recomendaciones');
+        expect(r.url.queryParameters['servicio_id'], 'eq.$id');
+        expect(r.url.queryParameters['select'], 'id,puntaje');
+        final offset = int.parse(r.url.queryParameters['offset'] ?? '0');
+        return http.Response(
+          jsonEncode(
+            offset == 0
+                ? [
+                    {'id': id, 'puntaje': 5},
+                    {'id': id, 'puntaje': 4},
+                  ]
+                : offset == 2
+                ? [
+                    {'id': id, 'puntaje': 3},
+                  ]
+                : [],
+          ),
+          200,
+        );
+      }),
+    );
+    final result = await repo.statistics(id);
+    expect(result.count, 3);
+    expect(result.average, 4.0);
+    expect(result.approved, isTrue);
+  });
   test(
     'Directorio por zona pagina y combina título con categoría en el servidor',
     () async {
