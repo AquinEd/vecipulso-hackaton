@@ -4,7 +4,9 @@ import 'package:hackaton_veci_pulso/app/accessibility_controller.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hackaton_veci_pulso/app/app_mode_controller.dart';
-import 'package:hackaton_veci_pulso/app/app_router.dart';
+
+import 'support/auth_fixture.dart';
+
 import 'package:hackaton_veci_pulso/core/theme/app_theme.dart';
 
 Future<void> tap(WidgetTester t, Finder finder) async {
@@ -30,7 +32,7 @@ Future<void> tab(WidgetTester t, String label) => tap(
 
 Future<(GoRouter, AppModeController)> start(WidgetTester t) async {
   final mode = AppModeController();
-  final router = createRouter(modeController: mode);
+  final router = signedInRouter(modeController: mode);
   addTearDown(() {
     router.dispose();
     mode.dispose();

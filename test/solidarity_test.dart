@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:hackaton_veci_pulso/app/app_router.dart';
+
+import 'support/auth_fixture.dart';
+
 import 'package:hackaton_veci_pulso/features/solidarity/data/demo_solidarity_posts.dart';
 import 'package:hackaton_veci_pulso/features/solidarity/models/solidarity_post.dart';
 import 'package:hackaton_veci_pulso/features/solidarity/presentation/screens/solidarity_wall_screen.dart';
@@ -86,7 +88,7 @@ void main() {
   testWidgets('Drawer, pestañas, detalle y regreso conservan el filtro', (
     t,
   ) async {
-    final router = createRouter();
+    final router = signedInRouter();
     addTearDown(router.dispose);
     await t.pumpWidget(MaterialApp.router(routerConfig: router));
     await t.pumpAndSettle();
@@ -138,7 +140,7 @@ void main() {
     t.platformDispatcher.textScaleFactorTestValue = 1.5;
     addTearDown(t.view.reset);
     addTearDown(t.platformDispatcher.clearTextScaleFactorTestValue);
-    final router = createRouter();
+    final router = signedInRouter();
     addTearDown(router.dispose);
     router.go('/favores');
     await t.pumpWidget(MaterialApp.router(routerConfig: router));

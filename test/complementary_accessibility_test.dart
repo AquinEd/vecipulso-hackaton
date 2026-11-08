@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:provider/provider.dart';
-import 'package:hackaton_veci_pulso/app/app_router.dart';
+
+import 'support/auth_fixture.dart';
+
 import 'package:hackaton_veci_pulso/app/accessibility_controller.dart';
 import 'package:hackaton_veci_pulso/core/theme/app_theme.dart';
 
@@ -17,7 +19,7 @@ void main() {
         for (final option in AccessibilityPreference.values) {
           settings.update(option, true);
         }
-        final router = createRouter();
+        final router = signedInRouter();
         addTearDown(router.dispose);
         addTearDown(settings.dispose);
         await t.pumpWidget(

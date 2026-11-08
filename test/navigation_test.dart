@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:hackaton_veci_pulso/app/app.dart';
+
+import 'support/auth_fixture.dart';
 
 void main() {
   testWidgets('Inicio presenta cinco pestañas y el acceso SOS', (tester) async {
-    await tester.pumpWidget(const VeciPulsoApp());
+    await tester.pumpWidget(signedInApp());
     await tester.pumpAndSettle();
     expect(find.text('Ubicación por configurar'), findsOneWidget);
     for (final title in ['Inicio', 'Mapa', 'Publicar', 'Mensajes', 'Perfil']) {
@@ -31,7 +32,7 @@ void main() {
     expect(find.text('Modo Emergencia'), findsOneWidget);
   });
   testWidgets('El menú abre SOS y permite volver a Inicio', (tester) async {
-    await tester.pumpWidget(const VeciPulsoApp());
+    await tester.pumpWidget(signedInApp());
     await tester.pumpAndSettle();
     await tester.tap(find.byTooltip('Abrir menú'));
     await tester.pumpAndSettle();
@@ -48,7 +49,7 @@ void main() {
     expect(find.text('¡Hola, vecino!'), findsOneWidget);
   });
   testWidgets('Cambiar de pestaña mantiene una sola barra', (tester) async {
-    await tester.pumpWidget(const VeciPulsoApp());
+    await tester.pumpWidget(signedInApp());
     await tester.pumpAndSettle();
     await tester.tap(find.text('Mensajes'));
     await tester.pumpAndSettle();

@@ -4,7 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
-import 'package:hackaton_veci_pulso/app/app.dart';
+
+import 'support/auth_fixture.dart';
+
 import 'package:hackaton_veci_pulso/app/accessibility_controller.dart';
 import 'package:hackaton_veci_pulso/features/offline/presentation/controllers/offline_demo_controller.dart';
 import 'package:hackaton_veci_pulso/features/solidarity/data/demo_solidarity_posts.dart';
@@ -70,7 +72,7 @@ void main() {
   testWidgets('Drawer SOS, error, reintento, resultado y regreso', (t) async {
     final posts = [...demoSolidarityPosts];
     final reports = [...demoEmergencyReports];
-    await t.pumpWidget(const VeciPulsoApp());
+    await t.pumpWidget(signedInApp());
     await t.pumpAndSettle();
     final router = GoRouter.of(t.element(find.byType(AppBar)));
     router.go('/sos/tablero');
@@ -154,7 +156,7 @@ void main() {
         t.platformDispatcher.textScaleFactorTestValue = scale;
         addTearDown(t.view.reset);
         addTearDown(t.platformDispatcher.clearTextScaleFactorTestValue);
-        await t.pumpWidget(const VeciPulsoApp());
+        await t.pumpWidget(signedInApp());
         await t.pumpAndSettle();
         final context = t.element(find.byType(AppBar));
         final router = GoRouter.of(context);

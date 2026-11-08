@@ -1,5 +1,7 @@
 # VeciPulso
 
+El acceso al MVP requiere configurar Supabase. La guía incluye el arranque, el contrato v5 y el checklist para dos usuarios. [Integración de autenticación](docs/AUTENTICACION_SUPABASE.md)
+
 **Fase 17 · Cierre del frontend del MVP.** Mensajes permite buscar cuatro conversaciones ficticias y abrir un chat de lectura. Perfil reúne los accesos personales de demostración. Notificaciones permite filtrar cinco avisos y marcarlos como leídos durante la sesión. Configuración enlaza accesibilidad, tutorial, estados offline y avisos. Las cinco pantallas usan el tema global y conservan el modo SOS.
 
 **Fase 16 · Offline y sincronización visual.** Abre «Estados offline (demo)» desde el menú lateral. Crea el ejemplo, simula recuperar la conexión y elige éxito o error. Puedes reintentar tras un error o restablecer la demostración. Las dos pantallas respetan las cuatro preferencias de accesibilidad. El ejercicio funciona en memoria, sin comprobar internet, guardar solicitudes ni enviar notificaciones.
@@ -42,8 +44,6 @@ Solicitar y Ofrecer ayuda abren los selectores locales del Centro de Ayuda Vecin
 
 «Servicios del Barrio» abre el directorio local de cinco profesionales. La búsqueda admite nombres, oficios y descripciones sin tildes. Los límites de 500 m y 1 km se combinan con la valoración mínima de cuatro estrellas. Cada ficha muestra los trabajos y reseñas ilustrativos disponibles. Llamar y solicitar servicio muestran avisos informativos. Las pruebas de directorio y perfil se ejecutan con `flutter test`.
 
-En «Pruebas de desarrollo», al pie de Inicio, puedes probar el registro con DNI autodeclarado y nombre, crear y confirmar un PIN de seis dígitos o explorar el ingreso con teclado aleatorio. La fase 3 funciona en memoria. Las cuentas y sesiones reales quedan pendientes de la integración con Supabase.
-
 Aplicación de integración vecinal para descubrir servicios, intercambiar favores y coordinar ayuda. El Dashboard está implementado. El buscador filtra tres servicios locales de ejemplo por nombre o descripción. Las valoraciones, los distintivos y las distancias son ilustrativos. La ubicación sigue por configurar y la integración con el backend queda pendiente.
 
 ## Ejecutar en Windows
@@ -55,13 +55,13 @@ flutter pub get
 flutter analyze
 flutter test
 flutter devices
-flutter run
+flutter run --dart-define-from-file=config/supabase.dev.json
 ```
 
 Para elegir un destino, sustituye el identificador con el que aparezca en la lista de dispositivos:
 
 ```powershell
-flutter run -d ID_DEL_DISPOSITIVO
+flutter run -d ID_DEL_DISPOSITIVO --dart-define-from-file=config/supabase.dev.json
 ```
 
 ## Publicación rápida

@@ -1,3 +1,7 @@
+import 'package:provider/provider.dart';
+
+import '../controllers/auth_controller.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:go_router/go_router.dart';
@@ -18,11 +22,23 @@ class RegisterScreen extends StatefulWidget {
 class _RegisterScreenState extends State<RegisterScreen> {
   final form = GlobalKey<FormState>();
   final dni = TextEditingController(), name = TextEditingController();
-  void next() {
+  String? zone;
+  bool consent = false;
+  Future<void> next() async {
     if (!form.currentState!.validate()) return;
     name.text = AuthValidators.normalizeName(name.text);
     FocusScope.of(context).unfocus();
-    context.push(AppRoute.pin.path);
+    final auth = context.read<AuthController>();
+    if (!auth.prepare((
+      dni: dni.text,
+      name: name.text,
+      zone: zone ?? '',
+      consent: consent,
+    ))) {
+      return;
+    }
+    await context.push(AppRoute.pin.path);
+    auth.discardDraft();
   }
 
   @override
@@ -73,6 +89,27 @@ class _RegisterScreenState extends State<RegisterScreen> {
               keyboardType: TextInputType.name,
               onSubmitted: next,
             ),
+            DropdownButtonFormField<String>(
+              decoration: const InputDecoration(labelText: 'Zona'),
+              initialValue: zone,
+              items: [
+                for (final item in context.watch<AuthController>().zones)
+                  DropdownMenuItem(value: item.id, child: Text(item.name)),
+              ],
+              onChanged: (value) => setState(() => zone = value),
+              validator: (value) =>
+                  value == null ? 'Selecciona una zona disponible.' : null,
+            ),
+            CheckboxListTile(
+              value: consent,
+              onChanged: (v) => setState(() => consent = v ?? false),
+              title: const Text(
+                'Acepto el tratamiento de mis datos para el registro en VeciPulso.',
+              ),
+            ),
+            if (context.watch<AuthController>().message
+                case final String message)
+              Text(message),
           ],
         ),
       ),
@@ -86,7 +123,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
             leading: Icon(Icons.shield_outlined),
             title: Text('Privacidad de tus datos'),
             subtitle: Text(
-              'El DNI es autodeclarado. Todavía no hay verificación oficial de identidad. Tus datos solo se usan durante esta demostración.',
+              'El DNI es autodeclarado. Todavía no hay verificación oficial de identidad.',
             ),
           ),
         ),

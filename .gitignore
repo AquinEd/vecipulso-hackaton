@@ -85,3 +85,15 @@ android/local.properties
 *.orig
 *.sqlite-wal
 *.sqlite-shm
+
+
+# Configuración de integración y datos del dispositivo
+config/supabase.dev.json
+config/supabase.*.local.json
+!config/supabase.example.json
+*.pfx
+*.key
+*.mobileprovision
+*.db-*
+*.sqlite-*
+*.sqlite3-*

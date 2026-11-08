@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:go_router/go_router.dart';
-import 'package:hackaton_veci_pulso/app/app.dart';
+
+import 'support/auth_fixture.dart';
+
 import 'package:hackaton_veci_pulso/app/accessibility_controller.dart';
 import 'package:provider/provider.dart';
 
@@ -14,7 +16,7 @@ void main() {
       t.platformDispatcher.textScaleFactorTestValue = 2;
       addTearDown(t.view.reset);
       addTearDown(t.platformDispatcher.clearTextScaleFactorTestValue);
-      await t.pumpWidget(const VeciPulsoApp());
+      await t.pumpWidget(signedInApp());
       await t.pumpAndSettle();
       final router = GoRouter.of(t.element(find.byType(AppBar)));
       router.go('/sos/tablero');
@@ -61,7 +63,7 @@ void main() {
   testWidgets('Cambiar ajustes conserva el comentario y las estrellas', (
     t,
   ) async {
-    await t.pumpWidget(const VeciPulsoApp());
+    await t.pumpWidget(signedInApp());
     await t.pumpAndSettle();
     final router = GoRouter.of(t.element(find.byType(AppBar)));
     router.go('/resenas/nueva?providerId=demo-carpinteria');
@@ -98,7 +100,7 @@ void main() {
         t.platformDispatcher.textScaleFactorTestValue = scale;
         addTearDown(t.view.reset);
         addTearDown(t.platformDispatcher.clearTextScaleFactorTestValue);
-        await t.pumpWidget(const VeciPulsoApp());
+        await t.pumpWidget(signedInApp());
         await t.pumpAndSettle();
         final router = GoRouter.of(t.element(find.byType(AppBar)));
         final original = Theme.of(t.element(find.byType(AppBar))).colorScheme;
@@ -173,7 +175,7 @@ void main() {
         expect(find.textContaining('Lee el paso seleccionado'), findsNothing);
         settings.update(AccessibilityPreference.largeText, true);
         await t.pumpWidget(const SizedBox());
-        await t.pumpWidget(const VeciPulsoApp());
+        await t.pumpWidget(signedInApp());
         await t.pumpAndSettle();
         expect(
           t

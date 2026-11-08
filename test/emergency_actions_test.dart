@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hackaton_veci_pulso/app/app_mode_controller.dart';
-import 'package:hackaton_veci_pulso/app/app_router.dart';
+
+import 'support/auth_fixture.dart';
+
 import 'package:hackaton_veci_pulso/core/theme/app_theme.dart';
 import 'package:hackaton_veci_pulso/features/emergency/data/demo_emergency_actions.dart';
 import 'package:hackaton_veci_pulso/features/emergency/data/demo_emergency_reports.dart';
@@ -20,7 +22,7 @@ Future<void> tap(WidgetTester t, Finder finder) async {
 
 Future<(GoRouter, AppModeController)> start(WidgetTester t, String path) async {
   final mode = AppModeController();
-  final router = createRouter(modeController: mode);
+  final router = signedInRouter(modeController: mode);
   addTearDown(() {
     router.dispose();
     mode.dispose();

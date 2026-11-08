@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:hackaton_veci_pulso/app/app.dart';
+
+import 'support/auth_fixture.dart';
+
 import 'package:hackaton_veci_pulso/features/maps/data/demo_map_markers.dart';
 import 'package:hackaton_veci_pulso/features/maps/models/community_map_marker.dart';
 import 'package:hackaton_veci_pulso/features/maps/presentation/widgets/neighborhood_map_canvas.dart';
@@ -40,7 +42,7 @@ void main() {
       t.platformDispatcher.textScaleFactorTestValue = 1.5;
       addTearDown(t.view.reset);
       addTearDown(t.platformDispatcher.clearTextScaleFactorTestValue);
-      await t.pumpWidget(const VeciPulsoApp());
+      await t.pumpWidget(signedInApp());
       await t.pumpAndSettle();
       await tap(t, find.text('Mapa'));
       expect(
@@ -84,7 +86,7 @@ void main() {
   );
 
   testWidgets('Detalle de comercio y regreso desde su perfil', (t) async {
-    await t.pumpWidget(const VeciPulsoApp());
+    await t.pumpWidget(signedInApp());
     await t.pumpAndSettle();
     await tap(t, find.text('Mapa'));
     await t.enterText(find.byType(TextField), 'GASFITERIA');

@@ -1,3 +1,7 @@
+import 'package:hackaton_veci_pulso/features/auth/presentation/controllers/auth_controller.dart';
+
+import '../features/auth/presentation/screens/auth_status_screen.dart';
+
 import 'package:provider/provider.dart';
 
 import '../features/settings/presentation/screens/settings_screen.dart';
@@ -47,13 +51,35 @@ import '../features/publications/presentation/screens/publication_type_screen.da
 import '../features/publications/presentation/screens/publication_details_screen.dart';
 import '../features/publications/presentation/screens/publication_success_screen.dart';
 
-GoRouter createRouter({AppModeController? modeController}) {
+GoRouter createRouter({
+  required AuthController auth,
+  AppModeController? modeController,
+}) {
   final controller = PublicationDraftController();
   final readNoticeIds = <String>{};
   final mode = modeController ?? AppModeController();
   return GoRouter(
+    refreshListenable: auth,
     redirect: (_, state) {
       final path = state.uri.path;
+      if (path == AppRoute.tutorial.path || path == AppRoute.access.path) {
+        return null;
+      }
+      final requiredPath = switch (auth.stage) {
+        AuthStage.loading ||
+        AuthStage.configuration ||
+        AuthStage.error => AppRoute.authStatus.path,
+        AuthStage.register
+            when path == AppRoute.pin.path && auth.draft != null =>
+          path,
+        AuthStage.register => AppRoute.register.path,
+        AuthStage.locked => AppRoute.login.path,
+        AuthStage.unlocked when path.startsWith('/auth/') => AppRoute.home.path,
+        AuthStage.unlocked => null,
+      };
+      if (requiredPath != null) {
+        return requiredPath == path ? null : requiredPath;
+      }
       if (path == AppRoute.sos.path ||
           path == AppRoute.riskMap.path ||
           path == AppRoute.actions.path ||
@@ -237,6 +263,7 @@ GoRouter createRouter({AppModeController? modeController}) {
             AppRoute.success => PublicationSuccessScreen(
               preview: controller.preview!,
             ),
+            AppRoute.authStatus => const AuthStatusScreen(),
             AppRoute.login => const LoginPinScreen(),
             AppRoute.register => const RegisterScreen(),
             AppRoute.pin => const CreatePinScreen(),
