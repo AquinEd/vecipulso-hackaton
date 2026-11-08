@@ -1,3 +1,5 @@
+import 'features/emergency/data/sos_repository.dart';
+
 import 'dart:async';
 
 import 'package:flutter/material.dart';
@@ -17,6 +19,8 @@ import 'core/config/supabase_config.dart';
 import 'core/errors/auth_failure.dart';
 import 'features/auth/data/auth_repository.dart';
 import 'features/auth/presentation/controllers/auth_controller.dart';
+
+import 'package:provider/provider.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
