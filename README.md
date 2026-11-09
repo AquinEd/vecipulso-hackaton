@@ -1,90 +1,177 @@
 # VeciPulso
 
-El acceso al MVP requiere configurar Supabase. La guía incluye el arranque, el contrato v5 y el checklist para dos usuarios. [Integración de autenticación](docs/AUTENTICACION_SUPABASE.md)
+VeciPulso es una aplicación móvil que busca fortalecer la colaboración entre vecinos. Permite registrarse en una zona y consultar puntos de interés comunitario en un mapa. También ofrece recorridos de demostración para explorar el intercambio de favores y la ayuda vecinal en emergencias.
 
-**Fase 17 · Cierre del frontend del MVP.** Mensajes permite buscar cuatro conversaciones ficticias y abrir un chat de lectura. Perfil reúne los accesos personales de demostración. Notificaciones permite filtrar cinco avisos y marcarlos como leídos durante la sesión. Configuración enlaza accesibilidad, tutorial, estados offline y avisos. Las cinco pantallas usan el tema global y conservan el modo SOS.
+## Funcionalidades del aplicativo
 
-**Fase 16 · Offline y sincronización visual.** Abre «Estados offline (demo)» desde el menú lateral. Crea el ejemplo, simula recuperar la conexión y elige éxito o error. Puedes reintentar tras un error o restablecer la demostración. Las dos pantallas respetan las cuatro preferencias de accesibilidad. El ejercicio funciona en memoria, sin comprobar internet, guardar solicitudes ni enviar notificaciones.
+| Función | Qué puedes hacer en el MVP |
+| --- | --- |
+| Registro y acceso | Crear un perfil asociado a una zona y desbloquear el acceso con un PIN de seis dígitos. El registro y la verificación del PIN utilizan Supabase. |
+| Mapa comunitario y SOS | Explorar cartografía de OpenStreetMap, filtrar puntos y consultar los registros que Supabase permite ver desde el origen de búsqueda. Entre las capas hay servicios, alertas, recursos críticos y brigadas. Puedes solicitar una lectura puntual de tu ubicación. |
+| Servicios de Proximidad y Visto Bueno Vecinal | Inicio muestra servicios de ejemplo. En el arranque actual, la pantalla del directorio carece de conexión con su repositorio y muestra «Se requiere una sesión vigente», incluso después de ingresar. Las solicitudes y recomendaciones vinculadas a servicios quedan fuera del recorrido disponible. La valoración de demostración no se publica. |
+| Cadena de Favores | Explorar un muro de ejemplo, filtrar sus publicaciones y consultar la vista de economía solidaria. La vista previa de publicación es local. |
+| Modo SOS | Recorrer un tablero con reportes de ejemplo, simular una solicitud u oferta de ayuda y consultar brigadas ilustrativas. El tablero arranca en demostración. El mapa SOS sí consulta puntos autorizados. |
+| Accesibilidad y tutorial | Ajustar texto, contraste, tamaño de botones e instrucciones durante la sesión. El tutorial explica cómo recorrer la aplicación. |
 
-Desde el menú lateral, abre **Tutorial de uso** para recorrer Servicios del Barrio, Cadena de Favores y Modo SOS. En **Accesibilidad** puedes activar texto grande, alto contraste, botones grandes e instrucciones claras durante la sesión. «Pedir ayuda» muestra un aviso de vista previa. «Restablecer ajustes» desactiva las cuatro opciones y conserva el modo actual.
+Mensajes, notificaciones y estados de sincronización son ejemplos de interfaz. No ofrecen chat en vivo, avisos push ni envío diferido de solicitudes.
 
-La fase 11 incorpora la vista previa local de ayuda comunitaria. Desde el Tablero SOS, pulsa «Solicitar ayuda», elige una necesidad, abre el resumen y pulsa «Ver confirmación visual (demo)». El perfil es ficticio y los controles de contacto muestran avisos informativos.
+## Tecnologías utilizadas
 
-La fase 10 implementa Grupos de Apoyo y Brigadas en `/sos/brigadas`, siguiendo la referencia 09 con widgets Flutter y estilo claro. El Tablero SOS ofrece «Grupos y Brigadas». La pantalla conserva el controlador SOS y la única barra inferior de cinco pestañas; Atrás de interfaz o Android vuelve al tablero, también desde una entrada directa. La app sigue iniciando en `/inicio`.
+Flutter y Dart implementan la aplicación móvil. Provider gestiona el estado y GoRouter controla las rutas y el acceso según la sesión. El cliente usa `supabase_flutter` para Supabase Auth y las consultas a PostgreSQL, con PostGIS para los datos geográficos. El mapa utiliza `flutter_map` y `latlong2`, y obtiene la ubicación del dispositivo mediante `geolocator`.
 
-Los cuatro grupos ficticios son Brigada Los Álamos (cuadras 1–5, 12 integrantes), Grupo El Progreso (6–10, 8), Equipo Salud Vecinal (11–15, 6) y Movilidad Solidaria (16–20, 11). Todos, Brigadas y Voluntarios son filtros excluyentes combinados con búsqueda local por nombre, categoría, sector y cada cuadra del intervalo, ignorando mayúsculas y tildes. El estado vacío permite restablecer búsqueda y filtros. «Contacto directo» abre un diálogo con el nombre del grupo, «Contacto no disponible todavía» y «Entendido». La pantalla indica «Grupos de demostración · Contactos no disponibles»; no realiza comunicaciones ni registros.
+## Requisitos previos
 
-Pendientes: Supabase, brigadas reales, identificación de miembros, contactos verificados, chat y llamadas, registro de voluntarios, coordinación de ayuda, notificaciones, GPS y sincronización offline. El mapa definitivo de la pantalla 23 sigue pendiente.
+- Git y Flutter SDK con Dart incluido. Para las dependencias resueltas en este repositorio, utiliza Flutter **3.47.0 o superior** con Dart **desde 3.13.7 hasta antes de 4.0.0**.
+- Android Studio con Android SDK y herramientas de compilación. El proyecto configura Java y Kotlin para JVM 17. Gradle toma los niveles mínimo, de compilación y de destino de Android del SDK de Flutter.
+- Un emulador Android o un dispositivo físico con depuración USB. Puedes usar VS Code como editor.
+- Acceso autorizado a un proyecto Supabase configurado y conexión a internet para descargar dependencias, autenticarte, consultar datos y cargar mosaicos del mapa.
 
+En PowerShell, comprueba el entorno antes de continuar:
 
-Validación de fase 10 (7 de noviembre de 2026): `dart format lib test` aplicado, `flutter pub get` completado sin cambios de versión, `flutter analyze` sin incidencias y `flutter test` con 63 pruebas aprobadas (55 anteriores y 8 nuevas). Las nuevas pruebas cubren filtros, búsqueda, sectores, contacto y navegación, además de 320/412 px, texto al 150 %, teclado y 50 grupos. `flutter devices` confirmó `emulator-5554`; `flutter run -d emulator-5554 --no-resident` compiló, instaló e inició la app en Pixel 6, Android 17/API 37. Se inspeccionaron pantalla, filtro Voluntarios y diálogo de Movilidad Solidaria, con una sola barra inferior y sin desbordamientos visibles.
+```powershell
+flutter --version
+flutter doctor
+flutter devices
+```
 
-La fase 9 implementa el Centro de Ayuda Vecinal en `/sos/acciones`, siguiendo la referencia 18 con widgets Flutter: encabezado rojo, tres tarjetas, selectores y resúmenes locales. Todo el recorrido muestra «DEMOSTRACIÓN — Ninguna acción se enviará» y usa «Ubicación de ejemplo: Barrio Los Álamos».
+El primer comando muestra las versiones de Flutter y Dart. El segundo diagnostica la instalación y las herramientas Android. El tercero enumera los dispositivos que Flutter reconoce.
 
-- Emitir alerta vecinal: Sismo, Incendio, Seguridad y Salud.
-- Solicitar soporte crítico: Persona atrapada, Ayuda médica, Agua o alimentos y Transporte o refugio.
-- Ofrecer ayuda o recursos: Agua, Botiquín, Herramientas, Transporte y Espacio seguro o refugio.
+## Clonar el repositorio
 
-Seleccionar abre un único panel. El resumen requiere una categoría; permite cambiarla y cerrar la demostración. Cancelar, deslizar el panel, Atrás o cerrar descarta la selección. Los estados son «No enviada» o «No registrado». No hay conexiones, persistencia ni cambios en los reportes o el muro.
+```powershell
+git clone https://github.com/AquinEd/vecipulso-hackaton.git
+cd vecipulso-hackaton
+```
 
-Desde el Tablero SOS, «Centro de ayuda vecinal» abre las tres acciones; Solicitar y Ofrecer ayuda abren sus selectores correspondientes. Atrás desde acciones siempre vuelve al tablero, incluso en una entrada directa. La vista enfocada oculta la barra inferior y conserva el controlador SOS existente; al regresar vuelve la única barra de cinco pestañas. Salir de SOS restaura Inicio y Mapa normales.
+Si GitHub solicita autenticación, utiliza una cuenta con permiso de lectura del repositorio.
 
+## Instalar las dependencias
 
-Validación de fase 9 (7 de noviembre de 2026): dart format lib test aplicado, flutter pub get completado sin cambios de versión, flutter analyze sin incidencias y 55 pruebas aprobadas. Incluye trece categorías y sus resúmenes a 412 y 320 px con texto al 150 %, cancelación, reapertura limpia, Atrás Android, restauración del modo y conservación del filtro del mapa. flutter devices confirmó emulator-5554; flutter run -d emulator-5554 --no-resident compiló, instaló e inició la versión final en Pixel 6 (Android 17, API 37). Se inspeccionaron visualmente el centro, el selector de alertas y el recorrido Solicitar ayuda → Ayuda médica → resumen No enviada → cerrar, sin desbordamientos visibles. No se enviaron ni registraron acciones reales.
-
-La navegación principal del Drawer y las categorías del Dashboard reemplaza la sección actual; Atrás vuelve al Dashboard sin recorrer otras secciones. Los detalles y formularios conservan su regreso al origen inmediato. Inicio muestra el Dashboard y Mapa muestra los recursos comunitarios en modo normal. Activar Modo SOS cambia Inicio al tablero y Mapa al Mapa de Emergencia, manteniendo Publicar, Mensajes y Perfil disponibles. El modo permanece activo entre pestañas. «Salir del Modo SOS» o Atrás desde el tablero restaura el Dashboard; Atrás desde el mapa SOS vuelve al tablero. El mapa normal conserva sus filtros al entrar y salir de SOS.
-
-Validación de la corrección (7 de noviembre de 2026): formato aplicado, dependencias resueltas sin cambios de versión, análisis sin incidencias y 44 pruebas aprobadas. En Pixel 6 (`emulator-5554`, Android 17) se compiló e instaló la app y se verificó Servicios → Cadena de Favores → SOS → Mapa SOS → Inicio SOS → Atrás Android → Dashboard → Mapa normal. Se inspeccionó el placeholder con una sola barra inferior; el registro de errores de Flutter estaba vacío.
-
-La fase 8 implementa el tablero de emergencia en `/sos/tablero`, accesible desde Modo SOS en Inicio y el Drawer. Muestra un encabezado rojo con «MODO DEMOSTRACIÓN — No hay alertas reales verificadas», cinco reportes ficticios con distancias simuladas, prioridades y detalles de solo lectura. Los tres principales son Persona atrapada (Crítica, 120 m), Necesita agua (Urgente, 250 m) y Daño en vivienda (En revisión, 400 m); ampliar permite consultar Necesita abrigo (Urgente, 550 m) y Revisión de techo (En revisión, 700 m). La lista se puede contraer.
-
-Validación inicial de fase 8 (7 de noviembre de 2026): formato de `lib` y `test` aplicado, `flutter pub get` completado, `flutter analyze` sin incidencias y `flutter test` con 31 pruebas aprobadas. `flutter run -d emulator-5554 --no-resident` compiló e instaló la app en Pixel 6 (Android 17, API 37). Se inspeccionaron visualmente el tablero y las acciones tras desplazamiento, sin desbordamientos visibles; el registro de errores de Flutter estaba vacío. El tamaño de 320 px con texto al 150 % se verificó mediante pruebas de widgets.
-
-Solicitar y Ofrecer ayuda abren los selectores locales del Centro de Ayuda Vecinal (fase 9). Ver mapa de reportes abre el Mapa de Emergencia. Se conserva el inicio en `/inicio` y la navegación inferior de cinco pestañas. No existen alertas ni registros reales. Quedan pendientes Supabase, GPS, reportes reales, solicitudes y ofrecimientos de ayuda, confirmación de alertas, brigadas reales, seguimiento, notificaciones, sincronización offline y chat de emergencia. `test/emergency_dashboard_test.dart` verifica la interfaz, las interacciones y el diseño a 320 px con texto al 150 %, junto con las pruebas anteriores.
-
-«Servicios del Barrio» abre el directorio local de cinco profesionales. La búsqueda admite nombres, oficios y descripciones sin tildes. Los límites de 500 m y 1 km se combinan con la valoración mínima de cuatro estrellas. Cada ficha muestra los trabajos y reseñas ilustrativos disponibles. Llamar y solicitar servicio muestran avisos informativos. Las pruebas de directorio y perfil se ejecutan con `flutter test`.
-
-Aplicación de integración vecinal para descubrir servicios, intercambiar favores y coordinar ayuda. El Dashboard está implementado. El buscador filtra tres servicios locales de ejemplo por nombre o descripción. Las valoraciones, los distintivos y las distancias son ilustrativos. La ubicación sigue por configurar y la integración con el backend queda pendiente.
-
-## Ejecutar en Windows
-
-Requisitos verificados: Flutter estable 3.47.9, Dart 3.13.7 y, para Android, Android Studio con un dispositivo o emulador configurado. Desde la raíz del proyecto:
+Ejecuta este comando desde la raíz del proyecto, donde se encuentra [pubspec.yaml](pubspec.yaml). Conserva esa carpeta como directorio de trabajo para los siguientes pasos.
 
 ```powershell
 flutter pub get
-flutter analyze
-flutter test
-flutter devices
+```
+
+## Configurar Supabase
+
+**Si el equipo te facilita un backend desplegado**, solicita la URL del proyecto y su clave publicable. Con acceso autorizado a ese backend, pasa directamente a la configuración del cliente.
+
+**Si preparas un proyecto nuevo**, habilita los inicios de sesión anónimos (*Anonymous Sign-ins*) en Supabase Auth. El registro necesita zonas disponibles, y la aplicación espera el esquema de VeciPulso, PostGIS, las funciones de base de datos, sus permisos y las políticas de seguridad por fila (RLS). Para una base **vacía**, revisa el [instalador SQL](docs/database/INSTALACION_UNICA_VECIPULSO_MVP.sql) antes de aplicarlo en el editor SQL de Supabase. Incluye datos de ejemplo con coordenadas de Lima. En una base existente, consulta primero las [comprobaciones de instalación](docs/database/VERIFICAR_INSTALACION.sql). Reaplicar el instalador completo sobre un esquema existente queda fuera de su uso previsto.
+
+**Configura el cliente móvil** con los valores del mismo proyecto:
+
+1. En el panel de Supabase, localiza la **Project URL** en los ajustes de API del proyecto y la **Publishable key** en **API Keys**. El cliente exige una URL HTTPS y una clave con prefijo `sb_publishable_`. Una clave heredada `anon` en formato JWT no supera la validación.
+2. Si todavía no tienes configuración local, copia la [plantilla](config/supabase.example.json) desde la raíz:
+
+   ```powershell
+   Copy-Item config/supabase.example.json config/supabase.dev.json
+   ```
+
+3. En `config/supabase.dev.json`, sustituye ambos marcadores por los valores del proyecto:
+
+   ```json
+   {
+     "SUPABASE_URL": "https://TU_PROYECTO.supabase.co",
+     "SUPABASE_PUBLISHABLE_KEY": "sb_publishable_TU_CLAVE_PUBLICABLE"
+   }
+   ```
+
+El archivo local está excluido en [.gitignore](.gitignore). La clave publicable está diseñada para distribuirse en clientes. Supabase Auth identifica la sesión y las políticas RLS limitan qué datos puede leer o modificar. Nunca incluyas una clave secreta, una clave `service_role` ni una contraseña administrativa en el aplicativo.
+
+## Ejecutar el aplicativo
+
+En Android Studio, abre **Device Manager** e inicia un dispositivo virtual con el botón de reproducción. Si la lista está vacía, crea un dispositivo y descarga su imagen de Android. También puedes conectar un teléfono y aceptar la autorización de depuración USB.
+
+```powershell
 flutter run --dart-define-from-file=config/supabase.dev.json
 ```
 
-Para elegir un destino, sustituye el identificador con el que aparezca en la lista de dispositivos:
+Para elegir un dispositivo concreto, consulta su identificador:
+
+```powershell
+flutter devices
+```
+
+Sustituye `ID_DEL_DISPOSITIVO` por el identificador Android que aparece en la salida:
 
 ```powershell
 flutter run -d ID_DEL_DISPOSITIVO --dart-define-from-file=config/supabase.dev.json
 ```
 
-## Publicación rápida
+Flutter incorpora los valores del JSON al compilar. Si los cambias, detén la ejecución y vuelve a lanzar el comando.
 
-Abre Publicar, elige una de las cuatro plantillas y pulsa «Confirmar demostración». Puedes editar el título y el detalle antes de confirmar. «Ver mi publicación» muestra la vista previa local. El borrador se descarta al salir del recorrido.
+## Primer uso de VeciPulso
 
-## Organización
+1. Abre la aplicación con conexión. Al iniciar, comprueba la sesión y presenta el registro si falta el perfil.
+2. Introduce tu DNI de ocho dígitos y tu nombre completo. Selecciona una zona de la lista, acepta el tratamiento de datos y pulsa **Continuar**.
+3. Crea un PIN de seis dígitos y confírmalo. Elige una combinación distinta de seis cifras iguales, `123456` o `654321`.
+4. Tras completar el registro, explora **Inicio**. Cuando vuelvas a abrir la aplicación con el perfil registrado, introduce el PIN para desbloquearla.
 
-El proyecto usa Material 3, go_router y una estructura por funcionalidad preparada para MVVM. Desde Inicio o el Drawer, «Cadena de Favores» abre el Muro Colaborativo. Filtra las tarjetas con Todos, Ofrezco, Necesito y Dono, o abre «Explorar economía solidaria» para consultar donaciones, solicitudes, intercambios y préstamos. Ambas vistas usan publicaciones ficticias. Contactar, favoritos y comentarios muestran avisos informativos. El tablero SOS de demostración está implementado.
+Supabase Auth asocia el perfil a una sesión anónima que se conserva en la instalación. El PIN desbloquea ese perfil. Si borras los datos de la aplicación o cambias de dispositivo, el formulario de acceso no permite recuperar la sesión anterior con DNI y PIN.
 
-- [Arquitectura](docs/ARCHITECTURE.md)
-- [Pantallas y rutas](docs/ROUTES.md)
-- [Recursos originales](docs/ASSETS.md)
-- [Funciones pendientes](docs/BACKLOG.md)
+## Guía rápida de navegación
 
-## Mapa de recursos
+| Desde la interfaz | Recorrido |
+| --- | --- |
+| **Inicio → Servicios cercanos** | Explora los ejemplos. En el menú lateral, **Servicios del Barrio** abre el directorio con la limitación indicada en Funcionalidades. Para consultar servicios georreferenciados disponibles, utiliza los filtros del mapa. |
+| **Menú lateral → Cadena de Favores** | Filtra el muro por categoría. **Explorar economía solidaria** abre la vista ampliada. |
+| **Menú lateral → Modo SOS** | Abre **Centro de ayuda vecinal** para explorar las acciones de ejemplo o **Grupos y Brigadas** para ver los grupos ilustrativos. **Ver mapa de reportes** abre el mapa SOS. |
+| **Mapa** | Desplaza o amplía el mapa, ajusta sus filtros y toca un marcador para consultar su resumen. **Usar mi ubicación** solicita permiso para obtener una posición puntual. La consulta de puntos envía el origen a Supabase. |
+| **Menú lateral → Accesibilidad** | Activa las preferencias que necesites y revisa la vista previa. **Restablecer ajustes** recupera los valores iniciales. En el mismo menú encontrarás **Tutorial de uso**. |
 
-La pestaña Mapa muestra seis puntos ilustrativos sin conexión. Busca por nombre, categoría o descripción y activa las categorías desde la leyenda. Cada marcador abre su ficha y los dos comercios enlazan al perfil del directorio.
+## Estructura del proyecto
 
-Desde la confirmación de ayuda, «Ver simulación de seguimiento» abre la coordinación local de la fase 12. La ruta dibujada y los perfiles son ficticios. Llamar muestra un aviso y Chat permite leer dos mensajes de ejemplo. No hay aceptación real, llamadas ni envío de mensajes.
+```text
+vecipulso-hackaton/
+├── android/           Proyecto Android y configuración de Gradle
+├── assets/            Imágenes e iconos SVG
+├── config/            Plantilla de configuración del cliente
+├── docs/              Documentación técnica
+│   └── database/      Instalador y consultas de verificación
+├── lib/
+│   ├── main.dart      Inicialización de Supabase y arranque
+│   ├── app/           Navegación, modo SOS y accesibilidad
+│   ├── core/          Configuración, tema y utilidades comunes
+│   ├── features/      Pantallas, controladores y acceso a datos por módulo
+│   └── shared/        Componentes de interfaz compartidos
+├── test/              Pruebas locales de lógica e interfaz
+├── integration_test/  Pruebas en dispositivo y contra servicios externos
+└── pubspec.yaml        Dependencias y recursos de Flutter
+```
 
-La fase 13 incorpora el Mapa de Emergencia en /sos/mapa. Toca un marcador para consultar su ficha o filtra por solicitudes urgentes, reportes en revisión, recursos y brigadas. Todos restablece la vista. El plano y la disponibilidad son ficticios. Funciona sin GPS, reportes reales ni backend.
+## Pruebas y validación
 
-## Visto Bueno Vecinal
+Desde la raíz, ejecuta el análisis estático y luego las pruebas locales:
 
-Desde el perfil de un proveedor, «Calificar experiencia (demo)» abre el formulario de la fase 14. Elige entre una y cinco estrellas y, si lo deseas, escribe hasta 300 caracteres. «Previsualizar Visto Bueno» muestra cómo se leería la opinión. Puedes cerrar el diálogo y corregirla. Al salir del formulario se descarta el borrador.
+```powershell
+flutter analyze
+flutter test --concurrency=1
+```
+
+Las pruebas de integración se ejecutan por archivo en un dispositivo. Por ejemplo, esta comprobación de los mosaicos necesita internet y habilitación explícita:
+
+```powershell
+flutter test integration_test/map_tiles_test.dart -d ID_DEL_DISPOSITIVO --dart-define=ALLOW_MAP_TILE_CHECK=true
+```
+
+Para probar el backend, utiliza un proyecto de pruebas aislado, con el esquema instalado, zonas y autenticación anónima habilitada. Pasa su configuración con `--dart-define-from-file`. La [prueba de autenticación](integration_test/supabase_auth_test.dart) crea usuarios y perfiles. Las pruebas de servicios y SOS requieren habilitar escrituras explícitamente, y las de SOS y lectura de puntos requieren además las cuentas y variables indicadas en sus archivos. Revisa cada prueba antes de conectarla al proyecto elegido.
+
+## Solución de problemas frecuentes
+
+| Síntoma | Qué comprobar |
+| --- | --- |
+| PowerShell no reconoce `flutter` | Añade la carpeta `bin` del Flutter SDK al `PATH`, abre otra terminal y ejecuta `flutter --version`. |
+| Android no aparece en `flutter devices` | Espera a que termine de iniciar el emulador. En un teléfono, comprueba el cable de datos, la depuración USB y el permiso de conexión. Revisa `flutter doctor`. |
+| El emulador no arranca | Revisa la imagen del dispositivo en Device Manager, la virtualización del equipo y los componentes de Android Emulator en SDK Manager. |
+| Falta el JSON o se rechaza la URL o la clave | Comprueba que estás en la raíz, crea la copia local si falta y sustituye los marcadores. Usa la URL HTTPS del proyecto y su clave publicable. Reinicia Flutter con el archivo de configuración. |
+| Falla la conexión a Supabase | Verifica internet en el dispositivo, que el proyecto esté disponible y que URL y clave pertenezcan al mismo proyecto. Para el registro, comprueba que se permiten sesiones anónimas. |
+| No aparecen zonas o puntos | Comprueba que existen zonas seleccionables y que el perfil tiene la zona correcta. En el mapa, revisa el origen, los filtros y los registros disponibles dentro del área consultada. |
+| Supabase devuelve un error de permisos | Comprueba la sesión, el perfil, los permisos de las funciones y las políticas RLS para esa operación y zona. Utiliza las consultas de verificación del esquema. |
+| Se denegó la ubicación | Activa la ubicación del dispositivo y concede el permiso a VeciPulso desde los ajustes de Android. Vuelve al mapa y solicita la lectura. En un emulador, configura una posición de prueba. |
+| El mapa no carga mosaicos | Comprueba la conexión del dispositivo a OpenStreetMap. Si ves calles pero faltan marcadores, revisa los filtros y la consulta a Supabase. |
+| Hay errores tras cambiar dependencias | Comprueba que el SDK satisface los requisitos, ejecuta `flutter pub get` desde la raíz y vuelve a iniciar la aplicación. |
+
+## Consideraciones importantes
+
+VeciPulso es un MVP. El acceso y los datos comunitarios dependen de la conectividad y de un backend Supabase correctamente configurado. La cartografía depende de la disponibilidad de OpenStreetMap y el uso del GPS requiere permiso. El mapa no realiza seguimiento continuo. **VeciPulso no reemplaza a los servicios oficiales de emergencia.** Las acciones de ejemplo del tablero SOS no despachan ayuda.
